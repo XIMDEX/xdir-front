@@ -5,7 +5,7 @@ import LoginImage from '../assets/ximdex-logo-poweredby.png';
 import { styled } from "@mui/system";
 import AuthContext, { useAuth } from '../providers/AuthProvider/AuthContext';
 import { loginXDIR } from '../service/xdir.service';
-import { COOKIE_NAME } from '../../CONSTATNS';
+import { COOKIE_NAME, FAKE_USER } from '../../CONSTATNS';
 
 
 export const StyledXLogin = styled(XLogin)`
@@ -34,10 +34,11 @@ const Login = () => {
 
   //Actualiza el estado de autenticacion
   const handleLogin = async (email, password) => {
-    const res = await loginXDIR(email,password)
-    console.log("RES",res);
-    if(res.error) return res;
-    saveUserData(res.user)
+    // const res = await loginXDIR(email,password)
+    // console.log("RES",res);
+    // if(res.error) return res;
+    // saveUserData(res.user)
+    saveUserData(FAKE_USER)
     setLoginStatus('Login success. Loading user data, please wait.');
     navigateToPage();
   };

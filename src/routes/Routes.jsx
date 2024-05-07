@@ -1,18 +1,18 @@
 import React from 'react';
 import { Routes as ReactRoutes, Route } from 'react-router-dom';
-// import Home from '../pages/Home'
-// import Users from '../pages/Users'
+
 import Register from '../pages/Register'
 import LoginPage from '../pages/Login'
-// import Profile from '../pages/Profile'
-// import Roles from '../pages/Roles'
-// import Organizations from '../pages/Organizations'
-// import Clients from '../pages/Clients';
 import ProtectedSuperAdminRoute from './ProtectedSuperAdmin';
 import ProtectedRoute from './ProtectedRoute';
 import ProtectedAdminRoutes from './ProtectedAdminRoutes';
 import Home from '../pages/Home';
-// import PasswordChange from '../pages/PasswordChange';
+import Users from '../pages/Users';
+import Roles from '../pages/Roles';
+import Organizations from '../pages/Organizations';
+import Clients from '../pages/Clients';
+import UserProfile from '../pages/UserProfile';
+import PasswordChange from '../pages/PasswordChange';
 // import NotFound from '../pages/NotFound';
 
 const Routes = () => {
@@ -25,27 +25,19 @@ const Routes = () => {
             {/* <Route path="*" element={<NotFound/> } />  */}
             
             {/* Rutas privadas */}
-            {/* <Route element={<ProtectedRoute/>}> */}
-            <Route 
-                exact path="/" 
-                element={<ProtectedRoute component={<Home/>}/>} 
-            /> 
-        
-                {/* <Route path="/user" element={<Profile/> } /> */}
-                {/* <Route path="/changePassword" element={<PasswordChange/> } /> */}
+            <Route  exact path="/" element={<ProtectedRoute component={<Home/>}/>}/> 
+            <Route  exact path="/profile" element={<ProtectedRoute component={<UserProfile/>}/>}/> 
+            <Route  exact path="/password_change" element={<ProtectedRoute component={<PasswordChange/>}/>}/> 
 
-                {/* Rutas privadas de administrador */}
-                {/* <Route element={<ProtectedAdminRoutes/>}> */}
-                    {/* <Route path="/users" element={<Users/> } /> */}
-                    {/* <Route path="/roles" element={<Roles/> } /> */}
-                    {/* <Route path="/organizations" element={<Organizations/> } />  */}
+            {/* Rutas privadas de administrador */}
+            <Route  exact path="/users" element={<ProtectedAdminRoutes component={<Users/>}/>}/> 
+            <Route  exact path="/roles" element={<ProtectedAdminRoutes component={<Roles/>}/>}/> 
+            <Route  exact path="/organizations" element={<ProtectedAdminRoutes component={<Organizations/>}/>}/> 
 
-                    {/* Rutas privadas de super administrador */}
-                    {/* <Route element={<ProtectedSuperAdminRoute/>}> */}
-                        {/* <Route path="/clients" element={<Clients/> } /> */}
-                    {/* </Route> */}
-                {/* </Route> */}
-            {/* </Route> */}
+
+            {/* Rutas privadas de super administrador */}
+            <Route  exact path="/clients" element={<ProtectedSuperAdminRoute component={<Clients/>}/>}/> 
+               
         </ReactRoutes>
     )
 };
