@@ -19,11 +19,12 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const usrFromStorage = getUserFromStorage();
-    if(usrFromStorage.token) {
+    if(usrFromStorage?.access_token) {
       setIsAuthenticated(true);
-      setIsSuperAdmin(usrFromStorage.roles.some(role => role.name === "SuperAdmin"));
-      setIsAdmin(usrFromStorage.roles.some(role => role.name === "Admin"));
+      // setIsSuperAdmin(usrFromStorage.roles.some(role => role.name === "SuperAdmin"));
+      // setIsAdmin(usrFromStorage.roles.some(role => role.name === "Admin"));
       setUser(usrFromStorage)
+      navigate('/')
     } else {
       setIsAuthenticated(false);
       setIsAdmin(false);
