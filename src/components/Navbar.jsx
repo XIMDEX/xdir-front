@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSignOutAlt, faExternalLinkAlt, faLock } from '@fortawesome/free-solid-svg-icons';
 import { XNav } from '@ximdex/xui-react/material';
@@ -8,6 +8,7 @@ import AuthContext from '../providers/AuthProvider/AuthContext';
 
 
 const Navbar = () => {
+    const location = useLocation()
     const navigate = useNavigate();
     const { 
         forceLogout,
@@ -20,7 +21,7 @@ const Navbar = () => {
 
     useEffect(() => {
         let links = []
-        if(isAdmin && isSuperAdmin){
+        if((isAdmin || isSuperAdmin)){
             links =  [
                 {
                     text: 'Users',
@@ -76,7 +77,7 @@ const Navbar = () => {
         },
     ];
 
-    const links = user ? [ internalLinks, userLink] : []
+    const links = [internalLinks, userLink]
 
     const logoLink = {
         logoImgSrc: ximdexImagenav

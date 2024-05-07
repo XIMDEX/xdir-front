@@ -26,17 +26,17 @@ const Routes = () => {
             
             {/* Rutas privadas */}
             <Route  exact path="/" element={<ProtectedRoute component={<Home/>}/>}/> 
-            <Route  exact path="/profile" element={<ProtectedRoute component={<UserProfile/>}/>}/> 
-            <Route  exact path="/password_change" element={<ProtectedRoute component={<PasswordChange/>}/>}/> 
+            <Route  path="/profile" element={<ProtectedRoute component={<UserProfile/>}/>}/> 
+            <Route  path="/password_change" element={<ProtectedRoute component={<PasswordChange/>}/>}/> 
 
             {/* Rutas privadas de administrador */}
-            <Route  exact path="/users" element={<ProtectedAdminRoutes component={<Users/>}/>}/> 
-            <Route  exact path="/roles" element={<ProtectedAdminRoutes component={<Roles/>}/>}/> 
-            <Route  exact path="/organizations" element={<ProtectedAdminRoutes component={<Organizations/>}/>}/> 
+            <Route  path="/users" element={<ProtectedAdminRoutes component={<Users/>}/>}/> 
+            <Route  path="/roles" element={<ProtectedAdminRoutes component={<Roles/>}/>}/> 
+            <Route  path="/organizations" element={<ProtectedAdminRoutes component={<Organizations/>}/>}/> 
 
 
             {/* Rutas privadas de super administrador */}
-            <Route  exact path="/clients" element={<ProtectedSuperAdminRoute component={<Clients/>}/>}/> 
+            <Route  path="/clients" element={<ProtectedSuperAdminRoute component={<Clients/>}/>}/> 
                
         </ReactRoutes>
     )

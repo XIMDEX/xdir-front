@@ -11,17 +11,18 @@ const ProtectedSuperAdminRoutes = ({component}) => {
         if(!isSuperAdmin) {
             return <Navigate to="/" state={{ from: location}} replace />
         }
-        return (
-            <>
-                <Navbar />
-                {component}
-            </>
-        ) 
     } else {
         return (
             <Navigate to="/login" state={{ from: location }} replace />
         )
     };
+
+    return (
+        <>
+            <Navbar />
+            {component}
+        </>
+    ) 
 };
 
 export default ProtectedSuperAdminRoutes;

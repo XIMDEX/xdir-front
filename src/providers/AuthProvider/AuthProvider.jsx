@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import AuthContext from './AuthContext';
 import Swal from 'sweetalert2';
 import { XPopUp } from '@ximdex/xui-react/material';
@@ -16,6 +16,8 @@ const AuthProvider = ({ children }) => {
     return localStorage.getItem(COOKIE_NAME) ? JSON.parse(localStorage.getItem(COOKIE_NAME)) : {} 
   }
   const navigate = useNavigate();
+  const location = useLocation()
+
 
   useEffect(() => {
     const usrFromStorage = getUserFromStorage();
@@ -24,7 +26,8 @@ const AuthProvider = ({ children }) => {
       setIsSuperAdmin(usrFromStorage.roles.some(role => role.name === "superAdmin"));
       setIsAdmin(usrFromStorage.roles.some(role => role.name === "admin"));
       setUser(usrFromStorage)
-      navigate('/')
+      navigate(location.pathname)
+
     } else {
       setIsAuthenticated(false);
       setIsAdmin(false);
