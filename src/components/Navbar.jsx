@@ -3,16 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSignOutAlt, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { XNav } from '@ximdex/xui-react/material';
-import useAuth from '../../../hooks/useAuth';
-import { CLIENT, XEDIT_SEK_URL, XPANEL_SEK_URL, COOKIE_NAME} from '../../../CONSTANTS';
 import ximdexImagenav from '../assets/ximdex-logo-poweredby.png';
 import AuthContext from '../providers/AuthProvider/AuthContext';
 
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const {user} = useContext(AuthContext)
-    const { forceLogout } = useContext(AuthContext);
+    const { forceLogout, user } = useContext(AuthContext);
 
     const externalLinks = [];
 

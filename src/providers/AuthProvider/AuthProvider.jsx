@@ -13,13 +13,12 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
   
   const getUserFromStorage = () => {
-    return JSON.parse(sessionStorage.getItem(COOKIE_NAME)) ??{}
+    return sessionStorage.getItem(COOKIE_NAME) ? JSON.parse(sessionStorage.getItem(COOKIE_NAME)) : {} 
   }
   const navigate = useNavigate();
 
   useEffect(() => {
     const usrFromStorage = getUserFromStorage();
-
     if(usrFromStorage.token) {
       setIsAuthenticated(true);
       setIsSuperAdmin(usrFromStorage.roles.some(role => role.name === "SuperAdmin"));
@@ -84,8 +83,15 @@ const AuthProvider = ({ children }) => {
   };
 
 
+  const saveUserData = (user) => {
+    console.log("USER", user);
+    sessionStorage.setItem(`${COOKIE_NAME}`, JSON.stringify(user))
+    setUser(user)
+    setIsAuthenticated(true)
+  }
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isAdmin, isSuperAdmin, logout, forceLogout, user }}>
+    <AuthContext.Provider value={{ isAuthenticated, isAdmin, isSuperAdmin, logout, forceLogout, user, saveUserData }}>
       {children}
     </AuthContext.Provider>
   );

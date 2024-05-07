@@ -11,6 +11,8 @@ import { COOKIE_NAME } from '../../CONSTATNS';
 export const StyledXLogin = styled(XLogin)`
     width: auto !important;
     height: auto !important;
+
+    border-radius: 0;
     &:hover{
         border: 1px solid #43a1a2 !important;
     }   
@@ -22,7 +24,7 @@ export const StyledXLogin = styled(XLogin)`
 `
 
 const Login = () => {
-    const {setIsAuthenticated} = useContext(AuthContext)
+    const {saveUserData} = useContext(AuthContext)
     const navigate = useNavigate();
     const [loginStatus, setLoginStatus] = useState('');
 
@@ -33,14 +35,10 @@ const Login = () => {
   //Actualiza el estado de autenticacion
   const handleLogin = async (email, password) => {
     const res = await loginXDIR(email,password)
-    if(res.error) return res
-    sessionStorage.setItem(`${COOKIE_NAME}`, JSON.stringify({
-        ...res.data, 
-        is_connected: true,
-        xdir_token: res?.access_token ?? null
-    }))
+    console.log("RES",res);
+    if(res.error) return res;
+    saveUserData(res.user)
     setLoginStatus('Login success. Loading user data, please wait.');
-    setIsAuthenticated(true);
     navigateToPage();
   };
 
