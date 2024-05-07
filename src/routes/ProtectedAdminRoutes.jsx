@@ -5,11 +5,10 @@ import Navbar from "../components/Navbar";
 
 const ProtectedAdminRoutes = ({component}) => {
     const location = useLocation();
-    const { user } = useContext(AuthContext);
-
+    const { user, isAdmin, isSuperAdmin } = useContext(AuthContext);
 
     if (user?.access_token) {
-        if(!user.roles.some(role => role.name === "SuperAdmin") && !user.roles.some(role => role.name === "Admin")) {
+        if(!isAdmin && !isSuperAdmin) {
             return <Navigate to="/" state={{ from: location}} replace />
         }
         return (

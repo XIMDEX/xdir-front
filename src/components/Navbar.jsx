@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faSignOutAlt, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faSignOutAlt, faExternalLinkAlt, faLock } from '@fortawesome/free-solid-svg-icons';
 import { XNav } from '@ximdex/xui-react/material';
 import ximdexImagenav from '../assets/ximdex-logo-poweredby.png';
 import AuthContext from '../providers/AuthProvider/AuthContext';
@@ -9,32 +9,49 @@ import AuthContext from '../providers/AuthProvider/AuthContext';
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const { forceLogout, user } = useContext(AuthContext);
+    const { 
+        forceLogout,
+        user,
+        isSuperAdmin,
+        isAdmin,
+        
+    } = useContext(AuthContext);
+    const [internalLinks, setInternalLinks] = useState([])
+
+    useEffect(() => {
+        let links = []
+        console.log(isAdmin);
+        if(isAdmin && isSuperAdmin){
+            links =  [
+                {
+                    text: 'Users',
+                    url: '/users',
+                    target: '_self'
+                },
+                {
+                    text: 'Roles',
+                    url: '/roles',
+                    target: '_self'
+                },
+                {
+                    text: 'Organizations',
+                    url: '/organizations',
+                    target: '_self'
+                }
+            ]
+        }   
+        if(isSuperAdmin){
+            links.push({
+                text: 'Clients',
+                url: '/clients',
+                target: '_self'
+            })
+        }
+        setInternalLinks(links)
+    }, []);
 
     const externalLinks = [];
 
-    const internalLinks = [
-        {
-            text: 'Users',
-            url: '/users',
-            target: '_self'
-        },
-        {
-            text: 'Roles',
-            url: '/roles',
-            target: '_self'
-        },
-        {
-            text: 'Organizations',
-            url: '/organizations',
-            target: '_self'
-        },
-        {
-            text: 'Clients',
-            url: '/clients',
-            target: '_self'
-        }
-    ];
 
     const userLink = [
         {
@@ -42,17 +59,17 @@ const Navbar = () => {
             icon: <FontAwesomeIcon icon={faUser} size="1x" title="" />,
             items: [
                 {
-                    text: 'User',
-                    icon: <FontAwesomeIcon icon={faSignOutAlt} size="1x" style={{ marginRight: '8px'}} />,
+                    text: <p style={{margin: '0', flexGrow:'1'}}>User</p>,
+                    icon: <FontAwesomeIcon icon={faUser} size="1x" style={{ marginRight: '8px'}} />,
                     onClick: () => {navigate('/user')}
                 },
                 {
-                    text: 'Change password',
-                    icon: <FontAwesomeIcon icon={faSignOutAlt} size="1x" style={{ marginRight: '8px'}} />,
+                    text: <p style={{margin: '0', flexGrow:'1'}}>Change password</p>,
+                    icon: <FontAwesomeIcon icon={faLock} size="1x" style={{ marginRight: '8px'}} />,
                     onClick: () => {navigate('/changePassword')}
                 },
                 {
-                    text: 'Sign out',
+                    text: <p style={{margin: '0', flexGrow:'1'}}>Sign out</p>,
                     icon: <FontAwesomeIcon icon={faSignOutAlt} size="1x" style={{ marginRight: '8px'}} />,
                     onClick: () => {forceLogout()}
                 },

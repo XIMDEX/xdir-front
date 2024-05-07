@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
   
   const getUserFromStorage = () => {
-    return sessionStorage.getItem(COOKIE_NAME) ? JSON.parse(sessionStorage.getItem(COOKIE_NAME)) : {} 
+    return localStorage.getItem(COOKIE_NAME) ? JSON.parse(localStorage.getItem(COOKIE_NAME)) : {} 
   }
   const navigate = useNavigate();
 
@@ -21,8 +21,8 @@ const AuthProvider = ({ children }) => {
     const usrFromStorage = getUserFromStorage();
     if(usrFromStorage?.access_token) {
       setIsAuthenticated(true);
-      // setIsSuperAdmin(usrFromStorage.roles.some(role => role.name === "SuperAdmin"));
-      // setIsAdmin(usrFromStorage.roles.some(role => role.name === "Admin"));
+      setIsSuperAdmin(usrFromStorage.roles.some(role => role.name === "superAdmin"));
+      setIsAdmin(usrFromStorage.roles.some(role => role.name === "admin"));
       setUser(usrFromStorage)
       navigate('/')
     } else {
@@ -55,15 +55,15 @@ const AuthProvider = ({ children }) => {
   }
 
   async function forceLogout() {
-    deleteSessisonStorage()
+    deleteLocalStorage()
     setIsAuthenticated(false);
     setIsAdmin(false);
     setIsSuperAdmin(false);
     navigate('/login');
   }
 
-  const deleteSessisonStorage = () => {
-    sessionStorage.setItem(`${COOKIE_NAME}`, JSON.stringify({}))
+  const deleteLocalStorage = () => {
+    localStorage.setItem(`${COOKIE_NAME}`, JSON.stringify({}))
   }
 
   //Revoca el token, lo borra del localStorage y navega a la pagina de logout
@@ -86,7 +86,7 @@ const AuthProvider = ({ children }) => {
 
   const saveUserData = (user) => {
     console.log("USER", user);
-    sessionStorage.setItem(`${COOKIE_NAME}`, JSON.stringify(user))
+    localStorage.setItem(`${COOKIE_NAME}`, JSON.stringify(user))
     setUser(user)
     setIsAuthenticated(true)
   }
