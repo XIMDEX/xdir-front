@@ -4,6 +4,8 @@ import {XContainer, XLogin}  from '@ximdex/xui-react/material';
 import LoginImage from '../assets/ximdex-logo-poweredby.png';
 import { styled } from "@mui/system";
 import AuthContext, { useAuth } from '../providers/AuthProvider/AuthContext';
+import { loginXDIR } from '../service/xdir.service';
+import { COOKIE_NAME } from '../../CONSTATNS';
 
 
 export const StyledXLogin = styled(XLogin)`
@@ -20,7 +22,7 @@ export const StyledXLogin = styled(XLogin)`
 `
 
 const Login = () => {
-    const {handleLogin} = useContext(AuthContext)
+    const {setIsAuthenticated} = useContext(AuthContext)
     const navigate = useNavigate();
     const [loginStatus, setLoginStatus] = useState('');
 
@@ -28,7 +30,19 @@ const Login = () => {
         navigate('/')
     }
 
-
+  //Actualiza el estado de autenticacion
+  const handleLogin = async (email, password) => {
+    const res = await loginXDIR(email,password)
+    if(res.error) return res
+    sessionStorage.setItem(`${COOKIE_NAME}`, JSON.stringify({
+        ...res.data, 
+        is_connected: true,
+        xdir_token: res?.access_token ?? null
+    }))
+    setLoginStatus('Login success. Loading user data, please wait.');
+    setIsAuthenticated(true);
+    navigateToPage();
+  };
 
     const RenderStatus = () => {
         if (typeof loginStatus === 'string') {

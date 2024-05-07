@@ -30,21 +30,8 @@ const AuthProvider = ({ children }) => {
       setIsAdmin(false);
       setIsSuperAdmin(false);
     }
-  },[])
+  },[isAuthenticated])
 
-  //Actualiza el estado de autenticacion
-  const handleLogin = async (email, password) => {
-    const res = await loginXDIR(email,password)
-    if(res.error) return res
-    sessionStorage.setItem(`${COOKIE_NAME}`, JSON.stringify({
-        ...res.data, 
-        is_connected: true,
-        xdir_token: res?.access_token ?? null
-    }))
-    setLoginStatus('Login success. Loading user data, please wait.');
-    setIsAuthenticated(true);
-    navigate("/");
-  };
 
   async function logoutUser() {
     // await userManagementApi.post('logout','', {bearerToken: token})
@@ -98,7 +85,7 @@ const AuthProvider = ({ children }) => {
 
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isAdmin, isSuperAdmin, handleLogin, logout, forceLogout, user }}>
+    <AuthContext.Provider value={{ isAuthenticated, isAdmin, isSuperAdmin, logout, forceLogout, user }}>
       {children}
     </AuthContext.Provider>
   );

@@ -2,7 +2,7 @@ import { API_BASE_URL } from "../../CONSTATNS";
 
 export const loginXDIR = (email, password) => {
     try {
-        return fetch(`${API_BASE_URL}/auth/login`, {
+        return fetch(`${API_BASE_URL}/api/login`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
