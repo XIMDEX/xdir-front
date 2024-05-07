@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSignOutAlt, faExternalLinkAlt, faLock } from '@fortawesome/free-solid-svg-icons';
 import { XNav } from '@ximdex/xui-react/material';
-import ximdexImagenav from '../assets/ximdex-logo-poweredby.png';
+import ximdexImagenav from '../assets/logotipo_ximdex-EDU-white-small.png';
 import AuthContext from '../providers/AuthProvider/AuthContext';
 
 
@@ -20,7 +20,6 @@ const Navbar = () => {
 
     useEffect(() => {
         let links = []
-        console.log(isAdmin);
         if(isAdmin && isSuperAdmin){
             links =  [
                 {

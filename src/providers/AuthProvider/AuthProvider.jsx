@@ -30,7 +30,7 @@ const AuthProvider = ({ children }) => {
       setIsAdmin(false);
       setIsSuperAdmin(false);
     }
-  },[isAuthenticated])
+  },[])
 
 
   async function logoutUser() {
@@ -85,9 +85,10 @@ const AuthProvider = ({ children }) => {
 
 
   const saveUserData = (user) => {
-    console.log("USER", user);
     localStorage.setItem(`${COOKIE_NAME}`, JSON.stringify(user))
     setUser(user)
+    setIsSuperAdmin(user.roles.some(role => role.name === "superAdmin"));
+    setIsAdmin(user.roles.some(role => role.name === "admin"));
     setIsAuthenticated(true)
   }
 

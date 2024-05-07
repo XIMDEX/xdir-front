@@ -4,7 +4,7 @@ import {useNavigate, useSearchParams } from "react-router-dom";
 import { StyledForm, StyledDivSVG, StyledSVG } from '../components/styled-compontent/FormStyles';
 import { StyledXCardRegister, StyledXCard } from '../components/styled-compontent/Container';
 import { registerXDIR } from '../service/xdir.service';
-import ximdexLogo from "../assets/ximdex-logo-poweredby.png"
+import ximdexLogo from "../assets/logotipo_ximdex-DIR-small.png"
 import { CircularProgress } from '@mui/material';
 import AuthContext from '../providers/AuthProvider/AuthContext';
 import { FAKE_USER } from '../../CONSTATNS';

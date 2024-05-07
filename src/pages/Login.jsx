@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {XContainer, XLogin}  from '@ximdex/xui-react/material';
-import LoginImage from '../assets/ximdex-logo-poweredby.png';
+import LoginImage from '../assets/logotipo_ximdex-DIR-small.png';
 import { styled } from "@mui/system";
 import AuthContext, { useAuth } from '../providers/AuthProvider/AuthContext';
 import { loginXDIR } from '../service/xdir.service';
