@@ -628,7 +628,7 @@ export const StyledXCardRegister = styled(StyledXCard)`
 
 export const StyledXRadio = styled(XRadio)`
     padding: 1px;
-    margin: 1em 1em;
+    margin: 1em 0.2em;
     & .MuiRadio-root{
         padding: 3px !important;
     }

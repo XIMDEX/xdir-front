@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyledDivCenterY, StyledMarginContent, StyledXCard, StyledXRadio } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faEye, faEyeSlash, faPen, faSave, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {faEye, faEyeSlash, faLock, faPen, faSave, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XInput } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
 import { GENDER_OPTIONS } from "../../CONSTATNS";
@@ -39,7 +39,7 @@ export default function PasswordChange() {
 
   return (
   <StyledXCard
-        title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faUser} style={{marginRight: '10px'}}/>USER INFORMATION</p>}
+        title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faLock} style={{marginRight: '10px'}}/>CHANGE PASSWORD</p>}
         style={{height: 'auto', width: '50%', margin: '2em auto'}}
         controls={[
           {

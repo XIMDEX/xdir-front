@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyledDivCenterY, StyledMarginContent, StyledXCard, StyledXRadio } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faEye, faEyeSlash, faPen, faSave, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {faCalendar, faEye, faEyeSlash, faGenderless, faKey, faPen, faPerson, faSave, faTransgender, faUser, faUserCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XInput } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
 import { GENDER_OPTIONS } from "../../CONSTATNS";
@@ -58,8 +58,11 @@ export default function UserProfile() {
         ]}
       >
         <StyledMarginContent>
-          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
-            <label style={{marginBottom: '-10px'}}>Full name</label>
+          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1.5em'}}>
+            <label style={{marginBottom: '-5px'}}>
+              {/* <FontAwesomeIcon icon={faUserCircle} style={{marginRight: '10px'}}/> */}
+              Full name
+            </label>
             <XInput 
               id='name' 
               type='text' 
@@ -70,8 +73,11 @@ export default function UserProfile() {
               onChange={(e) => onInputChange(e)}
             />
           </StyledDivCenterY>
-          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
-            <label style={{marginBottom: '-10px'}}>Date</label>
+          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1.5em'}}>
+            <label style={{marginBottom: '-5px'}}>
+              {/* <FontAwesomeIcon icon={faCalendar} style={{marginRight: '10px'}}/> */}
+              Birth date
+            </label>
             <XInput 
               id='birth_date'
               type='date'
@@ -82,8 +88,11 @@ export default function UserProfile() {
               onChange={(e) => onInputChange(e)}
             />
           </StyledDivCenterY>
-          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
-            <label style={{marginBottom: '-10px'}}>Gender</label>
+          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1.5em'}}>
+            <label style={{marginBottom: '-5px'}}>
+              <FontAwesomeIcon icon={faPerson} style={{marginRight: '10px', fontSize:'22px'}}/>
+              Gender
+            </label>
             <StyledXRadio
                 key="gender"
                 disabled={!canEdit}
@@ -94,7 +103,10 @@ export default function UserProfile() {
               />
           </StyledDivCenterY>
           <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
-            <label style={{marginBottom: '-5px'}}>{user?.roles?.length === 1 ? "Role assigned: " : "Roles assigned: "}</label>
+            <label style={{marginBottom: '-5px'}}>
+              <FontAwesomeIcon size="1x" icon={faKey} style={{marginRight: '10px'}}/>
+              {user?.roles?.length === 1 ? "Role assigned: " : "Roles assigned: "}
+            </label>
             <p style={{marginRight:'1em'}}> 
             {user?.roles?.length > 0 ? (
                   user?.roles?.map((role, i) => (
