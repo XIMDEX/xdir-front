@@ -1,6 +1,7 @@
 import { styled } from "@mui/system";
 import { XContainerContent, XCard, XTag, XBox, XModal, XTabs, XRow, XLogin } from "@ximdex/xui-react/material";
 import ReactModal from "react-modal";
+import { Link } from "react-router-dom";
 
 export const StyledCenteredXYDiv = styled('div')`
     display: flex;
@@ -11,6 +12,8 @@ export const StyledCenteredXYDiv = styled('div')`
     min-height: 100vh;
     margin: 0 5vw;
 `
+
+
 
 export const StyledPoweredByContainer = styled('div')`
     ${({position}) => {

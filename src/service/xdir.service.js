@@ -1,45 +1,48 @@
 import { API_BASE_URL } from "../../CONSTATNS";
 
-export const loginXDIR = (email, password) => {
+const commonHeaders = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+};
+
+
+export const loginXDIR = async (email, password) => {
     try {
-        return fetch(`${API_BASE_URL}api/login`, {
+        const res = await fetch(`${API_BASE_URL}api/login`, {
             method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
+            headers: commonHeaders,
             body: JSON.stringify({
                 email: email,
                 password: password,
             }),
-        })  
-        .then(res => res.json())
-        .catch((err) => { 
-            console.error(err)
-            return {error: "Check your credentials and try again later."}
         });
-    } catch (e) {
-        console.error(e);
-        return {error: "Check your credentials and try again later."};
+
+        if (!res.ok) {
+            throw new Error("Failed to log in. Please try again later.");
+        }
+
+        return res.json();
+    } catch (err) {
+        console.error(err);
+        return { error: "Check your credentials and try again later." };
     }
-}
+};
 
-export const registerXDIR = (user) => {
-        return fetch(`${API_BASE_URL}api/register`, {
+
+export const registerXDIR = async (user) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}api/register`, {
             method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
+            headers: commonHeaders,
             body: JSON.stringify(user),
-        })  
-        .then(res => res.json())
-        .catch((err) => { 
-            console.error(err); 
-            return err
         });
+        return await res.json();
+    } catch (err) {
+        console.error(err);
+        return err;
+    }
+};
 
-}
 
 
 export const logOutXDIR = (email) => {

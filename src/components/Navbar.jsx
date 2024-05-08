@@ -59,14 +59,14 @@ const Navbar = () => {
             icon: <FontAwesomeIcon icon={faUser} size="1x" title="" />,
             items: [
                 {
-                    text: <p style={{margin: '0', flexGrow:'1'}}>User</p>,
+                    text: <p style={{margin: '0', flexGrow:'1'}}>Account</p>,
                     icon: <FontAwesomeIcon icon={faUser} size="1x" style={{ marginRight: '8px'}} />,
-                    onClick: () => {navigate('/user')}
+                    onClick: () => {navigate('/profile')}
                 },
                 {
                     text: <p style={{margin: '0', flexGrow:'1'}}>Change password</p>,
                     icon: <FontAwesomeIcon icon={faLock} size="1x" style={{ marginRight: '8px'}} />,
-                    onClick: () => {navigate('/changePassword')}
+                    onClick: () => {navigate('/password_change')}
                 },
                 {
                     text: <p style={{margin: '0', flexGrow:'1'}}>Sign out</p>,
@@ -77,7 +77,7 @@ const Navbar = () => {
         },
     ];
 
-    const links = [internalLinks, userLink]
+    const links =  location.pathname === '/' ? [userLink] : [internalLinks, userLink]
 
     const logoLink = {
         logoImgSrc: ximdexImagenav
