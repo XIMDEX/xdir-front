@@ -44,6 +44,24 @@ export const registerXDIR = async (user) => {
 };
 
 
+export const updateUserXDIR = async (name, password, email) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}api/user/update`, {
+            method: "PUT",
+            headers: commonHeaders,
+            body: JSON.stringify({
+                name,
+                email,
+                password,
+            }),
+        });
+        return await res.json();
+    } catch (err) {
+        console.error(err);
+        return err;
+    }
+}
+
 
 export const logOutXDIR = (email) => {
     
