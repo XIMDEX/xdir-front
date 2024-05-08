@@ -22,3 +22,9 @@ export const FAKE_USER = {
       "roles": [{name:"admin"}, {name:"superAdmin"}]
 
     }
+
+
+export const GENDER_OPTIONS = [
+  {value: 'M', label: 'Male'},
+  {value: 'F', label: 'Female'}
+]

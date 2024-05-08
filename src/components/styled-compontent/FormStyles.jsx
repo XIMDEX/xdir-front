@@ -23,3 +23,9 @@ export const StyledSVG = styled.svg`
     display: block;
     margin: auto;
 `;
+
+export const StyledLabel = styled('label')`
+    font-size: 14px;
+    
+
+`

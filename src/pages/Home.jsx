@@ -2,7 +2,7 @@ import { Stack } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider/AuthContext';
 import { useEffect, useState } from 'react';
-import { faBuilding, faSchool, faUserPen, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faKey, faSchool, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { XLabel } from '@ximdex/xui-react/material';
 import { StyledHomeItem } from '../components/styled-compontent/Links';
 import { StyledHomeXBox } from '../components/styled-compontent/Container';
@@ -22,7 +22,7 @@ function Home() {
                 path: '/users'
             }, {
                 name: 'roles',
-                icon: faUserPen,
+                icon: faKey,
                 path: '/roles'
             }, 
             {
@@ -58,10 +58,9 @@ function Home() {
                     style={{ 
                         color: '#214F61',
                         textTransform: 'uppercase',
-                        fontFamily: 'Open Sans, sans-serif',
                      }}>
                     <XLabel
-                        style={{ width: '100%',  }}
+                        style={{ width: '100%'}}
                         label={element.name}
                         paddingSize='s'
                         component=

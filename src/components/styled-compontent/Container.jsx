@@ -1,5 +1,5 @@
 import { styled } from "@mui/system";
-import { XContainerContent, XCard, XTag, XBox, XModal, XTabs, XRow, XLogin } from "@ximdex/xui-react/material";
+import { XContainerContent, XCard, XTag, XBox, XModal, XTabs, XRow, XLogin, XRadio } from "@ximdex/xui-react/material";
 import ReactModal from "react-modal";
 import { Link } from "react-router-dom";
 
@@ -623,4 +623,13 @@ export const StyledXCardRegister = styled(StyledXCard)`
     }
 
 
+`
+
+
+export const StyledXRadio = styled(XRadio)`
+    padding: 1px;
+    margin: 1em 1em;
+    & .MuiRadio-root{
+        padding: 3px !important;
+    }
 `

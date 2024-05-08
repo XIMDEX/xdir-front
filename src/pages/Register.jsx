@@ -18,7 +18,6 @@ function Register() {
     const [clientName, setClientName] = useState(null);
     const [user, setUser] = useState({
         name: "",
-        surname: "",
         birth_date: "",
         email: "",
         password:"",
@@ -60,11 +59,11 @@ function Register() {
 
         let copyUser = user;
         
-        //Elimina los campos vacios del objeto user
         Object.keys(copyUser).forEach(key => copyUser[key] == null && delete copyUser[key]);
 
         // const user_res = await registerXDIR(copyUser)
-        // if(user_res.errors){
+        console.log(user_res);
+        // if(user_res?.errors){
         if(false){
             setIsLoading(false)
             setUser({
@@ -82,6 +81,7 @@ function Register() {
             })
         }else{
             setIsLoading(false)
+            // console.log(user_res?.user);
             // saveUserData(user_res.user)
             saveUserData(FAKE_USER)
             navigate('/')
@@ -119,8 +119,7 @@ function Register() {
             <p>Enter your information:</p>
             <StyledForm onSubmit={handleSubmit}>
                 {clientName ? <Alert icon={false} severity="info">Register for client: {clientName}</Alert> : null}
-                <XInput id='name' type='text' label='Name' required={true} size='small' fullWidth value={name} onChange={(e) => onInputChange(e)} />
-                <XInput id='surname' type='text' label='Surname' required size='small' fullWidth value={surname} onChange={(e) => onInputChange(e)} />
+                <XInput id='name' type='text' label='Full Name' required={true} size='small' fullWidth value={name} onChange={(e) => onInputChange(e)} />
                 <XInput id='birth_date' type='date' required size='small' fullWidth value={birth_date} onChange={(e) => onInputChange(e)} />
                 <XInput id='email' type='text' label='Email' required size='small' fullWidth value={email} onChange={(e) => onInputChange(e)} />
                 <XInput id='password' type='password' label='Password' required size='small' fullWidth value={password} onChange={(e) => onInputChange(e)} />
