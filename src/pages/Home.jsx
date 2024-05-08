@@ -1,11 +1,8 @@
 import { Stack } from '@mui/system';
-// import { StyledSectionBorder } from '../styles/SectionStyles';
-// import { StyledP } from '../styles/ErrorMessagesStyles';
-// import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider/AuthContext';
 import { useEffect, useState } from 'react';
-import { faBuilding, faSchool, faUserCheck, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faSchool, faUserPen, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { XLabel } from '@ximdex/xui-react/material';
 import { StyledHomeItem } from '../components/styled-compontent/Links';
 import { StyledHomeXBox } from '../components/styled-compontent/Container';
@@ -25,7 +22,7 @@ function Home() {
                 path: '/users'
             }, {
                 name: 'roles',
-                icon: faUserCheck,
+                icon: faUserPen,
                 path: '/roles'
             }, 
             {
