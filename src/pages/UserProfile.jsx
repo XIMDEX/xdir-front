@@ -32,7 +32,7 @@ export default function UserProfile() {
   return (
   <StyledXCard
         title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faUser} style={{marginRight: '10px'}}/>USER INFORMATION</p>}
-        style={{height: '100%'}}
+        style={{height: 'auto', width: '50%', margin: '2em auto'}}
         controls={[
           {
               component:
@@ -66,7 +66,7 @@ export default function UserProfile() {
               type='text' 
               disabled={!canEdit}
               size='medium' 
-              style={{width: '40%'}}
+              fullWidth
               value={userForm.name} 
               onChange={(e) => onInputChange(e)}
             />
@@ -78,7 +78,7 @@ export default function UserProfile() {
               type='date'
               disabled={!canEdit}
               size='medium' 
-              style={{width: '40%'}}
+              fullWidth
               value={userForm.birthdate} 
               onChange={(e) => onInputChange(e)}
             />
@@ -91,7 +91,7 @@ export default function UserProfile() {
               onChange={(e) => onInputChange(e)}
               type={passwordVisibility ? 'text' : 'password'} 
               size='medium' 
-              style={{width: '40%'}}
+              fullWidth
               InputProps={{
                 endAdornment: (
                   <XButton
