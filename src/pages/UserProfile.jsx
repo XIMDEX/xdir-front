@@ -11,7 +11,6 @@ export default function UserProfile() {
   const {user} = useContext(AuthContext);
   const [canEdit, setCanEdit] = useState(false)
   const [userForm, setUserForm] = useState({...user})
-  const [passwordVisibility, setPasswordVisibility] = useState(false)
 
   const handleCanEdit = () => {
     if(canEdit){
@@ -84,33 +83,6 @@ export default function UserProfile() {
             />
           </StyledDivCenterY>
           <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
-            <label style={{marginBottom: '-10px'}}>New Password (Complete only if want to change the password)</label>
-            <XInput 
-              disabled={!canEdit}
-              value={userForm.password} 
-              onChange={(e) => onInputChange(e)}
-              type={passwordVisibility ? 'text' : 'password'} 
-              size='medium' 
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <XButton
-                    disabled={!canEdit}
-                    onClick={() => setPasswordVisibility((prevState) => !prevState)}
-                    variant='text'
-                    style={{ fontSize: '1em', minWidth: 'unset', width: '2em', marginLeft: '0.5em' }}
-                  >
-                    <FontAwesomeIcon
-                      style={{cursor:'pointer', fontSize:'15px'}}
-                      size='1x'
-                      icon={passwordVisibility ? faEye : faEyeSlash}
-                    />
-                  </XButton>
-                )
-              }} 
-            />
-          </StyledDivCenterY>
-          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
             <label style={{marginBottom: '-10px'}}>Gender</label>
             <StyledXRadio
                 key="gender"
@@ -120,6 +92,22 @@ export default function UserProfile() {
                 onChange={(e) => onInputChange(e, 'gender')}
                 options={GENDER_OPTIONS}
               />
+          </StyledDivCenterY>
+          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
+            <label style={{marginBottom: '-5px'}}>{user?.roles?.length === 1 ? "Role assigned: " : "Roles assigned: "}</label>
+            <p style={{marginRight:'1em'}}> 
+            {user?.roles?.length > 0 ? (
+                  user?.roles?.map((role, i) => (
+                      <span key={i}>
+                      {role?.name.toUpperCase()}
+                      {user.roles?.length === i + 1 ? "" :
+                          user.roles?.length - 1 === i + 1 ? " and " : ", "}
+                      </span>
+                  ))
+                  ) : (
+                  <span>No roles assigned</span>
+                  )}        
+            </p>       
           </StyledDivCenterY>
         </StyledMarginContent>
       </StyledXCard>
