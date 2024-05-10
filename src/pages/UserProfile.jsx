@@ -60,8 +60,7 @@ export default function UserProfile() {
         <StyledMarginContent>
           <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1.5em'}}>
             <label style={{marginBottom: '-5px'}}>
-              {/* <FontAwesomeIcon icon={faUserCircle} style={{marginRight: '10px'}}/> */}
-              Full name
+              Name
             </label>
             <XInput 
               id='name' 
@@ -75,7 +74,20 @@ export default function UserProfile() {
           </StyledDivCenterY>
           <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1.5em'}}>
             <label style={{marginBottom: '-5px'}}>
-              {/* <FontAwesomeIcon icon={faCalendar} style={{marginRight: '10px'}}/> */}
+              Surname
+            </label>
+            <XInput 
+              id='surname' 
+              type='text' 
+              disabled={!canEdit}
+              size='medium' 
+              fullWidth
+              value={userForm.surname} 
+              onChange={(e) => onInputChange(e)}
+            />
+          </StyledDivCenterY>
+          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1.5em'}}>
+            <label style={{marginBottom: '-5px'}}>
               Birth date
             </label>
             <XInput 

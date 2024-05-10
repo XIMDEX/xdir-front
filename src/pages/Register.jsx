@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { XInput, XButton, XBox, XPopUp } from '@ximdex/xui-react/material';
 import {useNavigate, useSearchParams } from "react-router-dom";
 import { StyledForm, StyledDivSVG, StyledSVG } from '../components/styled-compontent/FormStyles';
-import { StyledXCardRegister, StyledXCard } from '../components/styled-compontent/Container';
+import { StyledXCardRegister, StyledXCard, StyledFlexFullCenter } from '../components/styled-compontent/Container';
 import { registerXDIR } from '../service/xdir.service';
 import ximdexLogo from "../assets/logotipo_ximdex-DIR-small.png"
 import { CircularProgress } from '@mui/material';
@@ -18,14 +18,15 @@ function Register() {
     const [clientName, setClientName] = useState(null);
     const [user, setUser] = useState({
         name: "",
-        birth_date: "",
+        surname: "",
+        birthdate: "",
         email: "",
         password:"",
         password_confirmation: "",
         idClient: null,
 
     })
-    const {name, surname, birth_date, email, password, password_confirmation} = user;
+    const {name, surname, birthdate, email, password, password_confirmation} = user;
     
     const navigate = useNavigate();
 
@@ -61,10 +62,10 @@ function Register() {
         
         Object.keys(copyUser).forEach(key => copyUser[key] == null && delete copyUser[key]);
 
-        // const user_res = await registerXDIR(copyUser)
+        const user_res = await registerXDIR(copyUser)
         console.log(user_res);
-        // if(user_res?.errors){
-        if(false){
+        if(user_res?.errors){
+        // if(false){
             setIsLoading(false)
             setUser({
                 ...user,
@@ -74,59 +75,38 @@ function Register() {
             XPopUp({
                 type: 'error',
                 title: 'Register Error',
-                text: user_res?.message ?? "An error has occurred while regiter, verify your data and try again ",
+                text: user_res?.message ?? "An error has occurred while regiter, verify your data and try again.",
                 position: 'top-center',
                 showConfirmButton: false,
                 timer: 3000
             })
         }else{
             setIsLoading(false)
-            // console.log(user_res?.user);
+            console.log(user_res?.user);
             // saveUserData(user_res.user)
-            saveUserData(FAKE_USER)
-            navigate('/')
+            // saveUserData(FAKE_USER)
+            // navigate('/')
         }
-    
-
+        setIsLoading(false)
     }
-
-    //Obtiene el dato del cliente
-    async function getClient () {
-        if(client === null) return;
-        await userManagementApi.get(`register/${client}`)
-        .then(function(response) {
-            if(response.data.success === true){
-                setUser({
-                    ...user,
-                    idClient: client,
-                });
-                setClientName(response.data.data.client_name);
-            }
-        })
-        //Si el cliente no existe, no hace nada
-    }
-    
-    //Obtiene el dato del cliente al cargar la pagina
-    useEffect(() => {
-        getClient();
-    },[client])
 
     return (
 
         <StyledXCardRegister 
         style={{flexDirection: 'column'}}>
             <img src={ximdexLogo} style={{width: '250px'}}/>
-            <p>Enter your information:</p>
+            <p style={{marginBottom: 0}}>Enter your information:</p>
             <StyledForm onSubmit={handleSubmit}>
                 {clientName ? <Alert icon={false} severity="info">Register for client: {clientName}</Alert> : null}
-                <XInput id='name' type='text' label='Full Name' required={true} size='small' fullWidth value={name} onChange={(e) => onInputChange(e)} />
-                <XInput id='birth_date' type='date' required size='small' fullWidth value={birth_date} onChange={(e) => onInputChange(e)} />
+                <XInput id='name' type='text' label='Name' required={true} size='small' fullWidth value={name} onChange={(e) => onInputChange(e)} />
+                <XInput id='surname' type='text' label='Surname' required={true} size='small' fullWidth value={surname} onChange={(e) => onInputChange(e)} />
+                <XInput id='birthdate' type='date' required size='small' fullWidth value={birthdate} onChange={(e) => onInputChange(e)} />
                 <XInput id='email' type='text' label='Email' required size='small' fullWidth value={email} onChange={(e) => onInputChange(e)} />
                 <XInput id='password' type='password' label='Password' required size='small' fullWidth value={password} onChange={(e) => onInputChange(e)} />
                 <XInput id='password_confirmation' type='password' label='Repeat Password' required size='small' fullWidth value={password_confirmation} onChange={(e) => onInputChange(e)} />
-                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <p style={{ color: 'red', textAlign:'center', visibility: error === '' ? 'hidden' : 'visible' }}>{error}</p>
                 {isLoading ? 
-                    <CircularProgress size={20}/>
+                    <StyledFlexFullCenter><CircularProgress size={20}/></StyledFlexFullCenter>
                     : <XButton onClick={register} size='small'>Register</XButton>}
             </StyledForm>
         </StyledXCardRegister> 
