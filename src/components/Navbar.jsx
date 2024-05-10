@@ -15,7 +15,7 @@ const Navbar = () => {
         user,
         isSuperAdmin,
         isAdmin,
-        
+        isAuthenticated
     } = useContext(AuthContext);
     const [internalLinks, setInternalLinks] = useState([])
 
@@ -77,7 +77,7 @@ const Navbar = () => {
         },
     ];
 
-    const links =  location.pathname === '/' ? [userLink] : [internalLinks, userLink]
+    const links =  !isAuthenticated ? [] : location.pathname === '/' ? [userLink] : [internalLinks, userLink]
 
     const logoLink = {
         logoImgSrc: ximdexImagenav
