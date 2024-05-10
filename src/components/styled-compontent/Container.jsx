@@ -606,8 +606,7 @@ export const StyledXLogin = styled(XLogin)`
 
 
 export const StyledXCardRegister = styled(StyledXCard)`
-    margin: 0 auto;
-
+    margin: 2em auto;
     display: flex;
     justify-content: center;
     align-items: center;

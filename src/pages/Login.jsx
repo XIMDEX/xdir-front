@@ -3,16 +3,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {XContainer, XLogin}  from '@ximdex/xui-react/material';
 import LoginImage from '../assets/logotipo_ximdex-DIR-small.png';
 import { styled } from "@mui/system";
-import AuthContext, { useAuth } from '../providers/AuthProvider/AuthContext';
+import AuthContext from '../providers/AuthProvider/AuthContext';
 import { loginXDIR } from '../service/xdir.service';
-import { COOKIE_NAME, FAKE_USER } from '../../CONSTATNS';
+import { FAKE_USER } from '../../CONSTATNS';
 
 
 export const StyledXLogin = styled(XLogin)`
     width: auto !important;
     height: auto !important;
 
-    border-radius: 0;
     &:hover{
         border: 1px solid #43a1a2 !important;
     }   
@@ -26,7 +25,6 @@ export const StyledXLogin = styled(XLogin)`
 const Login = () => {
     const {saveUserData} = useContext(AuthContext)
     const navigate = useNavigate();
-    const [loginStatus, setLoginStatus] = useState('');
 
     const navigateToPage = () => {
         navigate('/')
@@ -35,30 +33,16 @@ const Login = () => {
   //Actualiza el estado de autenticacion
   const handleLogin = async (email, password) => {
     const res = await loginXDIR(email,password)
-    console.log("RES",res);
-    // if(res.error) return res;
+    if(res.error) return res;
     // saveUserData(res.user)
-    // saveUserData(FAKE_USER)
-    setLoginStatus('Login success. Loading user data, please wait.');
-    // navigateToPage();
+    saveUserData(FAKE_USER)
+    navigateToPage();
   };
 
-    const RenderStatus = () => {
-        if (typeof loginStatus === 'string') {
-            return (
-            <p style={{ textAlign: 'center', marginTop: 10 }}>{loginStatus}</p>
-            );
-        }
-        return (
-            <ul>
-            {' '}
-            {Object.keys(loginStatus).map((item, i) => (
-                <li key={i}>{loginStatus[item][0]}</li>
-            ))}{' '}
-            </ul>
-        );
-    }
-    
+  const handleFALKLogin = async (email, password) => {
+    saveUserData(FAKE_USER)
+    navigateToPage();
+  };
 
     return (
         <XContainer
@@ -72,11 +56,11 @@ const Login = () => {
             }}
         >
             <StyledXLogin 
+                rounded={false}
                 hasLogo 
                 srcLogo={LoginImage}
-                handleLogin={handleLogin}
+                handleLogin={handleFALKLogin}
             />
-            <RenderStatus />
         </XContainer>
     )
 }
