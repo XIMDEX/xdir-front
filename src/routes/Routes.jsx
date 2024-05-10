@@ -22,12 +22,12 @@ const Routes = () => {
             {/* Rutas publicas */}
             <Route path="/register" element={<Register/> } />
             <Route path="/login" element={<LoginPage/> } />
+            <Route  path="/password_change" element={<PasswordChange/>}/> 
             {/* <Route path="*" element={<NotFound/> } />  */}
             
             {/* Rutas privadas */}
             <Route  exact path="/" element={<ProtectedRoute component={<Home/>}/>}/> 
             <Route  path="/profile" element={<ProtectedRoute component={<UserProfile/>}/>}/> 
-            <Route  path="/password_change" element={<ProtectedRoute component={<PasswordChange/>}/>}/> 
 
             {/* Rutas privadas de administrador */}
             <Route  path="/users" element={<ProtectedAdminRoutes component={<Users/>}/>}/> 

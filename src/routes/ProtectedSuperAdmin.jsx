@@ -19,7 +19,6 @@ const ProtectedSuperAdminRoutes = ({component}) => {
 
     return (
         <>
-            <Navbar />
             {component}
         </>
     ) 
