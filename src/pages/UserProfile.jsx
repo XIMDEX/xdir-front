@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { StyledDivCenterY, StyledMarginContent, StyledXCard, StyledXRadio } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCalendar, faEye, faEyeSlash, faGenderless, faKey, faPen, faPerson, faSave, faTransgender, faUser, faUserCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { XButton, XInput } from "@ximdex/xui-react/material";
+import { XButton, XInput, XPopUp } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
 import { GENDER_OPTIONS } from "../../CONSTATNS";
 import _ from "lodash";
+import { updateUserXDIR } from "../service/xdir.service";
 
 export default function UserProfile() {
   const {user} = useContext(AuthContext);
@@ -21,12 +22,37 @@ export default function UserProfile() {
     }
   }
 
-  const onInputChange = (e, key) => {
+  const onInputChange = (e) => {
     setUserForm({
         ...userForm,
-        [key ? key : e.target.id]: e.target.value
+        [e.target.id]: e.target.value
     });
-}
+  }
+
+
+  const updateUserData = async () => {
+    const res = await updateUserXDIR(user)
+    if(res?.error){
+      XPopUp({
+        type: 'error',
+        title: 'Update error',
+        text: res?.message ?? "An error has occurred while updating, verify your data and try again.",
+        position: 'top-center',
+        showConfirmButton: false,
+        timer: 3000
+      })
+    }else{
+      XPopUp({
+        type: 'success',
+        title: 'User updated',
+        text: "User information updated successfully.",
+        position: 'top-center',
+        showConfirmButton: false,
+        timer: 3000
+      })
+      saveUserData(res.user)
+    }
+  }
 
   return (
   <StyledXCard
@@ -91,7 +117,7 @@ export default function UserProfile() {
               Birth date
             </label>
             <XInput 
-              id='birth_date'
+              id='birthdate'
               type='date'
               disabled={!canEdit}
               size='medium' 

@@ -42,7 +42,7 @@ export const registerXDIR = async (user) => {
 };
 
 
-export const updateUserXDIR = async (name, password, email) => {
+export const updateUserXDIR = async ({name, surname, email, birthdate}) => {
     try {
         const res = await fetch(`${API_BASE_URL}api/user/update`, {
             method: "PUT",
@@ -50,7 +50,8 @@ export const updateUserXDIR = async (name, password, email) => {
             body: JSON.stringify({
                 name,
                 email,
-                password,
+                surname,
+                birthdate
             }),
         });
         if(!res.ok) throw new Error ("Check credentials")
