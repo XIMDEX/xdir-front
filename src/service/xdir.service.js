@@ -16,14 +16,10 @@ export const loginXDIR = async (email, password) => {
                 password: password,
             }),
         });
-
-        if (!res.ok) {
-            throw new Error("Failed to log in. Please try again later.");
-        }
-
-        return await res.json();
+        if(!res.ok) throw new Error ("Check your credentials and try again later.")
+        const json = await res.json()
+        return json;
     } catch (err) {
-        console.error(err);
         return { error: "Check your credentials and try again later." };
     }
 };
@@ -36,7 +32,9 @@ export const registerXDIR = async (user) => {
             headers: commonHeaders,
             body: JSON.stringify(user),
         });
-        return await res.json();
+        if(!res.ok) throw new Error (res.error.messagge ?? 'Check your information and try again later.')
+        const json = await res.json()
+        return json;
     } catch (err) {
         console.error(err);
         return err;
@@ -55,6 +53,7 @@ export const updateUserXDIR = async (name, password, email) => {
                 password,
             }),
         });
+        if(!res.ok) throw new Error ("Check credentials")
         return await res.json();
     } catch (err) {
         console.error(err);
