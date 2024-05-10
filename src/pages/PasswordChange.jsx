@@ -136,7 +136,7 @@ const NewPasswordForm = ({
   
   return <StyledXCard
         title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faLock} style={{marginRight: '10px'}}/>CHANGE PASSWORD</p>}
-        style={{height: 'auto', width: '50%', margin: '5em auto'}}
+        style={{height: 'auto', width: '50%', margin: '2em auto'}}
         controls={[
           {
             component:

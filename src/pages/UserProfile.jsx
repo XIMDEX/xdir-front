@@ -100,20 +100,6 @@ export default function UserProfile() {
               onChange={(e) => onInputChange(e)}
             />
           </StyledDivCenterY>
-          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1.5em'}}>
-            <label style={{marginBottom: '-5px'}}>
-              <FontAwesomeIcon icon={faPerson} style={{marginRight: '10px', fontSize:'22px'}}/>
-              Gender
-            </label>
-            <StyledXRadio
-                key="gender"
-                disabled={!canEdit}
-                direction="row"
-                value={GENDER_OPTIONS.filter(option => option.value === userForm.gender)[0]?.value}
-                onChange={(e) => onInputChange(e, 'gender')}
-                options={GENDER_OPTIONS}
-              />
-          </StyledDivCenterY>
           <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
             <label style={{marginBottom: '-5px'}}>
               <FontAwesomeIcon size="1x" icon={faKey} style={{marginRight: '10px'}}/>
