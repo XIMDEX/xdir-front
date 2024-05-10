@@ -21,7 +21,7 @@ export const loginXDIR = async (email, password) => {
             throw new Error("Failed to log in. Please try again later.");
         }
 
-        return res.json();
+        return await res.json();
     } catch (err) {
         console.error(err);
         return { error: "Check your credentials and try again later." };

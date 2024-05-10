@@ -34,13 +34,13 @@ const Login = () => {
 
   //Actualiza el estado de autenticacion
   const handleLogin = async (email, password) => {
-    // const res = await loginXDIR(email,password)
-    // console.log("RES",res);
+    const res = await loginXDIR(email,password)
+    console.log("RES",res);
     // if(res.error) return res;
     // saveUserData(res.user)
-    saveUserData(FAKE_USER)
+    // saveUserData(FAKE_USER)
     setLoginStatus('Login success. Loading user data, please wait.');
-    navigateToPage();
+    // navigateToPage();
   };
 
     const RenderStatus = () => {
