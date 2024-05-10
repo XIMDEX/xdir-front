@@ -48,7 +48,7 @@ const Navbar = () => {
             })
         }
         setInternalLinks(links)
-    }, []);
+    }, [user]);
 
     const externalLinks = [];
 
