@@ -1,21 +1,126 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyledDivCenterY, StyledMarginContent, StyledXCard, StyledXRadio } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faEye, faEyeSlash, faLock, faPen, faSave, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {faEye, faEyeSlash, faLock, faPaperPlane, faPen, faSave, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XInput } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
 import { GENDER_OPTIONS } from "../../CONSTATNS";
 import _ from "lodash";
 
 export default function PasswordChange() {
+  const [emailVerified, setEmailVerified] = useState(false)
+
+
+
+  return (
+    <>
+      {!emailVerified
+      ? <VerificationEmailForm
+          setEmailVerified={setEmailVerified}
+        /> 
+      : <NewPasswordForm/>}
+    </>
+    );
+}
+
+
+
+const VerificationEmailForm = ({
+  setEmailVerified
+}) => {
+  const {user} = useContext(AuthContext);
+  const [verificationCode, setVerificationCode] = useState('')
+  const [email, setEmail] = useState(user?.email ?? '')
+
+  const sendVerificationCode = () => {
+    setEmailVerified(true)
+  }
+  const getVerificationCode = () => {
+
+  }
+
+  return(
+    <StyledXCard
+    title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faLock} style={{marginRight: '10px'}}/>CHANGE PASSWORD</p>}
+    style={{height: 'auto', width: '50%', margin: '5em auto'}}
+    controls={[
+      {
+        component:
+            <XButton
+                onClick= {() => sendVerificationCode()}
+                title="Send verification code"
+                disabled={verificationCode === ''}
+            >
+                <FontAwesomeIcon icon={faPaperPlane} style={{marginRight: '10px'}}/> 
+                SEND CODE
+            </XButton>
+    }
+    ]}
+  >
+    <StyledMarginContent>
+      <p>Get the verification code to be able to change your password:</p>
+      <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
+        <label style={{marginBottom: '-10px'}}>Email</label>
+        <StyledDivCenterY style={{width: '100%'}}>
+          <XInput 
+            id="email"
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            fullWidth
+            size='medium' 
+          />
+          <XButton
+            title="Get verification code"
+            size="large"
+            onClick={getVerificationCode}
+            disabled={email === ''}
+            style={{width: '22%', marginLeft:'1em'}}
+          >
+            GET CODE
+          </XButton>
+        </StyledDivCenterY>
+      </StyledDivCenterY>
+      <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
+        <label style={{marginBottom: '-10px'}}>Varification code</label>
+        <XInput 
+            id="verification_code"
+            value={verificationCode} 
+            onChange={(e) => setVerificationCode(e.target.value)}
+            type="text" 
+            size='medium' 
+            fullWidth
+        />
+      </StyledDivCenterY>
+      </StyledMarginContent>
+    </StyledXCard>
+  )
+
+  
+}
+
+
+const NewPasswordForm = ({
+
+}) => {
   const passwordInit = {
     password: "",
     password_confirmation: ""
   }
-  const {user} = useContext(AuthContext);
+
   const [userPassword, setUserPassword] = useState(passwordInit)
   const [passwordVisibility, setPasswordVisibility] = useState(false)
   const [error, setError] = useState('');
+
+
+  useEffect(() => {
+    if(userPassword.password !== userPassword.password_confirmation){
+        setError('Passwords dont match');
+    } else {
+        setError('');
+    }
+  },[userPassword])
+
 
   const onInputChange = (e) => {
     setUserPassword({
@@ -28,19 +133,10 @@ export default function PasswordChange() {
 
   }
 
-  useEffect(() => {
-    if(userPassword.password !== userPassword.password_confirmation){
-        setError('Passwords dont match');
-    } else {
-        setError('');
-    }
-  },[userPassword])
-
-
-  return (
-  <StyledXCard
+  
+  return <StyledXCard
         title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faLock} style={{marginRight: '10px'}}/>CHANGE PASSWORD</p>}
-        style={{height: 'auto', width: '50%', margin: '2em auto'}}
+        style={{height: 'auto', width: '50%', margin: '5em auto'}}
         controls={[
           {
             component:
@@ -50,12 +146,13 @@ export default function PasswordChange() {
                     disabled={userPassword.password === '' || userPassword.password_confirmation === '' || error !== ''}
                 >
                     <FontAwesomeIcon icon={faSave} style={{marginRight: '10px'}}/> 
-                    SAVE
+                    UPDATE
                 </XButton>
         }
         ]}
       >
         <StyledMarginContent>
+          <p>Set new password:</p>
           <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
             <label style={{marginBottom: '-10px'}}>New Password</label>
             <XInput 
@@ -112,5 +209,7 @@ export default function PasswordChange() {
         </StyledMarginContent>
       </StyledXCard>
 
-    );
+
+
+  return 
 }
