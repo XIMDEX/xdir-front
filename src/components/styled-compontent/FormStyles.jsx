@@ -7,6 +7,12 @@ export const StyledForm = styled.form`
     display: flex;
     justify-items: center;
     flex-direction: column;
+
+    a{
+        text-decoration: none;
+        color: #1877f2;
+        margin-bottom: 20px;
+    }
 `;
 
 export const StyledDivSVG = styled.div`
