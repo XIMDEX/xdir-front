@@ -34,20 +34,20 @@ export default function UserProfile() {
     const res = await updateUserXDIR(user)
     if(res?.error){
       XPopUp({
-        type: 'error',
-        title: 'Update error',
-        text: res?.message ?? "An error has occurred while updating, verify your data and try again.",
-        position: 'top-center',
-        showConfirmButton: false,
+        text: res?.error,
+        iconType:'error',
+        timer:'3000',
+        popUpPosition:'top',
+        iconColor: 'red',
         timer: 3000
       })
     }else{
       XPopUp({
         type: 'success',
-        title: 'User updated',
         text: "User information updated successfully.",
-        position: 'top-center',
+        position: 'top',
         showConfirmButton: false,
+        iconColor: 'lightgreen',
         timer: 3000
       })
       saveUserData(res.user)
@@ -74,7 +74,7 @@ export default function UserProfile() {
             component:
                 <XButton
                     disabled={_.isEqual(user, userForm)}
-                    onClick= {() => modifyOptions('delete', optionIndex)}
+                    onClick= {() => updateUserData()}
                     title="Update user"
                 >
                     <FontAwesomeIcon icon={faSave} style={{marginRight: '10px'}}/> 
