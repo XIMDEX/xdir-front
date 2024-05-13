@@ -31,7 +31,7 @@ export default function Roles() {
       })
       setRolesList([])
     }else{
-      setRolesList(res)
+      setRolesList(res.roles)
     }
   }
 
@@ -147,16 +147,16 @@ export default function Roles() {
                           width: '100%'
                       }}
                       key={'row' + index}
-                      identifier={role.id}
+                      identifier={role.uuid}
                       isCollapsable={false}
                       controls={[
                         {
-                            component:<StyledGreenButtonIcon onClick={() => editRole(role.id, role.name)}>
+                            component:<StyledGreenButtonIcon onClick={() => editRole(role.uuid, role.name)}>
                                         <FontAwesomeIcon icon={faEdit} size='1x' title='Edit role' />
                                     </StyledGreenButtonIcon>
                         },
                         {
-                            component:<StyledRedButtonIcon onClick={() => deleteRole(id)}>
+                            component:<StyledRedButtonIcon onClick={() => deleteRole(role.uuid)}>
                                         <FontAwesomeIcon icon={faTrash} size='1x' title='Delete role' />
                                     </StyledRedButtonIcon>
                         },
