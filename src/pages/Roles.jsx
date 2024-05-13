@@ -54,7 +54,7 @@ export default function Roles() {
       const res = await createNewRole(newRoleName)
       if(res?.error){
         XPopUp({
-          text: res?.error ?? "An error has occurred while creating new rol, try again later.",
+          text: res?.error,
           iconType:'error',
           timer:'3000',
           popUpPosition:'top',
@@ -72,11 +72,13 @@ export default function Roles() {
         })
       }
     }
+    setRefreshList(!refreshList)
   }
 
   const editRole = async (roleID, roleName) => {
     const newRoleName = await XDirModalInput({
       input: 'text',
+      title:'Edit role',
       inputLabel: `Editing existing role ${roleName}`,
       inputPlaceholder: 'Insert new role name',
       inputValidator: (value) => {
@@ -90,7 +92,7 @@ export default function Roles() {
       const res = await updateExistingRole(roleID, newRoleName)
       if(res?.error){
         XPopUp({
-          text: res?.error ?? "An error has occurred while updating rol, try again later.",
+          text: res?.error,
           iconType:'error',
           timer:'3000',
           popUpPosition:'top',
@@ -108,7 +110,6 @@ export default function Roles() {
         })
         setRefreshList(!refreshList)
       }
-      setLoading(false)
     }
   }
   
@@ -135,7 +136,7 @@ export default function Roles() {
                       title="Create new rol"
                   >
                       <FontAwesomeIcon icon={faPlus} style={{marginRight: '10px'}}/> 
-                      NEW ROL
+                      Create
                   </XButton>
           },
         ]}

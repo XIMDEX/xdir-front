@@ -151,3 +151,16 @@ export const deleteExistingRole = async (id) => {
         return { error: "Unable to delete this role. Please try again later." };
     }
 }
+
+
+export const createNewOrganization = async (name) => {
+
+}
+
+export const updateExistingOrganization = async (id, name) => {
+
+}
+
+export const deleteExistingOrganization = async (id) => {
+    
+}
