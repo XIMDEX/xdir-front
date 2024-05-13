@@ -120,8 +120,6 @@ export default function Roles() {
   }
 
 
-
-
   return (
     <StyledXCard
         title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faKey} style={{marginRight: '10px'}}/>ROLES</p>}

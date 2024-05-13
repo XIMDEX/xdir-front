@@ -9,8 +9,6 @@ const commonHeaders = {
     Authorization: getToken()
 };
 
-console.log(getToken());
-
 export const loginXDIR = async (email, password) => {
     try {
         const res = await fetch(`${API_BASE_URL}api/login`, {
