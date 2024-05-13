@@ -50,7 +50,6 @@ export default function Roles() {
       const res = await createNewRole(newRoleName)
       if(res?.error){
         XPopUp({
-          title: 'Create Rol',
           text: res?.error ?? "An error has occurred while creating new rol, try again later.",
           iconType:'error',
           timer:'3000',
@@ -60,7 +59,6 @@ export default function Roles() {
         })
       }else{
         XPopUp({
-          title: 'Create Rol',
           text: "Rol created successfully",
           iconType:'success',
           timer:'3000',
