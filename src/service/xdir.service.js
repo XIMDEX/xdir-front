@@ -45,17 +45,12 @@ export const registerXDIR = async (user) => {
 };
 
 
-export const updateUserXDIR = async ({ name, surname, email, birthdate }) => {
+export const updateUserXDIR = async (user) => {
     try {
         const res = await fetch(`${API_BASE_URL}api/user/update`, {
             method: "PUT",
             headers: commonHeaders,
-            body: JSON.stringify({
-                name,
-                email,
-                surname,
-                birthdate
-            }),
+            body: JSON.stringify(user),
         });
         if (!res.ok) {
             throw new Error("Failed to update user information. Please try again later.");
@@ -84,13 +79,13 @@ export const getRoles = async () => {
 }
 
 
-export const  createNewRole = async ({name}) => {
+export const  createNewRole = async (name) => {
     try {
         const res = await fetch(`${API_BASE_URL}api/role/create`, {
             method: "POST",
             headers: commonHeaders,
             body: JSON.stringify({
-                name
+                name: name
             }),
         });
         if (!res.ok) {
@@ -110,7 +105,7 @@ export const updateExistingRole = async (id, name) => {
             method: "PUT",
             headers: commonHeaders,
             body: JSON.stringify({
-                name
+                name: name
             }),
         });
         if (!res.ok) {
