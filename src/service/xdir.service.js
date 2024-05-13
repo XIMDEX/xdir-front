@@ -4,7 +4,7 @@ const getToken = () =>{
   return JSON.parse(localStorage?.getItem(`${COOKIE_NAME}`) ?? '{}')?.access_token
 }
 const commonHeaders = {
-    Accept: "application/json",
+    "Accept": "application/json",
     "Content-Type": "application/json",
 };
 
@@ -53,7 +53,7 @@ export const updateUserXDIR = async (user) => {
             method: "PUT",
             headers: {
                 commonHeaders,
-                Authorization: getToken()
+                Authorization: `Bearer ${getToken()}`
             },
             body: JSON.stringify(user),
         });
@@ -73,7 +73,7 @@ export const getRoles = async () => {
             method: "GET",
             headers: {
                 commonHeaders,
-                Authorization: getToken()
+                Authorization: `Bearer ${getToken()}`
             },
         });
         if (!res.ok) {
@@ -93,7 +93,7 @@ export const  createNewRole = async (name) => {
             method: "POST",
             headers: {
                 commonHeaders,
-                Authorization: getToken()
+                Authorization: `Bearer ${getToken()}`
             },
             body: JSON.stringify({
                 name: name
@@ -116,7 +116,7 @@ export const updateExistingRole = async (id, name) => {
             method: "PUT",
             headers: {
                 commonHeaders,
-                Authorization: getToken()
+                Authorization: `Bearer ${getToken()}`
             },
             body: JSON.stringify({
                 name: name
@@ -139,7 +139,7 @@ export const deleteExistingRole = async (id) => {
             method: "DELETE",
             headers: {
                 commonHeaders,
-                Authorization: getToken()
+                Authorization: `Bearer ${getToken()}`
             },
         });
         if (!res.ok) {
