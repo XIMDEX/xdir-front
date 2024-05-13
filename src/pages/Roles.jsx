@@ -1,17 +1,18 @@
-import { faEdit, faKey, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faKey, faLessThan, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XPopUp, XRowContent } from "@ximdex/xui-react/material";
 import React, { useEffect, useState } from "react";
-import { StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
+import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
 import useSweetAlert from '../hooks/useSweetAlert';
 import { createNewRole, deleteExistingRole, getRoles, updateExistingRole } from "../service/xdir.service";
+import { CircularProgress } from "@mui/material";
 
 export default function Roles() {
   const [rolesList, setRolesList] = useState([])
   const {XDirModal, XDirModalInput} = useSweetAlert()
   const [refreshList, setRefreshList] = useState(false)
-
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     getListRoles()
@@ -19,10 +20,11 @@ export default function Roles() {
 
 
   const getListRoles = async () => {
+    setLoading(true)
     const res = await getRoles()
     if(res.error){
       XPopUp({
-        text: res?.error ?? "An error has occurred while fetching roles, try again later.",
+        text: res?.error,
         iconType:'error',
         timer:'3000',
         popUpPosition:'top',
@@ -33,6 +35,8 @@ export default function Roles() {
     }else{
       setRolesList(res.roles)
     }
+    setLoading(false)
+
   }
 
   const createRole = async () => {
@@ -82,6 +86,7 @@ export default function Roles() {
       },
     })
     if(newRoleName) {
+      setLoading(true)
       const res = await updateExistingRole(roleID, newRoleName)
       if(res?.error){
         XPopUp({
@@ -103,7 +108,7 @@ export default function Roles() {
         })
         setRefreshList(!refreshList)
       }
-      
+      setLoading(false)
     }
   }
   
@@ -136,39 +141,48 @@ export default function Roles() {
         ]}
       >
         <StyledMarginContent>
-            {rolesList.length === 0 ? <p>No roles created yet.</p>
+            {loading ? 
+              <StyledFlexFullCenter>
+                <CircularProgress size={30} style={{marginLeft: '10px'}}/>
+              </StyledFlexFullCenter>
             :
               <>
-                {rolesList.map((role, index) => (
-                  <StyledXRow
-                      style={{
-                          borderBottom: index === (rolesList.length - 1) ? '1px solid #BBBBBB' : '',
-                          background: 'rgb(247, 247, 247)',
-                          width: '100%'
-                      }}
-                      key={'row' + index}
-                      identifier={role.uuid}
-                      isCollapsable={false}
-                      controls={[
-                        {
-                            component:<StyledGreenButtonIcon onClick={() => editRole(role.uuid, role.name)}>
-                                        <FontAwesomeIcon icon={faEdit} size='1x' title='Edit role' />
-                                    </StyledGreenButtonIcon>
-                        },
-                        {
-                            component:<StyledRedButtonIcon onClick={() => deleteRole(role.uuid)}>
-                                        <FontAwesomeIcon icon={faTrash} size='1x' title='Delete role' />
-                                    </StyledRedButtonIcon>
-                        },
-                      ]}
-                  >
-                     <XRowContent key={"XRowContent" + index}>
-                      <p><strong>Name:</strong> {role.name}</p>
-                     </XRowContent>
-                  </StyledXRow>
-                ))}
-              </>
+                {rolesList.length === 0 ? <p>No roles created yet.</p>
+                :
+                  <>
+                    {rolesList.map((role, index) => (
+                      <StyledXRow
+                          style={{
+                              borderBottom: index === (rolesList.length - 1) ? '1px solid #BBBBBB' : '',
+                              background: 'rgb(247, 247, 247)',
+                              width: '100%'
+                          }}
+                          key={'row' + index}
+                          identifier={role.uuid}
+                          isCollapsable={false}
+                          controls={[
+                            {
+                                component:<StyledGreenButtonIcon onClick={() => editRole(role.uuid, role.name)}>
+                                            <FontAwesomeIcon icon={faEdit} size='1x' title='Edit role' />
+                                        </StyledGreenButtonIcon>
+                            },
+                            {
+                                component:<StyledRedButtonIcon onClick={() => deleteRole(role.uuid, role.name)}>
+                                            <FontAwesomeIcon icon={faTrash} size='1x' title='Delete role' />
+                                        </StyledRedButtonIcon>
+                            },
+                          ]}
+                      >
+                        <XRowContent key={"XRowContent" + index}>
+                          <p><strong>Name:</strong> {role.name}</p>
+                        </XRowContent>
+                      </StyledXRow>
+                    ))}
+                  </>
+                }
+              </>  
           }
+            
         </StyledMarginContent>
       </StyledXCard>
   );

@@ -77,12 +77,12 @@ export const getRoles = async () => {
             },
         });
         if (!res.ok) {
-            throw new Error("Failed to fetch roles. Please try again later.");
+            throw new Error("Failed to get roles. Please try again later.");
         }
         const json = await res.json();
         return json;
     } catch (err) {
-        return { error: "Unable to fetch roles. Please try again later." };
+        return { error: "Unable to get roles. Please try again later." };
     }
 }
 
