@@ -28,7 +28,7 @@ function Register() {
     const navigate = useNavigate();
 
     
-    //Comprueba que las contraseñas coinciden
+    //Comprueba contraseñas
     useEffect(() => {
         if(password !== '' || email !== ''){
             const validationPassword = validatePassword(password)
@@ -69,7 +69,6 @@ function Register() {
         Object.keys(copyUser).forEach(key => copyUser[key] == null && delete copyUser[key]);
 
         const user_res = await registerXDIR(copyUser)
-        console.log(user_res);
         if(user_res?.error){
             setIsLoading(false)
             setUser({
@@ -87,11 +86,15 @@ function Register() {
               })
         }else{
             setIsLoading(false)
-            console.log(user_res?.user);
-            // saveUserData(user_res.user)
-            saveUserData(FAKE_USER)
+            saveUserData(user_res.user)
             navigate('/')
         }
+    }
+
+
+    const fakeRegister = () => {
+        saveUserData(FAKE_USER)
+        navigate('/')
     }
 
     return (
@@ -114,7 +117,7 @@ function Register() {
                 ? <StyledFlexFullCenter><CircularProgress size={20}/></StyledFlexFullCenter>
                 : 
                     <XButton 
-                        onClick={register} 
+                        onClick={fakeRegister} 
                         size='small'
                         // disabled={error !== ''}
                     >
