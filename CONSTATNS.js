@@ -28,3 +28,12 @@ export const GENDER_OPTIONS = [
   {value: 'M', label: 'Male'},
   {value: 'F', label: 'Female'}
 ]
+
+
+export const PERMISSIONS_OPTIONS = [
+  {value: 'admin', label: 'Admin'},
+  {value: 'superadmin', label: 'Super admin'},
+  {value: 'editor', label: 'Editor'},
+  {value: 'creator', label: 'Creator'},
+  {value: 'viewer', label: 'Viewer'},
+]

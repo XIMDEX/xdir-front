@@ -152,6 +152,27 @@ export const deleteExistingRole = async (id) => {
     }
 }
 
+export const assignPermissionToRole = async (id, permission) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}api/role/assign/permission/${id}`, {
+            method: "PUT",
+            headers: {
+                commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+            body: JSON.stringify({
+                permission: permission
+            }),
+        });
+        if (!res.ok) {
+            throw new Error("Failed to assign this permission. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to assign this permission. Please try again later." };
+    }
+}
 
 export const createNewOrganization = async (name) => {
 

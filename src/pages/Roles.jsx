@@ -1,5 +1,5 @@
-import { faEdit, faKey, faLessThan, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { XButton, XPopUp, XRowContent } from "@ximdex/xui-react/material";
+import { faEdit, faKey, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { XButton, XDropdown, XPopUp, XRowContent } from "@ximdex/xui-react/material";
 import React, { useEffect, useState } from "react";
 import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,15 +7,31 @@ import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled
 import useSweetAlert from '../hooks/useSweetAlert';
 import { createNewRole, deleteExistingRole, getRoles, updateExistingRole } from "../service/xdir.service";
 import { CircularProgress } from "@mui/material";
+import { PERMISSIONS_OPTIONS } from "../../CONSTATNS";
+
+const fakeRoles = [
+  {
+    "uuid": "9c02413a-a62d-4331-81c9-d9b83608eade",
+    "name": "testupdate222",
+    "permission_assigned": "admin"
+
+  },
+  {
+    "uuid": "9c02413a-a62d-4331-81c9-d9b83608eade",
+    "name": "testupdate222",
+    "permission_assigned": "viewer"
+
+  }
+]
 
 export default function Roles() {
-  const [rolesList, setRolesList] = useState([])
+  const [rolesList, setRolesList] = useState(fakeRoles)
   const {XDirModal, XDirModalInput} = useSweetAlert()
   const [refreshList, setRefreshList] = useState(false)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    getListRoles()
+    // getListRoles()
   }, [refreshList]);
 
 
@@ -112,6 +128,38 @@ export default function Roles() {
       }
     }
   }
+
+  const updatePermissionAssigned = async (roleID, permission, position) => {
+    setLoading(true)
+    let rolesListCopy = [...rolesList]
+    let roleItem = rolesListCopy[position]
+    roleItem.permission_assigned = permission.value
+    rolesListCopy[position] = roleItem
+    setRolesList(rolesListCopy)
+    const res =  await assignPermissionToRole(roleID, permission.value)
+    if(res?.error){
+      XPopUp({
+        text: res?.error,
+        iconType:'error',
+        timer:'3000',
+        popUpPosition:'top',
+        iconColor: 'red',
+        timer: 3000
+      })
+      setRolesList(rolesCopy)
+      setLoading(false)
+    }else{
+      XPopUp({
+        text: "Permission assigned successfully",
+        iconType:'success',
+        timer:'3000',
+        popUpPosition:'top',
+        iconColor: 'lightgreen',
+        timer: 3000
+      })
+      setRefreshList(!refreshList)
+    }
+  }
   
   const deleteRole = async ( roleID, roleName) => {
     XDirModal({
@@ -171,6 +219,22 @@ export default function Roles() {
                                 component:<StyledRedButtonIcon onClick={() => deleteRole(role.uuid, role.name)}>
                                             <FontAwesomeIcon icon={faTrash} size='1x' title='Delete role' />
                                         </StyledRedButtonIcon>
+                            },
+                            {
+                                component:<XDropdown
+                                            value={PERMISSIONS_OPTIONS.filter(permission => permission.value === role.permission_assigned)[0]}
+                                            onChange={(e, data) => updatePermissionAssigned(role.uuid, data, index)}
+                                            options={PERMISSIONS_OPTIONS}
+                                            labelOptions='label'
+                                            label='Permission assigned'
+                                            bgColor='100'
+                                            width='150px'
+                                            size="small"
+                                            style={{ marginLeft: '0.5em'}}
+                                            hasCheckboxes={false}
+                                            multiple={false}
+                                            disableClearable
+                                          />
                             },
                           ]}
                       >
