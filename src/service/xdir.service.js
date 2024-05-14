@@ -185,3 +185,14 @@ export const updateExistingOrganization = async (id, name) => {
 export const deleteExistingOrganization = async (id) => {
     
 }
+export const createNewClient = async (name) => {
+
+}
+
+export const updateExistingClient = async (id, name) => {
+
+}
+
+export const deleteExistingClient = async (id) => {
+    
+}

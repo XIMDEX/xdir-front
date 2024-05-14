@@ -8,12 +8,16 @@ import { createNewOrganization, deleteExistingOrganization, updateExistingOrgani
 import useSweetAlert from '../hooks/useSweetAlert';
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
 
+const fakeORG = [
+  {
+    name: 'FAKE - XEDU',
+    id: '123123123'
+  }
+]
+
 export default function Organizations() {
   const {user} = useContext(AuthContext);
-  const [organizationsList, setOrganizationsList] = useState([{
-    name: 'XEDU',
-    id: '123123123'
-  }])
+  const [organizationsList, setOrganizationsList] = useState(fakeORG)
   const [organizationUsers, setOrganizationUsers] = useState([])
   const [refreshList, setRefreshList] = useState(false)
   const {XDirModalInput, XDirModal} = useSweetAlert()
