@@ -111,7 +111,7 @@ function Register() {
                 <XInput id='password' type='password' label='Password' required size='small' fullWidth value={password} onChange={(e) => onInputChange(e)} />
                 <XInput id='password_confirmation' type='password' label='Repeat Password' required size='small' fullWidth value={password_confirmation} onChange={(e) => onInputChange(e)} />
                 <p style={{ color: 'red', textAlign:'center', visibility: error === '' ? 'hidden' : 'visible' }}>{error}</p>
-                <a href="/login">Do you already have an account?</a>
+                <p onClick={() => navigate('/login')} className='login-link'>Already have an account?</p>
         
                 {isLoading 
                 ? <StyledFlexFullCenter><CircularProgress size={20}/></StyledFlexFullCenter>

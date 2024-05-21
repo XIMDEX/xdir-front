@@ -8,11 +8,19 @@ export const StyledForm = styled.form`
     justify-items: center;
     flex-direction: column;
 
-    a{
-        text-decoration: none;
-        color: #1877f2;
-        margin-bottom: 20px;
+
+        .login-link{
+            color:  #214f61;
+            cursor: pointer;
+            transition: all 1s ease;
+            margin-bottom: 10px;
+
+        &:hover{
+            text-decoration: underline;
+        }
     }
+
+    
 `;
 
 export const StyledDivSVG = styled.div`

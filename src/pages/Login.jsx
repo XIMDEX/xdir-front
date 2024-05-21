@@ -6,11 +6,13 @@ import { styled } from "@mui/system";
 import AuthContext from '../providers/AuthProvider/AuthContext';
 import { loginXDIR } from '../service/xdir.service';
 import { FAKE_USER } from '../../CONSTATNS';
+import { StyledFlexFullCenter } from "../components/styled-compontent/Container";
 
 
 export const StyledXLogin = styled(XLogin)`
     width: auto !important;
     height: auto !important;
+    padding-bottom: 2em;
 
     &:hover{
         border: 1px solid #43a1a2 !important;
@@ -21,6 +23,27 @@ export const StyledXLogin = styled(XLogin)`
         width: 300px !important;
     }
 `
+
+export const StyledExtraActions = styled('div')`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+
+    p{
+        margin: 10px 0 0 0;
+        color:  #214f61;
+        cursor: pointer;
+        transition: all 1s ease;
+
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+`
+
 
 const Login = () => {
     const {saveUserData} = useContext(AuthContext)
@@ -60,6 +83,12 @@ const Login = () => {
                 hasLogo 
                 srcLogo={LoginImage}
                 handleLogin={handleFALKLogin}
+                loginExtraActions={
+                    <StyledExtraActions>
+                        <p onClick={() => navigate('/email_verification')}>Forgot your password?</p>
+                        <p onClick={() => navigate('/register')} style={{marginBottom: '10px'}}>Don't have an account?</p>
+                    </StyledExtraActions>
+                }
             />
         </XContainer>
     )
