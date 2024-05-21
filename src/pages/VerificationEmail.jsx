@@ -44,31 +44,32 @@ const VerificationEmailForm = ({
   }, []);
 
   const getVerificationCode = () => {
-    
+
     
   }
 
   /** SEND VERIFICATION CODE TO BACKEND */
   const verifyEmail = async () => {
-    setLoadingVerification(true)
-    const res = await verifyEmailCode(action, code)
-    if(res?.error){
-      XPopUp({
-          text: res?.error,
-          iconType:'error',
-          timer:'3000',
-          popUpPosition:'top',
-          iconColor: 'red',
-          timer: 3000
-      })
-    }else if(action === 'register'){
-      saveUserData(res.user)
-      navigate('/')
-    }else if(action === 'password_change'){
-      setEmailVerified(true)
+    if(code){
+      setLoadingVerification(true)
+      const res = await verifyEmailCode(action, code)
+      if(res?.error){
+        XPopUp({
+            text: res?.error,
+            iconType:'error',
+            timer:'3000',
+            popUpPosition:'top',
+            iconColor: 'red',
+            timer: 3000
+        })
+      }else if(action === 'register'){
+        saveUserData(res.user)
+        navigate('/')
+      }else if(action === 'password_change'){
+        setEmailVerified(true)
+      }
+      setLoadingVerification(false)
     }
-    setLoadingVerification(false)
-
   }
 
 

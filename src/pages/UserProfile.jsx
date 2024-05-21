@@ -114,6 +114,20 @@ export default function UserProfile() {
           </StyledDivCenterY>
           <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1.5em'}}>
             <label style={{marginBottom: '-5px'}}>
+              Email
+            </label>
+            <XInput 
+              id='email' 
+              type='text' 
+              disabled={!canEdit}
+              size='medium' 
+              fullWidth
+              value={userForm.email} 
+              onChange={(e) => onInputChange(e)}
+            />
+          </StyledDivCenterY>
+          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1.5em'}}>
+            <label style={{marginBottom: '-5px'}}>
               Birth date
             </label>
             <XInput 

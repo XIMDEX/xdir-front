@@ -66,7 +66,7 @@ const Navbar = () => {
                 {
                     text: <p style={{margin: '0', flexGrow:'1'}}>Change password</p>,
                     icon: <FontAwesomeIcon icon={faLock} size="1x" style={{ marginRight: '8px'}} />,
-                    onClick: () => {sendPasswordEmail()}
+                    onClick: () => {navigate('/email_verification')}
                 },
                 {
                     text: <p style={{margin: '0', flexGrow:'1'}}>Sign out</p>,
@@ -81,16 +81,6 @@ const Navbar = () => {
 
     const logoLink = {
         logoImgSrc: ximdexImagenav
-    }
-
-    const sendPasswordEmail = () => {
-        XPopUp({
-            text: 'An email has been sent to your address to change your password.',
-            iconType: 'success',
-            timer: 3000,
-            popUpPosition: 'top',
-            iconColor: 'lightgreen'
-        });
     }
 
 
