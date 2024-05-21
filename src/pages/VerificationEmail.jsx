@@ -1,24 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyledDivCenterY, StyledMarginContent, StyledXCard, StyledXRadio } from "../components/styled-compontent/Container";
+import { StyledDivCenterY, StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRadio } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faEye, faEyeSlash, faLock, faPaperPlane, faPen, faSave, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XInput } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
 import { GENDER_OPTIONS } from "../../CONSTATNS";
 import _ from "lodash";
+import { useParams } from "react-router-dom";
+import { verifyEmailCode } from "../service/xdir.service";
+import { CircularProgress } from "@mui/material";
 
-export default function PasswordChange() {
+export default function VerificationEmail() {
   const [emailVerified, setEmailVerified] = useState(false)
-
+  const { code, action } = useParams();
 
 
   return (
     <>
-      {!emailVerified
-      ? <VerificationEmailForm
-          setEmailVerified={setEmailVerified}
-        /> 
-      : <NewPasswordForm/>}
+        {!emailVerified
+        ? <VerificationEmailForm
+            action={action}
+            code={code}
+            setEmailVerified={setEmailVerified}
+          /> 
+        : <NewPasswordForm/>}
     </>
     );
 }
@@ -26,72 +31,87 @@ export default function PasswordChange() {
 
 
 const VerificationEmailForm = ({
-  setEmailVerified
+  setEmailVerified,
+  code,
+  action
 }) => {
-  const {user} = useContext(AuthContext);
-  const [verificationCode, setVerificationCode] = useState('')
+  const {user, saveUserData} = useContext(AuthContext);
   const [email, setEmail] = useState(user?.email ?? '')
+  const [loadingVerification, setLoadingVerification] = useState(false)
 
-  const sendVerificationCode = () => {
-    setEmailVerified(true)
-  }
+  useEffect(() => {
+    verifyEmail()
+  }, []);
+
   const getVerificationCode = () => {
+    
+    
+  }
+
+  /** SEND VERIFICATION CODE TO BACKEND */
+  const verifyEmail = async () => {
+    setLoadingVerification(true)
+    const res = await verifyEmailCode(action, code)
+    if(res?.error){
+      XPopUp({
+          text: res?.error,
+          iconType:'error',
+          timer:'3000',
+          popUpPosition:'top',
+          iconColor: 'red',
+          timer: 3000
+      })
+    }else if(action === 'register'){
+      saveUserData(res.user)
+      navigate('/')
+    }else if(action === 'password_change'){
+      setEmailVerified(true)
+    }
+    setLoadingVerification(false)
 
   }
+
 
   return(
     <StyledXCard
-    title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faLock} style={{marginRight: '10px'}}/>CHANGE PASSWORD</p>}
-    style={{height: 'auto', width: '50%', margin: '2em auto'}}
-    controls={[
-      {
-        component:
-            <XButton
-                onClick= {() => sendVerificationCode()}
-                title="Send verification code"
-                disabled={verificationCode === ''}
-            >
-                <FontAwesomeIcon icon={faPaperPlane} style={{marginRight: '10px'}}/> 
-                SEND CODE
-            </XButton>
-    }
-    ]}
-  >
+      title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faLock} style={{marginRight: '10px'}}/>EMAIL VERIFICATION</p>}
+      style={{height: 'auto', width: '50%', margin: '2em auto'}}
+    >
     <StyledMarginContent>
-      <p>Get the verification code to be able to change your password:</p>
-      <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
-        <label style={{marginBottom: '-10px'}}>Email</label>
-        <StyledDivCenterY style={{width: '100%'}}>
-          <XInput 
-            id="email"
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)}
-            type="text"
-            fullWidth
-            size='medium' 
-          />
-          <XButton
-            title="Get verification code"
-            size="large"
-            onClick={getVerificationCode}
-            disabled={email === ''}
-            style={{width: '22%', marginLeft:'1em'}}
-          >
-            GET CODE
-          </XButton>
-        </StyledDivCenterY>
-      </StyledDivCenterY>
-      <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
-        <label style={{marginBottom: '-10px'}}>Varification code</label>
-        <XInput 
-            id="verification_code"
-            value={verificationCode} 
-            onChange={(e) => setVerificationCode(e.target.value)}
-            type="text" 
-            size='medium' 
-            fullWidth
-        />
-      </StyledDivCenterY>
+      {loadingVerification ? 
+        <StyledFlexFullCenter>
+          Loading verification...
+          <CircularProgress style={{marginLeft: '5px'}} size={20}/> 
+        </StyledFlexFullCenter>
+      : 
+        <>
+          <p>Get the verification code to be able to complete your action:</p>
+          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
+            <label style={{marginBottom: '-10px'}}>Email</label>
+            <StyledDivCenterY style={{width: '100%'}}>
+              <XInput 
+                id="email"
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                fullWidth
+                size='medium' 
+              />
+              <XButton
+                title="Get verification code"
+                size="large"
+                onClick={getVerificationCode}
+                disabled={email === ''}
+                style={{width: '22%', marginLeft:'1em'}}
+              >
+                GET CODE
+              </XButton>
+            </StyledDivCenterY>
+            
+          </StyledDivCenterY>
+      </>
+        }
+
       </StyledMarginContent>
     </StyledXCard>
   )

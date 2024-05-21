@@ -12,7 +12,7 @@ import Roles from '../pages/Roles';
 import Organizations from '../pages/Organizations';
 import Clients from '../pages/Clients';
 import UserProfile from '../pages/UserProfile';
-import PasswordChange from '../pages/PasswordChange';
+import VerificationEmail from '../pages/VerificationEmail';
 // import NotFound from '../pages/NotFound';
 
 const Routes = () => {
@@ -22,7 +22,8 @@ const Routes = () => {
             {/* Rutas publicas */}
             <Route path="/register" element={<Register/> } />
             <Route path="/login" element={<LoginPage/> } />
-            <Route  path="/password_change" element={<PasswordChange/>}/> 
+            <Route path="/email_verification/:action/:code" element={<VerificationEmail />} />
+            
             {/* <Route path="*" element={<NotFound/> } />  */}
             
             {/* Rutas privadas */}
