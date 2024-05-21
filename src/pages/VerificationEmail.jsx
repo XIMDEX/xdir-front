@@ -76,8 +76,8 @@ const VerificationEmailForm = ({
   return(
     <StyledXCard
       title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faLock} style={{marginRight: '10px'}}/>EMAIL VERIFICATION</p>}
-      style={{height: 'auto', width: '50%', margin: '2em auto'}}
-    >
+      style={{height: 'auto', width: '80%', margin: '2em auto'}}
+      >
     <StyledMarginContent>
       {loadingVerification ? 
         <StyledFlexFullCenter>
@@ -157,7 +157,7 @@ const NewPasswordForm = ({
   
   return <StyledXCard
         title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faLock} style={{marginRight: '10px'}}/>CHANGE PASSWORD</p>}
-        style={{height: 'auto', width: '50%', margin: '2em auto'}}
+        style={{height: 'auto', width: '80%', margin: '2em auto'}}
         controls={[
           {
             component:

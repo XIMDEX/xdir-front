@@ -118,7 +118,7 @@ export default function Clients() {
   return (
     <StyledXCard
       title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faSchool} style={{marginRight: '10px'}}/>CLIENTS</p>}
-      style={{height: 'auto', width: '50%', margin: '2em auto'}}
+      style={{height: 'auto', width: '80%', margin: '2em auto'}}
       controls={[
         {
             component:

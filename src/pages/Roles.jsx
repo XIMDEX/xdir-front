@@ -5,9 +5,10 @@ import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRow } fr
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
 import useSweetAlert from '../hooks/useSweetAlert';
-import { createNewRole, deleteExistingRole, getRoles, updateExistingRole } from "../service/xdir.service";
+import { assignPermissionToRole, createNewRole, deleteExistingRole, getRoles, updateExistingRole } from "../service/xdir.service";
 import { CircularProgress } from "@mui/material";
 import { PERMISSIONS_OPTIONS } from "../../CONSTATNS";
+import { useSpinner } from '@ximdex/xui-react/hooks';
 
 const fakeRoles = [
   {
@@ -19,7 +20,7 @@ const fakeRoles = [
   {
     "uuid": "9c02413a-a62d-4331-81c9-d9b83608eade",
     "name": "FAKE - testupdate222",
-    "permission_assigned": "viewer"
+    "permission_assigned": ["viewer", "admin"]
 
   }
 ]
@@ -29,6 +30,7 @@ export default function Roles() {
   const {XDirModal, XDirModalInput} = useSweetAlert()
   const [refreshList, setRefreshList] = useState(false)
   const [loading, setLoading] = useState(false)
+  const { showSpinner, hideSpinner } = useSpinner();
 
   useEffect(() => {
     // getListRoles()
@@ -37,6 +39,7 @@ export default function Roles() {
 
   const getListRoles = async () => {
     setLoading(true)
+    showSpinner()
     const res = await getRoles()
     if(res.error){
       XPopUp({
@@ -51,6 +54,7 @@ export default function Roles() {
     }else{
       setRolesList(res.roles)
     }
+    hideSpinner()
     setLoading(false)
 
   }
@@ -104,7 +108,6 @@ export default function Roles() {
       },
     })
     if(newRoleName) {
-      setLoading(true)
       const res = await updateExistingRole(roleID, newRoleName)
       if(res?.error){
         XPopUp({
@@ -129,14 +132,17 @@ export default function Roles() {
     }
   }
 
-  const updatePermissionAssigned = async (roleID, permission, position) => {
-    setLoading(true)
+  const handleRoleDropdown = async (permissions, position) => {
     let rolesListCopy = [...rolesList]
     let roleItem = rolesListCopy[position]
-    roleItem.permission_assigned = permission.value
+    roleItem.permission_assigned = permissions.map(permission => permission.value)
     rolesListCopy[position] = roleItem
     setRolesList(rolesListCopy)
-    const res =  await assignPermissionToRole(roleID, permission.value)
+  }
+
+  const updatePermissionAssigned = async (roleID, index) => {
+    const permissions = rolesList[index]?.permission_assigned
+    const res =  await assignPermissionToRole(roleID, permissions)
     if(res?.error){
       XPopUp({
         text: res?.error,
@@ -146,8 +152,6 @@ export default function Roles() {
         iconColor: 'red',
         timer: 3000
       })
-      setRolesList(rolesCopy)
-      setLoading(false)
     }else{
       XPopUp({
         text: "Permission assigned successfully",
@@ -157,9 +161,9 @@ export default function Roles() {
         iconColor: 'lightgreen',
         timer: 3000
       })
-      setRefreshList(!refreshList)
     }
-  }
+    setRefreshList(!refreshList)
+  };
   
   const deleteRole = async ( roleID, roleName) => {
     XDirModal({
@@ -175,7 +179,7 @@ export default function Roles() {
   return (
     <StyledXCard
         title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faKey} style={{marginRight: '10px'}}/>ROLES</p>}
-        style={{height: 'auto', width: '50%', margin: '2em auto'}}
+        style={{height: 'auto', width: '80%', margin: '2em auto'}}
         controls={[
           {
               component:
@@ -190,10 +194,7 @@ export default function Roles() {
         ]}
       >
         <StyledMarginContent>
-            {loading ? 
-              <StyledFlexFullCenter>
-                <CircularProgress size={30} style={{marginLeft: '10px'}}/>
-              </StyledFlexFullCenter>
+            {loading ? <></>
             :
               <>
                 {rolesList.length === 0 ? <p>No roles created yet.</p>
@@ -222,17 +223,18 @@ export default function Roles() {
                             },
                             {
                                 component:<XDropdown
-                                            value={PERMISSIONS_OPTIONS.filter(permission => permission.value === role.permission_assigned)[0]}
-                                            onChange={(e, data) => updatePermissionAssigned(role.uuid, data, index)}
+                                            value={PERMISSIONS_OPTIONS.filter(permission => role.permission_assigned.includes(permission.value))}
+                                            onChange={(e, data) => handleRoleDropdown(data, index)}
+                                            onBlur={(e, data) => updatePermissionAssigned(role.uuid,index)}
                                             options={PERMISSIONS_OPTIONS}
                                             labelOptions='label'
                                             label='Permission assigned'
                                             bgColor='100'
-                                            width='150px'
+                                            width='250px'
                                             size="small"
                                             style={{ marginLeft: '0.5em'}}
-                                            hasCheckboxes={false}
-                                            multiple={false}
+                                            hasCheckboxes={true}
+                                            multiple={true}
                                             disableClearable
                                           />
                             },

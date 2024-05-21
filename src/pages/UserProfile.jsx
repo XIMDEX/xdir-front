@@ -57,7 +57,7 @@ export default function UserProfile() {
   return (
   <StyledXCard
         title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faUser} style={{marginRight: '10px'}}/>USER INFORMATION</p>}
-        style={{height: 'auto', width: '50%', margin: '2em auto'}}
+        style={{height: 'auto', width: '80%', margin: '2em auto'}}
         controls={[
           {
               component:

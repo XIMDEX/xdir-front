@@ -57,8 +57,7 @@ const Login = () => {
   const handleLogin = async (email, password) => {
     const res = await loginXDIR(email,password)
     if(res.error) return res;
-    // saveUserData(res.user)
-    saveUserData(FAKE_USER)
+    saveUserData(res.user)
     navigateToPage();
   };
 
