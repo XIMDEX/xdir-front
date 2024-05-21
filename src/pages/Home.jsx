@@ -25,17 +25,12 @@ function Home() {
                 icon: faKey,
                 path: '/roles'
             }, 
-            {
-                name: 'organizations',
-                icon: faBuilding,
-                path: '/organizations'
-            }
             ]
         }
         if(isSuperAdmin) buttons.push({
-            name: 'clients',
-            icon: faSchool,
-            path: '/clients'
+            name: 'organizations',
+            icon: faBuilding,
+            path: '/organizations'
         })
         setHomeButtons(buttons)
     }, []);
