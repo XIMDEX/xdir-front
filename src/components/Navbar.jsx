@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSignOutAlt, faExternalLinkAlt, faLock } from '@fortawesome/free-solid-svg-icons';
-import { XNav } from '@ximdex/xui-react/material';
+import { XNav, XPopUp } from '@ximdex/xui-react/material';
 import ximdexImagenav from '../assets/logotipo_ximdex-EDU-white-small.png';
 import AuthContext from '../providers/AuthProvider/AuthContext';
 
@@ -66,7 +66,7 @@ const Navbar = () => {
                 {
                     text: <p style={{margin: '0', flexGrow:'1'}}>Change password</p>,
                     icon: <FontAwesomeIcon icon={faLock} size="1x" style={{ marginRight: '8px'}} />,
-                    onClick: () => {navigate('/password_change')}
+                    onClick: () => {sendPasswordEmail()}
                 },
                 {
                     text: <p style={{margin: '0', flexGrow:'1'}}>Sign out</p>,
@@ -82,6 +82,17 @@ const Navbar = () => {
     const logoLink = {
         logoImgSrc: ximdexImagenav
     }
+
+    const sendPasswordEmail = () => {
+        XPopUp({
+            text: 'An email has been sent to your address to change your password.',
+            iconType: 'success',
+            timer: 3000,
+            popUpPosition: 'top',
+            iconColor: 'lightgreen'
+        });
+    }
+
 
     return (
         <XNav
