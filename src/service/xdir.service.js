@@ -63,6 +63,24 @@ export const verifyEmailCode = async (action, code) => {
 }
 
 
+export const verifyEmailSendCode = async (email) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}api/email/resend`, {
+            method: "GET",
+            headers: {
+                commonHeaders,
+            },
+            body: JSON.stringify({email: email})
+        });
+        if (!res.ok) throw new Error("Failed to get new code. Please try again later.");
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to get new code. Please try again later." };
+    }
+}
+
+
 export const updateUserXDIR = async (user) => {
     try {
         const res = await fetch(`${API_BASE_URL}api/user/update`, {
@@ -190,6 +208,25 @@ export const assignPermissionToRole = async (id, permission) => {
     }
 }
 
+export const getOrganizations = async (clientID) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}api/organizations`, {
+            method: "GET",
+            headers: {
+                commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+        });
+        if (!res.ok) {
+            throw new Error("Failed to get organizations. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to get organizations. Please try again later." };
+    }
+}
+
 export const createNewOrganization = async (name) => {
     try {
         const res = await fetch(`${API_BASE_URL}api/organization/create`, {
@@ -251,6 +288,11 @@ export const deleteExistingOrganization = async (id) => {
     } catch (err) {
         return { error: "Unable to delete this organization. Please try again later." };
     }
+}
+
+
+export const getClients = async () => {
+
 }
 
 export const createNewClient = async (name) => {

@@ -6,7 +6,8 @@ import { faEdit, faPlus, faSchool, faTrash } from "@fortawesome/free-solid-svg-i
 import useSweetAlert from '../hooks/useSweetAlert';
 import { CircularProgress } from "@mui/material";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
-import { createNewClient, deleteExistingClient } from "../service/xdir.service";
+import { createNewClient, deleteExistingClient, getClients, updateExistingClient } from "../service/xdir.service";
+import { useSpinner } from '@ximdex/xui-react/hooks';
 
 const fakeClients = [
   {
@@ -21,13 +22,17 @@ export default function Clients() {
   const {XDirModalInput, XDirModal} = useSweetAlert()
   const [loading, setLoading] = useState(false)
   const [refreshList, setRefreshList] = useState(false)
+  const { showSpinner, hideSpinner } = useSpinner();
 
   useEffect(() => {
     getClients()
   }, [refreshList]);
 
-  const getClients = () => {
-
+  const getClients = async () => {
+    showSpinner()
+    // const res = await getClients()
+    // setClientList(res.clients)
+    hideSpinner()
   }
 
   const createClient = async () => {
@@ -91,7 +96,7 @@ export default function Clients() {
     })
     if(newClientName) {
       setLoading(true)
-      const res = await updateExistingOrganization(clientID, newClientName)
+      const res = await updateExistingClient(clientID, newClientName)
       if(res?.error){
         XPopUp({
           text: res?.error,

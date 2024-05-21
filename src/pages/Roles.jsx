@@ -224,8 +224,8 @@ export default function Roles() {
                             {
                                 component:<XDropdown
                                             value={PERMISSIONS_OPTIONS.filter(permission => role.permission_assigned.includes(permission.value))}
-                                            onChange={(e, data) => handleRoleDropdown(data, index)}
-                                            onBlur={(e, data) => updatePermissionAssigned(role.uuid,index)}
+                                            onChange={(data) => handleRoleDropdown(data, index)}
+                                            onBlur={() => updatePermissionAssigned(role.uuid,index)}
                                             options={PERMISSIONS_OPTIONS}
                                             labelOptions='label'
                                             label='Permission assigned'
