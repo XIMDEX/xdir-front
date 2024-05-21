@@ -7,7 +7,7 @@ import AuthContext from "../providers/AuthProvider/AuthContext";
 import { GENDER_OPTIONS } from "../../CONSTATNS";
 import _ from "lodash";
 import { useParams } from "react-router-dom";
-import { verifyEmailCode } from "../service/xdir.service";
+import { verifyEmailCode, verifyEmailSendCode } from "../service/xdir.service";
 import { CircularProgress } from "@mui/material";
 
 export default function VerificationEmail() {
@@ -43,8 +43,8 @@ const VerificationEmailForm = ({
     verifyEmail()
   }, []);
 
-  const getVerificationCode = () => {
-
+  const getVerificationCode = async () => {
+    await verifyEmailSendCode(email)
     
   }
 
