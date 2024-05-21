@@ -7,6 +7,7 @@ import AuthContext from "../providers/AuthProvider/AuthContext";
 import { createNewOrganization, deleteExistingOrganization, updateExistingOrganization } from "../service/xdir.service";
 import useSweetAlert from '../hooks/useSweetAlert';
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
+import { useSpinner } from '@ximdex/xui-react/hooks';
 
 const fakeORG = [
   {
@@ -22,6 +23,7 @@ export default function Organizations() {
   const [refreshList, setRefreshList] = useState(false)
   const {XDirModalInput, XDirModal} = useSweetAlert()
   const [loading, setLoading] = useState(false)
+  const { showSpinner, hideSpinner } = useSpinner()
 
   useEffect(() => {
     getClientOrganizations()
@@ -29,7 +31,8 @@ export default function Organizations() {
 
 
   const getClientOrganizations = async () => {
-
+    showSpinner()
+    hideSpinner()
   }
 
   const createOrganization = async () => {
@@ -138,9 +141,7 @@ export default function Organizations() {
     <StyledMarginContent>
       {loading 
         ? 
-          <StyledFlexFullCenter>
-            <CircularProgress size={30} style={{marginLeft: '10px'}}/>
-          </StyledFlexFullCenter>
+         <></>
         :
           <>
             {organizationsList.length === 0 ? <p>No organizations created yet.</p>

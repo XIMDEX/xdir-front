@@ -138,13 +138,9 @@ export default function Clients() {
       ]}
     >
       <StyledMarginContent>
-        {loading 
-          ? 
-            <StyledFlexFullCenter>
-              <CircularProgress size={30} style={{marginLeft: '10px'}}/>
-            </StyledFlexFullCenter>
-          :
-            <>
+        {loading ? <></>
+        :
+          <>
               {clientList.length === 0 ? <p>No clients created yet.</p>
               :
                 <>
