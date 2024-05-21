@@ -47,6 +47,22 @@ export const registerXDIR = async (user) => {
 };
 
 
+export const verifyEmailCode = async (action, code) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}api/${action}/activate/${code}`, {
+            method: "POST",
+            headers: commonHeaders,
+        });
+        
+        if (!res.ok) throw new Error('An error occurred while sending the email verification request.');
+
+        return await res.json();
+    } catch (err) {
+        return { error: err.message }; 
+    }
+}
+
+
 export const updateUserXDIR = async (user) => {
     try {
         const res = await fetch(`${API_BASE_URL}api/user/update`, {
