@@ -33,17 +33,13 @@ const Navbar = () => {
                     url: '/roles',
                     target: '_self'
                 },
-                {
-                    text: 'Organizations',
-                    url: '/organizations',
-                    target: '_self'
-                }
+
             ]
         }   
         if(isSuperAdmin){
             links.push({
-                text: 'Clients',
-                url: '/clients',
+                text: 'Organizations',
+                url: '/organizations',
                 target: '_self'
             })
         }

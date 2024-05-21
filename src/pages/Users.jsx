@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBuilding, faEdit, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
-import { XButton, XPopUp, XRowContent } from "@ximdex/xui-react/material";
-import AuthContext from "../providers/AuthProvider/AuthContext";
-import { createNewOrganization, deleteExistingOrganization, updateExistingOrganization } from "../service/xdir.service";
-import useSweetAlert from '../hooks/useSweetAlert';
+import { faEdit, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { XButton, XPopUp, XRowContent, XRowDetails } from "@ximdex/xui-react/material";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
 import { useSpinner } from '@ximdex/xui-react/hooks';
 
@@ -13,23 +10,39 @@ import { useSpinner } from '@ximdex/xui-react/hooks';
 const fakeUSR = [
   {
     name: 'Federico',
-    username: 'Garcia',
+    surname: 'Garcia',
     email: 'fedengarcia@gmail.com',
     roles: ['CEO, jefe'],
-    uiid: '123123123'
+    organizations: ['fakeOrg'],
+    uuid: '123123123'
   }
 ]
 
 export default function Users() {
-  const [usersList, setUsersList] = useState([])
+  const [usersList, setUsersList] = useState(fakeUSR)
   const [loading, setLoading] = useState(false)
   const [refreshList, setRefreshList] = useState(false)
-  const {XDirModalInput, XDirModal} = useSweetAlert()
   const { showSpinner, hideSpinner } = useSpinner()
+
+  useEffect(() => {
+    getExistingUsers()
+  }, [refreshList]);
+
+
+  const getExistingUsers = async () => {
+    setLoading(true)
+    showSpinner()
+    hideSpinner()
+    setLoading(false)
+  }
 
   const createUser = () => {}
 
   const deleteUser = () => {}
+
+  const modifyUserRoles = () => {
+
+  }
 
   return (
     <StyledXCard
@@ -65,9 +78,9 @@ export default function Users() {
                           width: '100%'
                       }}
                       key={'row' + index}
-                      identifier={organization.uuid}
+                      identifier={user.uuid}
                       isCollapsable={true}
-                      labelButtonCollapsable={`Show users`}
+                      labelButtonCollapsable={`Show details`}
                       controls={[
                         {
                             component:<StyledRedButtonIcon onClick={() => deleteOrganization(user.uuid, user.name)}>
@@ -77,8 +90,17 @@ export default function Users() {
                       ]}
                   >
                     <XRowContent key={"XRowContent" + index}>
-                      <p><strong>Name:</strong> {user.name}</p>
+                      <p><strong>Id:</strong> {user.uuid} - {user.name + ' ' + user.surname}</p>
                     </XRowContent>
+                    <XRowDetails key={"XRowDetails" + index}>
+                      <p><strong>Email:</strong> {user.email}</p>
+                    </XRowDetails>
+                    <XRowDetails key={"XRowDetails" + index}>
+                      <p><strong>Roles:</strong> {user.roles}</p>
+                    </XRowDetails>
+                    <XRowDetails key={"XRowDetails" + index}>
+                      <p><strong>Organizations:</strong> {user.organizations}</p>
+                    </XRowDetails>
                   </StyledXRow>
                 ))}
               </>

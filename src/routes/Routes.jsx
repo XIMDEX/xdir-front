@@ -10,7 +10,6 @@ import Home from '../pages/Home';
 import Users from '../pages/Users';
 import Roles from '../pages/Roles';
 import Organizations from '../pages/Organizations';
-import Clients from '../pages/Clients';
 import UserProfile from '../pages/UserProfile';
 import VerificationEmail from '../pages/VerificationEmail';
 // import NotFound from '../pages/NotFound';
@@ -34,11 +33,10 @@ const Routes = () => {
             {/* Rutas privadas de administrador */}
             <Route  path="/users" element={<ProtectedAdminRoutes component={<Users/>}/>}/> 
             <Route  path="/roles" element={<ProtectedAdminRoutes component={<Roles/>}/>}/> 
-            <Route  path="/organizations" element={<ProtectedAdminRoutes component={<Organizations/>}/>}/> 
 
 
             {/* Rutas privadas de super administrador */}
-            <Route  path="/clients" element={<ProtectedSuperAdminRoute component={<Clients/>}/>}/> 
+            <Route  path="/organizations" element={<ProtectedSuperAdminRoute component={<Organizations/>}/>}/> 
                
         </ReactRoutes>
     )

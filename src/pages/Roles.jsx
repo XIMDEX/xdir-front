@@ -133,6 +133,7 @@ export default function Roles() {
   }
 
   const handleRoleDropdown = async (permissions, position) => {
+    console.log(permissions);
     let rolesListCopy = [...rolesList]
     let roleItem = rolesListCopy[position]
     roleItem.permission_assigned = permissions.map(permission => permission.value)
@@ -224,13 +225,13 @@ export default function Roles() {
                             {
                                 component:<XDropdown
                                             value={PERMISSIONS_OPTIONS.filter(permission => role.permission_assigned.includes(permission.value))}
-                                            onChange={(data) => handleRoleDropdown(data, index)}
+                                            onChange={(e, data) => handleRoleDropdown(data, index)}
                                             onBlur={() => updatePermissionAssigned(role.uuid,index)}
                                             options={PERMISSIONS_OPTIONS}
                                             labelOptions='label'
                                             label='Permission assigned'
                                             bgColor='100'
-                                            width='250px'
+                                            width='280px'
                                             size="small"
                                             style={{ marginLeft: '0.5em'}}
                                             hasCheckboxes={true}
