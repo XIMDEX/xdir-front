@@ -44,8 +44,26 @@ const VerificationEmailForm = ({
   }, []);
 
   const getVerificationCode = async () => {
-    await verifyEmailSendCode(email)
-    
+    const res = await verifyEmailSendCode(email)
+    if(!res?.error){
+      XPopUp({
+        text: res?.error,
+        iconType:'error',
+        timer:'3000',
+        popUpPosition:'top',
+        iconColor: 'red',
+        timer: 3000
+      })
+    }else{
+      XPopUp({
+        type: 'success',
+        text: "An email has been sent to your address.",
+        position: 'top',
+        showConfirmButton: false,
+        iconColor: 'lightgreen',
+        timer: 3000
+      })
+    }
   }
 
   /** SEND VERIFICATION CODE TO BACKEND */
