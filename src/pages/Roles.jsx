@@ -33,7 +33,7 @@ export default function Roles() {
   const { showSpinner, hideSpinner } = useSpinner();
 
   useEffect(() => {
-    // getListRoles()
+    getListRoles()
   }, [refreshList]);
 
 
