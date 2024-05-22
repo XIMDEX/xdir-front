@@ -208,7 +208,7 @@ export const assignPermissionToRole = async (id, permission) => {
     }
 }
 
-export const getOrganizations = async (clientID) => {
+export const getOrganizations = async () => {
     try {
         const res = await fetch(`${API_BASE_URL}api/organizations`, {
             method: "GET",
@@ -290,19 +290,3 @@ export const deleteExistingOrganization = async (id) => {
     }
 }
 
-
-export const getClients = async () => {
-
-}
-
-export const createNewClient = async (name) => {
-
-}
-
-export const updateExistingClient = async (id, name) => {
-
-}
-
-export const deleteExistingClient = async (id) => {
-    
-}
