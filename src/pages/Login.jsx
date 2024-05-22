@@ -50,7 +50,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     const navigateToPage = () => {
-        navigate('/')
+        navigate('/home')
     }
 
   //Actualiza el estado de autenticacion
@@ -61,10 +61,6 @@ const Login = () => {
     navigateToPage();
   };
 
-  const handleFALKLogin = async (email, password) => {
-    saveUserData(FAKE_USER)
-    navigateToPage();
-  };
 
     return (
         <XContainer

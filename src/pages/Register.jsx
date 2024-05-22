@@ -117,7 +117,7 @@ function Register() {
                 ? <StyledFlexFullCenter><CircularProgress size={20}/></StyledFlexFullCenter>
                 : 
                     <XButton 
-                        onClick={fakeRegister} 
+                        onClick={register} 
                         size='small'
                         // disabled={error !== ''}
                     >

@@ -5,7 +5,7 @@ import XthemeContext from './XThemeContext';
 const XthemeProvider = ({ children }) => {
 
     return (
-        <XthemeContext.Provider>
+        <XthemeContext.Provider value={{}}>
             <XThemeProvider>
                 {children}
             </XThemeProvider>

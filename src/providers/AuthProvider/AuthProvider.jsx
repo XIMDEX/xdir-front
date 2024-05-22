@@ -90,8 +90,8 @@ const AuthProvider = ({ children }) => {
   const saveUserData = (user) => {
     localStorage.setItem(`${COOKIE_NAME}`, JSON.stringify(user))
     setUser(user)
-    setIsSuperAdmin(user.roles.some(role => role.name === "superAdmin"));
-    setIsAdmin(user.roles.some(role => role.name === "admin"));
+    setIsSuperAdmin(user?.roles?.some(role => role.name === "superAdmin"));
+    setIsAdmin(user?.roles?.some(role => role.name === "admin"));
     setIsAuthenticated(true)
   }
 
