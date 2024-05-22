@@ -33,7 +33,7 @@ function Register() {
         if(password !== '' || email !== ''){
             const validationPassword = validatePassword(password)
             if(!validationPassword.length || !validationPassword.hasLowerCase || !validationPassword.hasUpperCase || !validationPassword.hasNumber){
-                setError("Password should contain at least one lowercase letter, one uppercase letter, and one number.");
+                setError("Passwords are incorrect format");
             }else if(password !== password_confirmation){
                 setError('Passwords dont match');
             } else if (!validateEmail(email)){
@@ -87,14 +87,8 @@ function Register() {
         }else{
             setIsLoading(false)
             saveUserData(user_res.user)
-            navigate('/')
+            navigate('/home')
         }
-    }
-
-
-    const fakeRegister = () => {
-        saveUserData(FAKE_USER)
-        navigate('/')
     }
 
     return (
@@ -108,8 +102,8 @@ function Register() {
                 <XInput id='surname' type='text' label='Surname' required={true} size='small' fullWidth value={surname} onChange={(e) => onInputChange(e)} />
                 <XInput id='birthdate' type='date' required size='small' fullWidth value={birthdate} onChange={(e) => onInputChange(e)} />
                 <XInput id='email' type='text' label='Email' required size='small' fullWidth value={email} onChange={(e) => onInputChange(e)} />
-                <XInput id='password' type='password' label='Password' required size='small' fullWidth value={password} onChange={(e) => onInputChange(e)} />
-                <XInput id='password_confirmation' type='password' label='Repeat Password' required size='small' fullWidth value={password_confirmation} onChange={(e) => onInputChange(e)} />
+                <XInput id='password' type='password' label='Password' required size='small' placeholder="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." title="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." fullWidth value={password} onChange={(e) => onInputChange(e)} />
+                <XInput id='password_confirmation' type='password' label='Repeat Password' placeholder="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." title="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." required size='small' fullWidth value={password_confirmation} onChange={(e) => onInputChange(e)} />
                 <p style={{ color: 'red', textAlign:'center', visibility: error === '' ? 'hidden' : 'visible' }}>{error}</p>
                 <p onClick={() => navigate('/login')} className='login-link'>Already have an account?</p>
         
@@ -119,7 +113,7 @@ function Register() {
                     <XButton 
                         onClick={register} 
                         size='small'
-                        // disabled={error !== ''}
+                        disabled={error !== '' || email === '' || surname === ''}
                     >
                         Register
                     </XButton>

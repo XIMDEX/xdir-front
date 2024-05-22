@@ -611,7 +611,7 @@ export const StyledXCardRegister = styled(StyledXCard)`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 400px;
+    width: 500px;
     padding: 10px 30px;
     border: 1px solid lightgray;
     background: #ffffff;
