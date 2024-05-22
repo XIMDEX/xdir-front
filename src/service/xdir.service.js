@@ -169,7 +169,7 @@ export const updateExistingRole = async (id, name) => {
 
 export const deleteExistingRole = async (id) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/role/delete/${id}`, {
+        const res = await fetch(`${API_BASE_URL}api/role/remove/${id}`, {
             method: "DELETE",
             headers: {
                 commonHeaders,

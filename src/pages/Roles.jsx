@@ -26,7 +26,7 @@ const fakeRoles = [
 ]
 
 export default function Roles() {
-  const [rolesList, setRolesList] = useState(fakeRoles)
+  const [rolesList, setRolesList] = useState([])
   const {XDirModal, XDirModalInput} = useSweetAlert()
   const [refreshList, setRefreshList] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -167,13 +167,16 @@ export default function Roles() {
   };
   
   const deleteRole = async ( roleID, roleName) => {
-    XDirModal({
+    await XDirModal({
       text:`Are you sure you want to delete ${roleName}?`,
       title:'Delete rol',
       confirmButtonColor:'#e13144',
-      onConfirmFunction: async () => await deleteExistingRole(roleID)
+      onConfirmFunction: async () => {
+        await deleteExistingRole(roleID)
+        setRefreshList(!refreshList)
+      }
     })
-    setRefreshList(!refreshList)
+    
   }
 
 
@@ -224,7 +227,7 @@ export default function Roles() {
                             },
                             {
                                 component:<XDropdown
-                                            value={PERMISSIONS_OPTIONS.filter(permission => role.permission_assigned.includes(permission.value))}
+                                            value={PERMISSIONS_OPTIONS.filter(permission => role?.permission_assigned?.includes(permission.value))}
                                             onChange={(e, data) => handleRoleDropdown(data, index)}
                                             onBlur={() => updatePermissionAssigned(role.uuid,index)}
                                             options={PERMISSIONS_OPTIONS}
