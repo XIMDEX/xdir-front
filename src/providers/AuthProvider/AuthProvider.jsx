@@ -23,8 +23,8 @@ const AuthProvider = ({ children }) => {
     const usrFromStorage = getUserFromStorage();
     if(usrFromStorage?.access_token) {
       setIsAuthenticated(true);
-      setIsSuperAdmin(usrFromStorage.roles.some(role => role.name === "superAdmin"));
-      setIsAdmin(usrFromStorage.roles.some(role => role.name === "admin"));
+      setIsSuperAdmin(usrFromStorage?.roles?.some(role => role.name === "superAdmin"));
+      setIsAdmin(usrFromStorage?.roles?.some(role => role.name === "admin"));
       setUser(usrFromStorage)
       navigate(location.pathname)
 
