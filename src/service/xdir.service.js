@@ -290,3 +290,21 @@ export const deleteExistingOrganization = async (id) => {
     }
 }
 
+
+export const getUsers = async () => {
+    try {
+        const res = await fetch(`${API_BASE_URL}api/users`, {
+            method: "GET",
+            headers: {
+                commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+        });
+        if (!res.ok) throw new Error("Failed to get users. Please try again later.");
+        
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to get users. Please try again later." };
+    }
+}

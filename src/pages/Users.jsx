@@ -5,21 +5,12 @@ import { faEdit, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-ic
 import { XButton, XPopUp, XRowContent, XRowDetails } from "@ximdex/xui-react/material";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
 import { useSpinner } from '@ximdex/xui-react/hooks';
+import { getUsers } from "../service/xdir.service";
 
 
-const fakeUSR = [
-  {
-    name: 'Federico',
-    surname: 'Garcia',
-    email: 'fedengarcia@gmail.com',
-    roles: ['CEO, jefe'],
-    organizations: ['fakeOrg'],
-    uuid: '123123123'
-  }
-]
 
 export default function Users() {
-  const [usersList, setUsersList] = useState(fakeUSR)
+  const [usersList, setUsersList] = useState([])
   const [loading, setLoading] = useState(false)
   const [refreshList, setRefreshList] = useState(false)
   const { showSpinner, hideSpinner } = useSpinner()
@@ -32,6 +23,8 @@ export default function Users() {
   const getExistingUsers = async () => {
     setLoading(true)
     showSpinner()
+    const res = await getUsers()
+    setUsersList(res?.users)
     hideSpinner()
     setLoading(false)
   }
@@ -90,16 +83,16 @@ export default function Users() {
                       ]}
                   >
                     <XRowContent key={"XRowContent" + index}>
-                      <p><strong>Id:</strong> {user.uuid} - {user.name + ' ' + user.surname}</p>
+                      <p><strong>Id:</strong> {user?.uuid} - {user?.name + ' ' + user?.surname}</p>
                     </XRowContent>
                     <XRowDetails key={"XRowDetails" + index}>
-                      <p><strong>Email:</strong> {user.email}</p>
+                      <p><strong>Email:</strong> {user?.email}</p>
                     </XRowDetails>
                     <XRowDetails key={"XRowDetails" + index}>
-                      <p><strong>Roles:</strong> {user.roles}</p>
+                      <p><strong>Roles:</strong> {user?.roles}</p>
                     </XRowDetails>
                     <XRowDetails key={"XRowDetails" + index}>
-                      <p><strong>Organizations:</strong> {user.organizations}</p>
+                      <p><strong>Organizations:</strong> {user?.organizations}</p>
                     </XRowDetails>
                   </StyledXRow>
                 ))}
