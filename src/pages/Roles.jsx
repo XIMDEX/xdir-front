@@ -1,33 +1,18 @@
 import { faEdit, faKey, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XDropdown, XPopUp, XRowContent } from "@ximdex/xui-react/material";
 import React, { useEffect, useState } from "react";
-import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
+import { StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
-import useSweetAlert from '../hooks/useSweetAlert';
+import useModals from '../hooks/useModals';
 import { assignPermissionToRole, createNewRole, deleteExistingRole, getRoles, updateExistingRole } from "../service/xdir.service";
-import { CircularProgress } from "@mui/material";
 import { PERMISSIONS_OPTIONS } from "../../CONSTATNS";
 import { useSpinner } from '@ximdex/xui-react/hooks';
 
-const fakeRoles = [
-  {
-    "uuid": "9c02413a-a62d-4331-81c9-d9b83608eade",
-    "name": "FAKE - testupdate222",
-    "permission_assigned": "admin"
-
-  },
-  {
-    "uuid": "9c02413a-a62d-4331-81c9-d9b83608eade",
-    "name": "FAKE - testupdate222",
-    "permission_assigned": ["viewer", "admin"]
-
-  }
-]
 
 export default function Roles() {
   const [rolesList, setRolesList] = useState([])
-  const {XDirModal, XDirModalInput} = useSweetAlert()
+  const {XDirModal, XDirModalInput} = useModals()
   const [refreshList, setRefreshList] = useState(false)
   const [loading, setLoading] = useState(false)
   const { showSpinner, hideSpinner } = useSpinner();

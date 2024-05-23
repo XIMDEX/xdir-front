@@ -5,7 +5,7 @@ import { faBuilding, faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg
 import { XButton, XPopUp, XRowContent } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
 import { createNewOrganization, deleteExistingOrganization, updateExistingOrganization } from "../service/xdir.service";
-import useSweetAlert from '../hooks/useSweetAlert';
+import useModals from '../hooks/useModals';
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
 import { useSpinner } from '@ximdex/xui-react/hooks';
 
@@ -21,7 +21,7 @@ export default function Organizations() {
   const [organizationsList, setOrganizationsList] = useState(fakeORG)
   const [organizationUsers, setOrganizationUsers] = useState([])
   const [refreshList, setRefreshList] = useState(false)
-  const {XDirModalInput, XDirModal} = useSweetAlert()
+  const {XDirModalInput, XDirModal} = useModals()
   const [loading, setLoading] = useState(false)
   const { showSpinner, hideSpinner } = useSpinner()
 
