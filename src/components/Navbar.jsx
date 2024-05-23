@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSignOutAlt, faExternalLinkAlt, faLock } from '@fortawesome/free-solid-svg-icons';
 import { XNav, XPopUp } from '@ximdex/xui-react/material';
-import ximdexImagenav from '../assets/logotipo_ximdex-EDU-white-small.png';
+import ximdexImagenav from '../assets/logotipo_ximdex-DIR-white.png';
 import AuthContext from '../providers/AuthProvider/AuthContext';
 
 
