@@ -3,11 +3,11 @@ import './sweetAlertClasses.css'
 
 export default function useModals () {
 
-    const XDirModal = async ({text,title, confirmButtonColor, textColor, onConfirmFunction}) => {
+    const XDirModal = async ({text,title, confirmButtonColor, textColor, onConfirmFunction, showCancelButton}) => {
         Swal.fire({
             text: text,
             title: title,
-            showCancelButton: true,
+            showCancelButton: showCancelButton ?? true,
             confirmButtonText: 'Accept',
             color: textColor ?? 'black',
             confirmButtonColor: confirmButtonColor ?? '#43a1a2',

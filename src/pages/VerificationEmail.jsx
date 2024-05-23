@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { StyledDivCenterY, StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRadio } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faEye, faEyeSlash, faLock, faPaperPlane, faPen, faSave, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { XButton, XInput } from "@ximdex/xui-react/material";
+import { XButton, XInput, XPopUp } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
 import { GENDER_OPTIONS } from "../../CONSTATNS";
 import _ from "lodash";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { verifyEmailCode, verifyEmailSendCode } from "../service/xdir.service";
 import { CircularProgress } from "@mui/material";
 
@@ -38,6 +38,7 @@ const VerificationEmailForm = ({
   const {user, saveUserData} = useContext(AuthContext);
   const [email, setEmail] = useState(user?.email ?? '')
   const [loadingVerification, setLoadingVerification] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     verifyEmail()
@@ -81,8 +82,15 @@ const VerificationEmailForm = ({
             timer: 3000
         })
       }else if(action === 'register'){
-        saveUserData(res.user)
-        navigate('/')
+          XPopUp({
+            text: 'Email has been verified.',
+            iconType:'success',
+            timer:'3000',
+            popUpPosition:'top',
+            iconColor: 'lightgreen',
+            timer: 3000
+        })
+        navigate('/login')
       }else if(action === 'password_change'){
         setEmailVerified(true)
       }

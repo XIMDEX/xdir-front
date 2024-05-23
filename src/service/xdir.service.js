@@ -49,8 +49,8 @@ export const registerXDIR = async (user) => {
 
 export const verifyEmailCode = async (action, code) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/${action}/activate/${code}`, {
-            method: "POST",
+        const res = await fetch(`${API_BASE_URL}api/email/verify/${code}`, {
+            method: "GET",
             headers: commonHeaders,
         });
         
