@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faPaperPlane, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XPopUp, XRowContent, XRowDetails } from "@ximdex/xui-react/material";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
 import { useSpinner } from '@ximdex/xui-react/hooks';
 import { getUsers } from "../service/xdir.service";
+import useModals from "../hooks/useModals";
+import useFormValidator from "../hooks/useFormValidatior";
 
 
 
@@ -14,9 +16,11 @@ export default function Users() {
   const [loading, setLoading] = useState(false)
   const [refreshList, setRefreshList] = useState(false)
   const { showSpinner, hideSpinner } = useSpinner()
+  const {XDirModalInput} = useModals()
+  const {validateEmail} = useFormValidator()
 
   useEffect(() => {
-    getExistingUsers()
+    // getExistingUsers()
   }, [refreshList]);
 
 
@@ -29,7 +33,41 @@ export default function Users() {
     setLoading(false)
   }
 
-  const createUser = () => {}
+  const inviteNewUser = async () => {
+    const newUserEmail = await XDirModalInput({
+      title: 'INVITE',
+      input: 'text',
+      inputLabel: "Send an invitation to a new user",
+      inputPlaceholder: 'Enter the user\'s email address',
+      inputValidator: (value) => {
+        if (!validateEmail(value)) {
+          return "Please enter a valid email address";
+        }
+      },
+    })
+    if(newUserEmail){
+      const res = await sendRegisterInvite(newUserEmail)
+      if(res?.error){
+        XPopUp({
+          text: res?.error,
+          iconType:'error',
+          timer:'3000',
+          popUpPosition:'top',
+          iconColor: 'red',
+          timer: 3000
+        })
+      }else{
+        XPopUp({
+          text: "Invite sent successfully",
+          iconType:'success',
+          timer:'3000',
+          popUpPosition:'top',
+          iconColor: 'lightgreen',
+          timer: 3000
+        })
+      }
+    }
+  }
 
   const deleteUser = () => {}
 
@@ -45,11 +83,11 @@ export default function Users() {
       {
           component:
               <XButton
-                  onClick={createUser}
-                  title="Create new user"
+                  onClick={inviteNewUser}
+                  title="Invite new user"
               >
-                  <FontAwesomeIcon icon={faPlus} style={{marginRight: '10px'}}/> 
-                  Create
+                  <FontAwesomeIcon icon={faPaperPlane} style={{marginRight: '10px'}}/> 
+                  Invite User
               </XButton>
       },
     ]}
