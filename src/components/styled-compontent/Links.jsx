@@ -27,5 +27,9 @@ export const StyledHomeItem = styled(StyledLink)`
 
         }
     }
+    img {
+        width: 200px;
+        object-fit: cover; 
+    }
 
 `
