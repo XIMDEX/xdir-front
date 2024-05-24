@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { XInput, XButton, XBox, XPopUp } from '@ximdex/xui-react/material';
-import {useNavigate } from "react-router-dom";
+import { XInput, XButton, XPopUp } from '@ximdex/xui-react/material';
+import {useNavigate, useSearchParams } from "react-router-dom";
 import { StyledForm } from '../components/styled-compontent/FormStyles';
 import { StyledXCardRegister, StyledFlexFullCenter } from '../components/styled-compontent/Container';
 import { registerXDIR } from '../service/xdir.service';
 import ximdexLogo from "../assets/logotipo_ximdex-DIR-small.png"
 import { CircularProgress } from '@mui/material';
-import AuthContext from '../providers/AuthProvider/AuthContext';
-import { FAKE_USER } from '../../CONSTATNS';
 import useFormValidator from '../hooks/useFormValidatior';
+import useModals from '../hooks/useModals'
 
 function Register() { 
-    const {saveUserData} = useContext(AuthContext)
+    let [searchParams] = useSearchParams();
+    const organizationID = searchParams.get("organization");
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState({
@@ -24,9 +24,16 @@ function Register() {
     })
     const {name, surname, birthdate, email, password, password_confirmation} = user;
     const {validatePassword, validateEmail} = useFormValidator()
-    
+    const {XDirModal} = useModals();
     const navigate = useNavigate();
 
+    //Obtiene el dato de la organizacion  al cargar
+    useEffect(() => {
+        setUser({
+            ...user,
+            organization: organizationID,
+        });
+    },[organizationID])
     
     //Comprueba contraseñas
     useEffect(() => {
@@ -86,10 +93,18 @@ function Register() {
               })
         }else{
             setIsLoading(false)
-            saveUserData(user_res.user)
-            navigate('/home')
+            console.log(user_res);
+            XDirModal({
+                text:`Please check your email to verify your address and complete the registration process. Don't forget to check your spam folder if you don't see the email!`,
+                title:'Email confirmation',
+                confirmButtonColor:'#e13144',
+                showCancelButton: false,
+                onConfirmFunction: async () => await deleteExistingOrganization(organizationID)
+              })
         }
     }
+
+    
 
     return (
 
