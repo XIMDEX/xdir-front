@@ -290,7 +290,6 @@ export const deleteExistingOrganization = async (id) => {
     }
 }
 
-
 export const getUsers = async () => {
     try {
         const res = await fetch(`${API_BASE_URL}api/users`, {
@@ -307,4 +306,8 @@ export const getUsers = async () => {
     } catch (err) {
         return { error: "Unable to get users. Please try again later." };
     }
+}
+
+export const sendRegisterInvite = async () => {
+    
 }
