@@ -1,37 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
+import { StyledMarginContent, StyledTabsContainer, StyledXCard } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faPaperPlane, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
-import { XButton, XPopUp, XRowContent, XRowDetails } from "@ximdex/xui-react/material";
-import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
-import { useSpinner } from '@ximdex/xui-react/hooks';
-import { getUsers } from "../service/xdir.service";
+import { faPaperPlane, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { XButton, XPopUp } from "@ximdex/xui-react/material";
+import { sendRegisterInvite } from "../service/xdir.service";
 import useModals from "../hooks/useModals";
 import useFormValidator from "../hooks/useFormValidatior";
+import { USER_TABS } from "../../CONSTATNS";
+import CustomTabs from "../components/CustomTabs/CustomTabs";
+import UsersList from "../components/UsersPage/UsersList";
+import UsersInvites from "../components/UsersPage/UsersInvites";
 
 
 
 export default function Users() {
-  const [usersList, setUsersList] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [refreshList, setRefreshList] = useState(false)
-  const { showSpinner, hideSpinner } = useSpinner()
   const {XDirModalInput} = useModals()
   const {validateEmail} = useFormValidator()
+  const [tabSelected, setTabSelected] = useState(USER_TABS[0])
 
-  useEffect(() => {
-    // getExistingUsers()
-  }, [refreshList]);
-
-
-  const getExistingUsers = async () => {
-    setLoading(true)
-    showSpinner()
-    const res = await getUsers()
-    setUsersList(res?.users)
-    hideSpinner()
-    setLoading(false)
-  }
 
   const inviteNewUser = async () => {
     const newUserEmail = await XDirModalInput({
@@ -69,11 +55,6 @@ export default function Users() {
     }
   }
 
-  const deleteUser = () => {}
-
-  const modifyUserRoles = () => {
-
-  }
 
   return (
     <StyledXCard
@@ -93,51 +74,14 @@ export default function Users() {
     ]}
   >
     <StyledMarginContent>
-      {loading 
-        ? 
-         <></>
-        :
-          <>
-            {usersList.length === 0 ? <p>No users created yet.</p>
-            :
-              <>
-                {usersList.map((user, index) => (
-                  <StyledXRow
-                      style={{
-                          borderBottom: index === (usersList.length - 1) ? '1px solid #BBBBBB' : '',
-                          background: 'rgb(247, 247, 247)',
-                          width: '100%'
-                      }}
-                      key={'row' + index}
-                      identifier={user.uuid}
-                      isCollapsable={true}
-                      labelButtonCollapsable={`Show details`}
-                      controls={[
-                        {
-                            component:<StyledRedButtonIcon onClick={() => deleteOrganization(user.uuid, user.name)}>
-                                        <FontAwesomeIcon icon={faTrash} size='1x' title='Delete user' />
-                                    </StyledRedButtonIcon>
-                        },
-                      ]}
-                  >
-                    <XRowContent key={"XRowContent" + index}>
-                      <p><strong>Id:</strong> {user?.uuid} - {user?.name + ' ' + user?.surname}</p>
-                    </XRowContent>
-                    <XRowDetails key={"XRowDetails" + index}>
-                      <p><strong>Email:</strong> {user?.email}</p>
-                    </XRowDetails>
-                    <XRowDetails key={"XRowDetails" + index}>
-                      <p><strong>Roles:</strong> {user?.roles}</p>
-                    </XRowDetails>
-                    <XRowDetails key={"XRowDetails" + index}>
-                      <p><strong>Organizations:</strong> {user?.organizations}</p>
-                    </XRowDetails>
-                  </StyledXRow>
-                ))}
-              </>
-            }
-          </>  
-      }
+      <CustomTabs
+        tabs={USER_TABS}
+        setTabSelected={setTabSelected}
+      />
+      <StyledTabsContainer>
+        {tabSelected === 'Users' && <UsersList/>}
+        {tabSelected === 'Invites' && <UsersInvites/>}
+      </StyledTabsContainer>
     </StyledMarginContent>
   </StyledXCard>
 

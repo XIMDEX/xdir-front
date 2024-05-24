@@ -632,3 +632,28 @@ export const StyledXRadio = styled(XRadio)`
         padding: 3px !important;
     }
 `
+
+export const StyledTabsContainer = styled('div')`
+    width: 100%;
+    min-height: 55vh;
+    border-left: 2px solid lightgray;
+    border-right: 2px solid lightgray;
+    border-bottom: 2px solid lightgray;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        width: 0.5vw;
+      }
+      
+    /* Track */
+    &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 4px #214f61;
+        border-radius: 0px;
+    }
+    
+    /* Handle #43a1a2 or #214F61 or #ADADAD */
+    &::-webkit-scrollbar-thumb {
+        box-shadow: inset 4px 2px 12px 2px #214f61;
+        border-radius: 4px;
+    }
+`
