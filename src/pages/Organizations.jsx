@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
+import { StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XPopUp, XRowContent } from "@ximdex/xui-react/material";
@@ -9,12 +9,6 @@ import useModals from '../hooks/useModals';
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
 import { useSpinner } from '@ximdex/xui-react/hooks';
 
-const fakeORG = [
-  {
-    name: 'FAKE - XEDU',
-    id: '123123123'
-  }
-]
 
 export default function Organizations() {
   const {user} = useContext(AuthContext);
@@ -85,7 +79,6 @@ export default function Organizations() {
       setRefreshList(!refreshList)
   }
   
-
   const editOrganization = async (organizationID, organizationName) => {
     const newOrganizationName = await XDirModalInput({
       title:'Edit organization',
