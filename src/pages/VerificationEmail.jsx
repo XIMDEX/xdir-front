@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyledDivCenterY, StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRadio } from "../components/styled-compontent/Container";
+import { StyledDivCenterY, StyledFlexFullCenter, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faEye, faEyeSlash, faLock, faPaperPlane, faPen, faSave, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {faEye, faEyeSlash, faLock, faSave } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XInput, XPopUp } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
-import { GENDER_OPTIONS } from "../../CONSTATNS";
 import _ from "lodash";
 import { useNavigate, useParams } from "react-router-dom";
 import { verifyEmailCode, verifyEmailSendCode } from "../service/xdir.service";
