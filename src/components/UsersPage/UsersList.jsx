@@ -5,6 +5,7 @@ import { XButton, XPopUp, XRowContent, XRowDetails } from "@ximdex/xui-react/mat
 import { faEdit, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { StyledFlexFullCenter, StyledXRow } from "../../components/styled-compontent/Container";
 import { getUsers } from "../../service/xdir.service";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function UsersList() {
     const [usersList, setUsersList] = useState([])
@@ -13,7 +14,7 @@ export default function UsersList() {
     const [refreshList, setRefreshList] = useState(false)
 
     useEffect(() => {
-        // getExistingUsers()
+        getExistingUsers()
       }, [refreshList]);
 
     const getExistingUsers = async () => {
