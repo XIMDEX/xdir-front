@@ -28,6 +28,7 @@ const Routes = () => {
             
             {/* Rutas privadas */}
             <Route  exact path="/" element={<ProtectedRoute component={<Home/>}/>}/> 
+            <Route  exact path="/home" element={<ProtectedRoute component={<Home/>}/>}/> 
             <Route  path="/profile" element={<ProtectedRoute component={<UserProfile/>}/>}/> 
 
             {/* Rutas privadas de administrador */}
