@@ -89,7 +89,9 @@ const VerificationEmailForm = ({
             iconColor: 'lightgreen',
             timer: 3000
         })
-        navigate('/login')
+        setTimeout(() => {
+          navigate('/login')
+        }, 1000);
       }else if(action === 'password_change'){
         setEmailVerified(true)
       }
