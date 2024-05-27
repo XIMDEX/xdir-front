@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XPopUp, XRowContent } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
-import { createNewOrganization, deleteExistingOrganization, updateExistingOrganization } from "../service/xdir.service";
+import { createNewOrganization, deleteExistingOrganization, getOrganizations, updateExistingOrganization } from "../service/xdir.service";
 import useModals from '../hooks/useModals';
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
 import { useSpinner } from '@ximdex/xui-react/hooks';
@@ -18,11 +18,10 @@ const fakeORG = [
 
 export default function Organizations() {
   const {user} = useContext(AuthContext);
-  const [organizationsList, setOrganizationsList] = useState(fakeORG)
+  const [organizationsList, setOrganizationsList] = useState([])
   const [organizationUsers, setOrganizationUsers] = useState([])
   const [refreshList, setRefreshList] = useState(false)
   const {XDirModalInput, XDirModal} = useModals()
-  const [loading, setLoading] = useState(false)
   const { showSpinner, hideSpinner } = useSpinner()
 
   useEffect(() => {
@@ -32,6 +31,8 @@ export default function Organizations() {
 
   const getClientOrganizations = async () => {
     showSpinner()
+    const res = await getOrganizations()
+    setOrganizationsList(res)
     hideSpinner()
   }
 
@@ -95,7 +96,7 @@ export default function Organizations() {
       },
     })
     if(newOrganizationName) {
-      setLoading(true)
+      showSpinner()
       const res = await updateExistingOrganization(organizationID, newOrganizationName)
       if(res?.error){
         XPopUp({
@@ -115,9 +116,10 @@ export default function Organizations() {
           iconColor: 'lightgreen',
           timer: 3000
         })
-        setRefreshList(!refreshList)
       }
+      hideSpinner()
     }
+    setRefreshList(!refreshList)
   }
 
 
@@ -139,46 +141,39 @@ export default function Organizations() {
     ]}
   >
     <StyledMarginContent>
-      {loading 
-        ? 
-         <></>
-        :
-          <>
-            {organizationsList.length === 0 ? <p>No organizations created yet.</p>
-            :
-              <>
-                {organizationsList.map((organization, index) => (
-                  <StyledXRow
-                      style={{
-                          borderBottom: index === (organizationsList.length - 1) ? '1px solid #BBBBBB' : '',
-                          background: 'rgb(247, 247, 247)',
-                          width: '100%'
-                      }}
-                      key={'row' + index}
-                      identifier={organization.uuid}
-                      isCollapsable={true}
-                      labelButtonCollapsable={`Show details`}
-                      controls={[
-                        {
-                            component:<StyledGreenButtonIcon onClick={() => editOrganization(organization.uuid, organization.name)}>
-                                        <FontAwesomeIcon icon={faEdit} size='1x' title='Edit organization' />
-                                    </StyledGreenButtonIcon>
-                        },
-                        {
-                            component:<StyledRedButtonIcon onClick={() => deleteOrganization(organization.uuid, organization.name)}>
-                                        <FontAwesomeIcon icon={faTrash} size='1x' title='Delete organization' />
-                                    </StyledRedButtonIcon>
-                        },
-                      ]}
-                  >
-                    <XRowContent key={"XRowContent" + index}>
-                      <p><strong>Name:</strong> {organization.name}</p>
-                    </XRowContent>
-                  </StyledXRow>
-                ))}
-              </>
-            }
-          </>  
+      {organizationsList.length === 0 ? <p>No organizations created yet.</p>
+      :
+        <>
+          {organizationsList.map((organization, index) => (
+            <StyledXRow
+                style={{
+                    borderBottom: index === (organizationsList.length - 1) ? '1px solid #BBBBBB' : '',
+                    background: 'rgb(247, 247, 247)',
+                    width: '100%'
+                }}
+                key={'row' + index}
+                identifier={organization.uuid}
+                isCollapsable={true}
+                labelButtonCollapsable={`Show details`}
+                controls={[
+                  {
+                      component:<StyledGreenButtonIcon onClick={() => editOrganization(organization.uuid, organization.name)}>
+                                  <FontAwesomeIcon icon={faEdit} size='1x' title='Edit organization' />
+                              </StyledGreenButtonIcon>
+                  },
+                  {
+                      component:<StyledRedButtonIcon onClick={() => deleteOrganization(organization.uuid, organization.name)}>
+                                  <FontAwesomeIcon icon={faTrash} size='1x' title='Delete organization' />
+                              </StyledRedButtonIcon>
+                  },
+                ]}
+            >
+              <XRowContent key={"XRowContent" + index}>
+                <p><strong>Name:</strong> {organization.name}</p>
+              </XRowContent>
+            </StyledXRow>
+          ))}
+        </>
       }
     </StyledMarginContent>
   </StyledXCard>
