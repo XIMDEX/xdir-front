@@ -18,8 +18,8 @@ export const FAKE_USER = {
       "name": "Federico",
       "email": "test@ximdex.com",
       "email_verified_at": null,
-      "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5YzAyMDA5NS03NzMxLTQ1YWUtYjkwZS02NDVlNmJmZjMwODYiLCJqdGkiOiI3YjNkMTM5ZTMyODRkYjY3MmM1ODk4ZTNlZjRiNmZjNjFhMzkxOTcwMzAxNzBhMWFhNTRjOTAxZTMzMDNmYjhkMjY5YTkwNDk4YWVjNjA3NSIsImlhdCI6MTcxNTU5NDQ4OS40MzEwNDcsIm5iZiI6MTcxNTU5NDQ4OS40MzEwNTIsImV4cCI6MTc0NzEzMDQ4OS40MjU4NjcsInN1YiI6IjVhZTE1MDcwLWYwZjItNDM2Yi1hMWU2LTk3NzBkZjZjMWFiNyIsInNjb3BlcyI6W119.BfNKshlNdOCmxe3F6I6R9xwP9YQXLu32TwR5CsoiNtSQ8fOM7fqnt9gP3CxYFdN1Vj7WnYtdPYXTyV-ZAJda3-1PGG8fMHz5ePse4MDBXeIrqZDI7Mkp30m6sJYVYSjE7wizrZN9ejH_oaseSfeuIj9GxcHcP63tbjVdTv7MSFKjwzdsB46L7ODMwg7Svxuz8m5Ri-p5XR0DK2vFLAjFUj5-OcDpUUNeu_g8ajd1QVIkF7MU275RPCkGdvl4S1RrEtVCCm3mfmKntspJEJzpVHvowb16IIB9eib_y9v6HTLK_Lg4Z9dknSP_b6QYqHJ3Yi2Xv9Pk-xOl7H9kQrAxcYcBDW5u74hFkh5fF1pZNe5CraLIxChNqRlXwQNeg11BnfAetAMuRjYxc8e2GtR-0D2Tu6sm75hFhTGTBYvdCp7XTTUbCiFBFZq-e924voaxljnMUsZ4NjZGhQAQ0MYg8RyPjI9TzX20ZQPgzTjeJCAbiJSQT_qnzntzh5d61fk8ZIcMNjVJ7q7UwCLTuGpjgmgH8ik4fEFZ-jIyJsmzh9KocO9ls4-CSnDBz9x_E7RvWXNlL4Pdeq_a1FCc9h_BNKpBrSRhXbySNEFCegbNa2UgcoTDJ8U6G5LBK2rGHI7NhGQ3QyvC6-l5Uzy3FYhrqrLvCZy2MNNwMzdNwB3lx0g",
-      "roles": [{name:"admin"}, {name:"superAdmin"}]
+      "roles": [{name:"admin"}, {name:"superAdmin"}],
+      "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5YzFhMjBiOS04YmMwLTRmMGUtYjIwZi01NmNkNWJmYTk1Y2IiLCJqdGkiOiJhMGZiMDYzYWMyMWYxOGY1Y2U1NzcyOTdlMjczOTUxOTc5ZDQ0NmVmN2Y0MjgxMzBiNDlhOWQwYzZkMjNkODM5MjM4NjBhMTFlNjVjOWFjNiIsImlhdCI6MTcxNjM2NTUzOS4wNTMyMSwibmJmIjoxNzE2MzY1NTM5LjA1MzIxNSwiZXhwIjoxNzQ3OTAxNTM5LjA0NDk0Nywic3ViIjoiYTM3MjlhNzYtYjJjZC00MTA1LWIwZWMtNTQ4NzBmNzA1M2E5Iiwic2NvcGVzIjpbXX0.e3Ie5fd8b5YWLbz3sVCq3-7Og0cViodHuofILBqBbzKpK4gwx_WXDLNWdX3hBBjqU2E-CIyhNxy1OX2GJaI8KjgIKxbvqcil3r1DxJsmjs4hs4xI3g0ZwbKr-h6W2PXpvKFzh8E6aqk8WgpVjoyG3NtzXjGfNh8TXPgGrWjL2kiOgQ7ABXXuWGrVwpyz9TGgjYC4BN7DJ_2MO3HZFalRu3tIWMiMibFfLAggsh9k0C2_ORjLfKDQhSGW5ymX7jRqfnISvRAY6BZlxi9X4v16AiLXRonoJhPRg6Z8zm-dP9ci4V0y37p76WqyCeGe_q4isQ-k9fjLdNthNUK3YkbacfGrrcGX2fmNNvEB3eNjt-aV7GNUQf3hPRFE_RwSdZvuFb6r2aJRVlTW5co1EGyqu08BmDRI4cZo3VhDRzguHTlq8SW7uO9L6Mm8x-Ra4d5-Trqak8A4YXkHgxZl8Q1BSM2tRZygkzCsTDpvNMMQdRFR4OZ30WouMwiwBleCslzErEX4C-Cu_AzegK2fMmh3E99dcDlHpPeW4zslp-MTMOGZsrWLv5i-jzCcwjoSkuOvhHyErqXm097gkGv-C7Z5k45aHTXWtZZzkY-X3ouCktptSkezvz4Da6hWtYlQV1OwI-yPRvtnJsxFwVuByHI0omirLxViNrzUHtNWTLObaVc"
 
     }
 
@@ -35,4 +35,10 @@ export const PERMISSIONS_OPTIONS = [
   {value: 'editor', label: 'Editor'},
   {value: 'creator', label: 'Creator'},
   {value: 'viewer', label: 'Viewer'},
+]
+
+
+export const USER_TABS = [
+  'Users',
+  'Invites'
 ]

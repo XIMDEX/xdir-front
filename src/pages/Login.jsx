@@ -6,7 +6,6 @@ import { styled } from "@mui/system";
 import AuthContext from '../providers/AuthProvider/AuthContext';
 import { loginXDIR } from '../service/xdir.service';
 import { FAKE_USER } from '../../CONSTATNS';
-import { StyledFlexFullCenter } from "../components/styled-compontent/Container";
 
 
 export const StyledXLogin = styled(XLogin)`
@@ -61,6 +60,10 @@ const Login = () => {
     navigateToPage();
   };
 
+  const handleFALKLogin = async (email, password) => {
+    saveUserData(FAKE_USER)
+    navigateToPage();
+  };
 
     return (
         <XContainer
@@ -77,11 +80,11 @@ const Login = () => {
                 rounded={false}
                 hasLogo 
                 srcLogo={LoginImage}
-                handleLogin={handleLogin}
+                handleLogin={handleFALKLogin}
                 loginExtraActions={
                     <StyledExtraActions>
-                        <p onClick={() => navigate('/email_verification')}>Forgot your password?</p>
-                        <p onClick={() => navigate('/register')} style={{marginBottom: '10px'}}>Don't have an account?</p>
+                        <p style={{marginBottom: '10px'}} onClick={() => navigate('/email_verification')}>Forgot your password?</p>
+                        {/* <p onClick={() => navigate('/register')} style={{marginBottom: '10px'}}>Don't have an account?</p> */}
                     </StyledExtraActions>
                 }
             />
