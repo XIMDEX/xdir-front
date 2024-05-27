@@ -12,7 +12,7 @@ export const loginXDIR = async (email, password) => {
     try {
         const res = await fetch(`${API_BASE_URL}api/login`, {
             method: "POST",
-            headers: commonHeaders,
+            headers: {...commonHeaders},
             body: JSON.stringify({
                 email: email,
                 password: password,
@@ -31,7 +31,7 @@ export const registerXDIR = async (user) => {
     try {
         const res = await fetch(`${API_BASE_URL}api/register`, {
             method: "POST",
-            headers: commonHeaders,
+            headers: {...commonHeaders},
             body: JSON.stringify(user),
         });
         
@@ -51,7 +51,7 @@ export const verifyEmailCode = async (action, code) => {
     try {
         const res = await fetch(`${API_BASE_URL}api/email/verify/${code}`, {
             method: "GET",
-            headers: commonHeaders,
+            headers: {...commonHeaders},
         });
         
         if (!res.ok) throw new Error('An error occurred while sending the email verification request.');
@@ -68,7 +68,7 @@ export const verifyEmailSendCode = async (email) => {
         const res = await fetch(`${API_BASE_URL}api/email/resend`, {
             method: "GET",
             headers: {
-                commonHeaders,
+                ...commonHeaders,
             },
             body: JSON.stringify({email: email})
         });
@@ -86,7 +86,7 @@ export const updateUserXDIR = async (user) => {
         const res = await fetch(`${API_BASE_URL}api/user/update`, {
             method: "PUT",
             headers: {
-                commonHeaders,
+                ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
             },
             body: JSON.stringify(user),
@@ -106,7 +106,7 @@ export const getRoles = async () => {
         const res = await fetch(`${API_BASE_URL}api/roles`, {
             method: "GET",
             headers: {
-                commonHeaders,
+                ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
             },
         });
@@ -126,7 +126,7 @@ export const  createNewRole = async (name) => {
         const res = await fetch(`${API_BASE_URL}api/role/create`, {
             method: "POST",
             headers: {
-                commonHeaders,
+                ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
             },
             body: JSON.stringify({
@@ -149,7 +149,7 @@ export const updateExistingRole = async (id, name) => {
         const res = await fetch(`${API_BASE_URL}api/role/update/${id}`, {
             method: "PUT",
             headers: {
-                commonHeaders,
+                ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
             },
             body: JSON.stringify({
@@ -172,7 +172,7 @@ export const deleteExistingRole = async (id) => {
         const res = await fetch(`${API_BASE_URL}api/role/remove/${id}`, {
             method: "DELETE",
             headers: {
-                commonHeaders,
+                ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
             },
         });
@@ -191,7 +191,7 @@ export const assignPermissionToRole = async (id, permission) => {
         const res = await fetch(`${API_BASE_URL}api/role/assign/permission/${id}`, {
             method: "PUT",
             headers: {
-                commonHeaders,
+                ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
             },
             body: JSON.stringify({
@@ -213,7 +213,7 @@ export const getOrganizations = async () => {
         const res = await fetch(`${API_BASE_URL}api/organizations`, {
             method: "GET",
             headers: {
-                commonHeaders,
+                ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
             },
         });
@@ -232,7 +232,7 @@ export const createNewOrganization = async (name) => {
         const res = await fetch(`${API_BASE_URL}api/organization/create`, {
             method: "POST",
             headers: {
-                commonHeaders,
+                ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
             },
             body: JSON.stringify({
@@ -252,9 +252,9 @@ export const createNewOrganization = async (name) => {
 export const updateExistingOrganization = async (id, name) => {
     try {
         const res = await fetch(`${API_BASE_URL}api/organization/update/${id}`, {
-            method: "PUT",
+            method: "POST",
             headers: {
-                commonHeaders,
+                ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
             },
             body: JSON.stringify({
@@ -276,7 +276,7 @@ export const deleteExistingOrganization = async (id) => {
         const res = await fetch(`${API_BASE_URL}api/organization/delete/${id}`, {
             method: "DELETE",
             headers: {
-                commonHeaders,
+                ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
             },
         });
@@ -295,7 +295,7 @@ export const getUsers = async () => {
         const res = await fetch(`${API_BASE_URL}api/users`, {
             method: "GET",
             headers: {
-                commonHeaders,
+                ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
             },
         });
