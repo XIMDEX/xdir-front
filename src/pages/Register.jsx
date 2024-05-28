@@ -11,7 +11,7 @@ import useModals from '../hooks/useModals'
 
 function Register() { 
     let [searchParams] = useSearchParams();
-    const organizationID = searchParams.get("organization");
+    const { organization, email: inviteEmail } = Object.fromEntries(searchParams)
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState({
@@ -31,9 +31,10 @@ function Register() {
     useEffect(() => {
         setUser({
             ...user,
-            organization: organizationID,
+            email: inviteEmail,
+            organization: organization,
         });
-    },[organizationID])
+    },[])
     
     //Comprueba contraseñas
     useEffect(() => {
@@ -116,7 +117,7 @@ function Register() {
                 <XInput id='name' type='text' label='Name' required={true} size='small' fullWidth value={name} onChange={(e) => onInputChange(e)} />
                 <XInput id='surname' type='text' label='Surname' required={true} size='small' fullWidth value={surname} onChange={(e) => onInputChange(e)} />
                 <XInput id='birthdate' type='date' required size='small' fullWidth value={birthdate} onChange={(e) => onInputChange(e)} />
-                <XInput id='email' type='text' label='Email' required size='small' fullWidth value={email} onChange={(e) => onInputChange(e)} />
+                <XInput id='email' disabled type='text' label='Email' required size='small' fullWidth value={email} onChange={(e) => onInputChange(e)} />
                 <XInput id='password' type='password' label='Password' required size='small' placeholder="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." title="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." fullWidth value={password} onChange={(e) => onInputChange(e)} />
                 <XInput id='password_confirmation' type='password' label='Repeat Password' placeholder="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." title="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." required size='small' fullWidth value={password_confirmation} onChange={(e) => onInputChange(e)} />
                 <p style={{ color: 'red', textAlign:'center', visibility: error === '' ? 'hidden' : 'visible' }}>{error}</p>
