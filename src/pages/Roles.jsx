@@ -1,14 +1,12 @@
 import { faEdit, faKey, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XDropdown, XPopUp, XRowContent } from "@ximdex/xui-react/material";
 import React, { useEffect, useState } from "react";
-import { StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
+import { StyledMarginContent, StyledXCard, StyledXModal, StyledXRow } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
-import useModals from '../hooks/useModals';
-import { assignPermissionToRole, createNewRole, deleteExistingRole, getRoles, updateExistingRole } from "../service/xdir.service";
-import { PERMISSIONS_OPTIONS } from "../../CONSTATNS";
+import useModals, { XDirModalDropdownPermissions } from '../hooks/useModals';
+import { assignPermissionToRole, createNewRole, deleteExistingRole, getRole, getRoles, updateExistingRole } from "../service/xdir.service";
 import { useSpinner } from '@ximdex/xui-react/hooks';
-
 
 export default function Roles() {
   const [rolesList, setRolesList] = useState([])
@@ -16,6 +14,10 @@ export default function Roles() {
   const [refreshList, setRefreshList] = useState(false)
   const [loading, setLoading] = useState(false)
   const { showSpinner, hideSpinner } = useSpinner();
+  const [permissionsRolModal, setPermissionsRolModal] = useState({
+    open: false,
+    role: undefined
+  })
 
   useEffect(() => {
     getListRoles()
@@ -117,18 +119,60 @@ export default function Roles() {
     }
   }
 
-  const handleRoleDropdown = async (permissions, position) => {
-    console.log(permissions);
-    let rolesListCopy = [...rolesList]
-    let roleItem = rolesListCopy[position]
-    roleItem.permission_assigned = permissions.map(permission => permission.value)
-    rolesListCopy[position] = roleItem
-    setRolesList(rolesListCopy)
+  const deleteRole = async ( roleID, roleName) => {
+    const res = await XDirModal({
+      text:`Are you sure you want to delete ${roleName}?`,
+      title:'Delete rol',
+      confirmButtonColor:'#e13144',
+      onConfirmFunction: async () => await confirmDeleteRol(roleID)
+    })
+
+   
   }
 
-  const updatePermissionAssigned = async (roleID, index) => {
-    const permissions = rolesList[index]?.permission_assigned
-    const res =  await assignPermissionToRole(roleID, permissions)
+  const confirmDeleteRol = async (roleID) => {
+    const res = await deleteExistingRole(roleID)
+    if(res?.error){
+      XPopUp({
+        text: res?.error,
+        iconType:'error',
+        timer:'3000',
+        popUpPosition:'top',
+        iconColor: 'red',
+        timer: 3000
+      })
+    }else{
+      XPopUp({
+        text: "Rol deleted successfully",
+        iconType:'success',
+        timer:'3000',
+        popUpPosition:'top',
+        iconColor: 'lightgreen',
+        timer: 3000
+      })
+      setRefreshList(!refreshList)
+    } 
+  }
+
+  const handleAssignPermissions = async (roleID) => {
+    const res = await getRole(roleID)
+    if(!res?.error){
+      XPopUp({
+        text: res?.error,
+        iconType:'error',
+        timer:'3000',
+        popUpPosition:'top',
+        iconColor: 'red',
+        timer: 3000
+      })
+    }else{
+      setPermissionsRolModal({open: true, role: res})
+
+    }
+  }
+
+  const confirmNewPermissions = async (permissionsSelected) => {
+    const res =  await assignPermissionToRole(permissionsRolModal?.role?.uuid, permissionsSelected.map(permission => permission.value))
     if(res?.error){
       XPopUp({
         text: res?.error,
@@ -149,21 +193,7 @@ export default function Roles() {
       })
     }
     setRefreshList(!refreshList)
-  };
-  
-  const deleteRole = async ( roleID, roleName) => {
-    await XDirModal({
-      text:`Are you sure you want to delete ${roleName}?`,
-      title:'Delete rol',
-      confirmButtonColor:'#e13144',
-      onConfirmFunction: async () => {
-        await deleteExistingRole(roleID)
-        setRefreshList(!refreshList)
-      }
-    })
-    
   }
-
 
   return (
     <StyledXCard
@@ -206,27 +236,16 @@ export default function Roles() {
                                         </StyledGreenButtonIcon>
                             },
                             {
+                                component:<StyledGreenButtonIcon onClick={() => handleAssignPermissions(role.id)}>
+                                            <FontAwesomeIcon icon={faKey} size='1x' title='Assign permissions' />
+                                        </StyledGreenButtonIcon>
+                            },
+                            {
                                 component:<StyledRedButtonIcon onClick={() => deleteRole(role.uuid, role.name)}>
                                             <FontAwesomeIcon icon={faTrash} size='1x' title='Delete role' />
                                         </StyledRedButtonIcon>
                             },
-                            {
-                                component:<XDropdown
-                                            value={PERMISSIONS_OPTIONS.filter(permission => role?.permission_assigned?.includes(permission.value))}
-                                            onChange={(e, data) => handleRoleDropdown(data, index)}
-                                            onBlur={() => updatePermissionAssigned(role.uuid,index)}
-                                            options={PERMISSIONS_OPTIONS}
-                                            labelOptions='label'
-                                            label='Permission assigned'
-                                            bgColor='100'
-                                            width='280px'
-                                            size="small"
-                                            style={{ marginLeft: '0.5em'}}
-                                            hasCheckboxes={true}
-                                            multiple={true}
-                                            disableClearable
-                                          />
-                            },
+
                           ]}
                       >
                         <XRowContent key={"XRowContent" + index}>
@@ -240,6 +259,21 @@ export default function Roles() {
           }
             
         </StyledMarginContent>
+        <StyledXModal
+          isOpen={permissionsRolModal?.open}
+          ariaHideApp={false}
+        >
+          <div className={`animate__animated ${permissionsRolModal.open ? 'animate__fadeInUp animate__faster' : 'animate__fadeOutDown animate__faster'}`}>
+            <XDirModalDropdownPermissions
+              setOpenModal={setPermissionsRolModal}
+              subtitle={`Assign permission to role ${permissionsRolModal?.role?.name}`}
+              title='Assign Permisson'
+              roleSelected={permissionsRolModal?.role}
+              confirmButton={confirmNewPermissions}
+            />
+          </div>
+        </StyledXModal>
+
       </StyledXCard>
   );
 }

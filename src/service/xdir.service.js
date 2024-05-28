@@ -120,6 +120,24 @@ export const getRoles = async () => {
     }
 }
 
+export const getRole = async (roleID) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}api/role/${roleID}`, {
+            method: "GET",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+        });
+        if (!res.ok) {
+            throw new Error("Failed to get the role. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to get the role. Please try again later." };
+    }
+}
 
 export const  createNewRole = async (name) => {
     try {

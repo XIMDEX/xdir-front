@@ -117,20 +117,32 @@ export const StyledHomeXBox = styled(XBox)`
 
 
 export const StyledXModal = styled(ReactModal)`
-    position: unset;
-    inset: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: arial;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro detrás del modal */
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+
+  & > div {
+    position: relative;
     border: 1px solid rgb(204, 204, 204);
     background: rgb(255, 255, 255);
-    
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-
-    overflow: auto;
     outline: none;
     padding: 20px;
-    width: 600px;
-    height: 400px;
-`
-
+    width: 512px;
+    height: 250px;
+  }
+`;
 
 
 
