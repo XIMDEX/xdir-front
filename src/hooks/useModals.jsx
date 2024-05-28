@@ -219,3 +219,66 @@ export const XDirModalDropdownPermissions = ({title, subtitle, roleSelected, con
     </StyledDivFlexBetween>
     )
   }
+
+
+export const XDirModalRoles = ({title, subtitle, roleSelected, confirmButton, setOpenModal}) => {
+    const superAdminPermission = { value: 'superadmin', label: 'Superadmin' };
+    const [permissionsSelected, setPermissionsSelected] = useState([]);
+
+
+    useEffect(() => {
+        let roles = PERMISSIONS_OPTIONS?.filter(permission => roleSelected?.permissionsAssigned?.includes(permission?.value))
+        if(roleSelected?.permissionsAssigned?.includes('superadmin')) roles.push(superAdminPermission)
+        setPermissionsSelected(roles);
+    }, []);
+
+    const handlePermissionDropdown = (data) => {
+        if (roleSelected?.permissionsAssigned?.includes('superadmin') && !data.some(permission => permission.value === 'superadmin')) {
+            data.push(superAdminPermission);
+        }
+        setPermissionsSelected(data);
+    };
+
+    return (
+    <StyledDivFlexBetween style={{flexDirection:'row', height: '100%'}}>
+        <StyledFlexFullCenter style={{height: 'auto', flexDirection:'column'}}>
+            <h2 style={{margin: '0'}}>{title}</h2>
+            <p style={{margin: '10px 0'}}>{subtitle}</p>
+        </StyledFlexFullCenter>
+        <StyledDivCenterY style={{width: '100%', justifyContent: 'center', margin: '10px 0'}}>
+                <XDropdown
+                    value={permissionsSelected}
+                    onChange={(e, data) => handlePermissionDropdown(data)} // Ajusta el índice según sea necesario
+                    options={PERMISSIONS_OPTIONS}
+                    labelOptions="label"
+                    displayEmpty
+                    label="Select roles"
+                    bgColor="100"
+                    width="300px"
+                    size="small"
+                    hasCheckboxes={true}
+                    multiple={true}
+                    disableClearable
+                />
+            </StyledDivCenterY>
+            <StyledDivCenterY style={{width: '100%', justifyContent: 'center'}}>
+                <XButton
+                    style={{margin: '1em'}}
+                    onClick={() => {
+                        setOpenModal(false)
+                        confirmButton(permissionsSelected)
+                    }}
+                >
+                    Assign
+                </XButton>
+                <XButton
+                    style={{margin: '1em', background: '#6e7881'}}
+                    onClick={() => setOpenModal(false)}
+                >
+                    Cancel
+                </XButton>
+            </StyledDivCenterY>
+
+    </StyledDivFlexBetween>
+    )
+  }

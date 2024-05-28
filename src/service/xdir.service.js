@@ -326,6 +326,25 @@ export const getUsers = async () => {
     }
 }
 
+export const getUser = async (userID) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}api/user/${userID}`, {
+            method: "GET",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+        });
+        if (!res.ok) {
+            throw new Error("Failed to get the user. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to get the user. Please try again later." };
+    }
+}
+
 export const deleteExistingUser = async () => {
     try {
         const res = await fetch(`${API_BASE_URL}api/user/delete/${id}`, {
