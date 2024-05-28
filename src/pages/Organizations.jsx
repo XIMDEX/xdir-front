@@ -74,9 +74,11 @@ export default function Organizations() {
         text:`Are you sure you want to delete ${organizationName}?`,
         title:'Delete organization',
         confirmButtonColor:'#e13144',
-        onConfirmFunction: async () => await deleteExistingOrganization(organizationID)
+        onConfirmFunction: async () => {
+          await deleteExistingOrganization(organizationID)
+          setRefreshList(!refreshList)
+        }
       })
-      setRefreshList(!refreshList)
   }
   
   const editOrganization = async (organizationID, organizationName) => {
