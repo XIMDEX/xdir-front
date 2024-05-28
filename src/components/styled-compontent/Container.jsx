@@ -202,8 +202,8 @@ export const StyledXCardRegister = styled(StyledXCard)`
 export const StyledTabsContainer = styled('div')`
     width: 100%;
     min-height: 55vh;
-    border-left: 2px solid lightgray;
-    border-right: 2px solid lightgray;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
     border-bottom: 2px solid lightgray;
     overflow-y: scroll;
 
