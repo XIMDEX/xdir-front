@@ -247,7 +247,7 @@ export const getOrganizations = async () => {
 
 export const createNewOrganization = async (name) => {
     try {
-        const res = await fetch(`${API_BASE_URL}organization/create`, {
+        const res = await fetch(`${API_BASE_URL}organizations`, {
             method: "POST",
             headers: {
                 ...commonHeaders,
@@ -269,8 +269,8 @@ export const createNewOrganization = async (name) => {
 
 export const updateExistingOrganization = async (id, name) => {
     try {
-        const res = await fetch(`${API_BASE_URL}organization/update/${id}`, {
-            method: "POST",
+        const res = await fetch(`${API_BASE_URL}organizations/${id}`, {
+            method: "PUT",
             headers: {
                 ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
@@ -291,7 +291,7 @@ export const updateExistingOrganization = async (id, name) => {
 
 export const deleteExistingOrganization = async (id) => {
     try {
-        const res = await fetch(`${API_BASE_URL}organization/delete/${id}`, {
+        const res = await fetch(`${API_BASE_URL}organizations/${id}`, {
             method: "DELETE",
             headers: {
                 ...commonHeaders,

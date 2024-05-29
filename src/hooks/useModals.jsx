@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import './sweetAlertClasses.css'
 import { useEffect, useState } from "react";
-import { XButton, XDropdown } from "@ximdex/xui-react/material";
+import { XButton, XDropdown, XPopUp } from "@ximdex/xui-react/material";
 import { PERMISSIONS_OPTIONS } from "../../CONSTATNS";
 import { createRoot  } from 'react-dom';
 import { StyledDivCenterY, StyledDivFlexBetween, StyledFlexFullCenter, StyledXModal } from "../components/styled-compontent/Container";
@@ -77,83 +77,34 @@ export default function useModals () {
         });
         return value
     };
-    const XDirModalDropdownw = async ({title,confirmButtonColor, textColor, permissionsAssigned}) => {
-        setPermissionsSelected(permissionsAssigned)
-        console.log(permissionsAssigned);
-        const handlePermissionDropdown = (data, index) => {
-            setPermissionsSelected(data.value);
-        };
-      
-        const updatePermissionAssigned = (uuid, index) => {
-          // Aquí puedes manejar la lógica de actualización de permisos
-          console.log('Permisos actualizados', uuid, index, permissionsSelected);
-        };
-      
-        const { value } = await Swal.fire({
-          title: title,
-          html: '<div id="dropdown-container"></div>',
-          didOpen: () => {
-            const container = document.getElementById('dropdown-container');
-            console.log(container);
-            if (container) {
-              const root = createRoot(container);
-              root.render(
-                <XDropdown
-                  value={PERMISSIONS_OPTIONS.filter(permission => selectedOptions.includes(permission.value))}
-                  onChange={(e, data) => handleRoleDropdown(data, 0)} // Ajusta el índice según sea necesario
-                  onBlur={() => updatePermissionAssigned('uuid', 0)} // Ajusta el uuid y el índice según sea necesario
-                  options={PERMISSIONS_OPTIONS}
-                  labelOptions="label"
-                  label="Permission assigned"
-                  bgColor="100"
-                  width="280px"
-                  size="small"
-                  style={{ marginLeft: '0.5em' }}
-                  hasCheckboxes={true}
-                  multiple={true}
-                  disableClearable
-                />
-              );
-            }
-          },
-          showCancelButton: true,
-          confirmButtonText: 'Submit',
-          color: textColor ?? 'black',
-          confirmButtonColor: confirmButtonColor ?? '#43a1a2',
-          background: 'rgb(255,255,255)',
-          customClass: {
-            popup: 'modalContainer',
-            input: 'customInputClass'
-          },
-          showClass: {
-            popup: `
-              animate__animated
-              animate__fadeInUp
-              animate__faster
-            `
-          },
-          hideClass: {
-            popup: `
-              animate__animated
-              animate__fadeOutDown
-              animate__faster
-            `
-          },
-          preConfirm: () => {
-            if (permissionsSelected.length === 0) {
-              Swal.showValidationMessage('Por favor, seleccione al menos una opción');
-            }
-            return permissionsSelected;
-          }
-        });
-      
-        return value;
-      };
+
+    const executeXPopUp = (res, title) => {
+      if(res?.error){
+        XPopUp({
+          text: res?.error,
+          iconType:'error',
+          timer:'3000',
+          popUpPosition:'top',
+          iconColor: 'red',
+          timer: 3000
+        })
+      }else{
+        XPopUp({
+          text: title,
+          iconType:'success',
+          timer:'3000',
+          popUpPosition:'top',
+          iconColor: 'lightgreen',
+          timer: 3000
+        })
+      }
+    }
       
     
     return {
         XDirModal,
         XDirModalInput,
+        executeXPopUp
     }
 }
 

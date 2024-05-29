@@ -15,7 +15,7 @@ export default function Organizations() {
   const [organizationsList, setOrganizationsList] = useState([])
   const [organizationUsers, setOrganizationUsers] = useState([])
   const [refreshList, setRefreshList] = useState(false)
-  const {XDirModalInput, XDirModal} = useModals()
+  const {XDirModalInput, XDirModal, executeXPopUp} = useModals()
   const [loading, setLoading] = useState(false)
   const { showSpinner, hideSpinner } = useSpinner()
 
@@ -28,10 +28,13 @@ export default function Organizations() {
     setLoading(true)
     showSpinner()
     const res = await getOrganizations()
+    console.log("ORANIZATIONS => ", res);
     setOrganizationsList(res)
     hideSpinner()
     setLoading(false)
   }
+
+
 
   const createOrganization = async () => {
     const newOrganizationName = await XDirModalInput({
@@ -46,25 +49,8 @@ export default function Organizations() {
     })
     if(newOrganizationName){
       const res = await createNewOrganization(newOrganizationName)
-      if(res?.error){
-        XPopUp({
-          text: res?.error,
-          iconType:'error',
-          timer:'3000',
-          popUpPosition:'top',
-          iconColor: 'red',
-          timer: 3000
-        })
-      }else{
-        XPopUp({
-          text: "Organization created successfully",
-          iconType:'success',
-          timer:'3000',
-          popUpPosition:'top',
-          iconColor: 'lightgreen',
-          timer: 3000
-        })
-      }
+      executeXPopUp(res, "Organization created successfully")
+      
     }
     setRefreshList(!refreshList)
   }
@@ -75,11 +61,15 @@ export default function Organizations() {
         title:'Delete organization',
         confirmButtonColor:'#e13144',
         onConfirmFunction: async () => {
-          await deleteExistingOrganization(organizationID)
+          const res = await deleteExistingOrganization(organizationID)
+          executeXPopUp(res, "Organization deleted successfully")
           setRefreshList(!refreshList)
         }
+        
       })
   }
+
+
   
   const editOrganization = async (organizationID, organizationName) => {
     const newOrganizationName = await XDirModalInput({
@@ -97,26 +87,8 @@ export default function Organizations() {
       setLoading(true)
       showSpinner()
       const res = await updateExistingOrganization(organizationID, newOrganizationName)
-      if(res?.error){
-        XPopUp({
-          text: res?.error,
-          iconType:'error',
-          timer:'3000',
-          popUpPosition:'top',
-          iconColor: 'red',
-          timer: 3000
-        })
-      }else{
-        XPopUp({
-          text: "Organization updated successfully",
-          iconType:'success',
-          timer:'3000',
-          popUpPosition:'top',
-          iconColor: 'lightgreen',
-          timer: 3000
-        })
-        setRefreshList(!refreshList)
-      }
+      executeXPopUp(res, "Organization updated successfully")
+      setRefreshList(!refreshList)
       hideSpinner()
       setLoading(false)
     }
@@ -146,10 +118,10 @@ export default function Organizations() {
          <></>
         :
           <>
-            {organizationsList.length === 0 ? <p>No organizations created yet.</p>
+            {organizationsList?.length === 0 ? <p>No organizations created yet.</p>
             :
               <>
-                {organizationsList.map((organization, index) => (
+                {organizationsList?.map((organization, index) => (
                   <StyledXRow
                       style={{
                           borderBottom: index === (organizationsList.length - 1) ? '1px solid #BBBBBB' : '',
