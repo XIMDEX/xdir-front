@@ -10,7 +10,7 @@ import { useSpinner } from '@ximdex/xui-react/hooks';
 
 export default function RolesList() {
   const [rolesList, setRolesList] = useState([])
-  const {XDirModal, XDirModalInput} = useModals()
+  const {XDirModal, XDirModalInput, executeXPopUp} = useModals()
   const [refreshList, setRefreshList] = useState(false)
   const [loading, setLoading] = useState(false)
   const { showSpinner, hideSpinner } = useSpinner();
@@ -46,42 +46,6 @@ export default function RolesList() {
 
   }
 
-  const createRole = async () => {
-    const newRoleName = await XDirModalInput({
-      title:'Create role',
-      input: 'text',
-      inputPlaceholder: 'Insert new role name',
-      inputValidator: (value) => {
-        if (!value) {
-          return "Insert a name for your role";
-        }
-      },
-    })
-    if(newRoleName){
-      const res = await createNewRole(newRoleName)
-      if(res?.error){
-        XPopUp({
-          text: res?.error,
-          iconType:'error',
-          timer:'3000',
-          popUpPosition:'top',
-          iconColor: 'red',
-          timer: 3000
-        })
-      }else{
-        XPopUp({
-          text: "Rol created successfully",
-          iconType:'success',
-          timer:'3000',
-          popUpPosition:'top',
-          iconColor: 'lightgreen',
-          timer: 3000
-        })
-      }
-    }
-    setRefreshList(!refreshList)
-  }
-
   const editRole = async (roleID, roleName) => {
     const newRoleName = await XDirModalInput({
       input: 'text',
@@ -96,63 +60,22 @@ export default function RolesList() {
     })
     if(newRoleName) {
       const res = await updateExistingRole(roleID, newRoleName)
-      if(res?.error){
-        XPopUp({
-          text: res?.error,
-          iconType:'error',
-          timer:'3000',
-          popUpPosition:'top',
-          iconColor: 'red',
-          timer: 3000
-        })
-      }else{
-        XPopUp({
-          text: "Rol updated successfully",
-          iconType:'success',
-          timer:'3000',
-          popUpPosition:'top',
-          iconColor: 'lightgreen',
-          timer: 3000
-        })
-        setRefreshList(!refreshList)
-      }
+      executeXPopUp(res, "Rol updated successfully")
     }
   }
 
   const deleteRole = async ( roleID, roleName) => {
-    const res = await XDirModal({
+    await XDirModal({
       text:`Are you sure you want to delete ${roleName}?`,
       title:'Delete rol',
       confirmButtonColor:'#e13144',
-      onConfirmFunction: async () => await confirmDeleteRol(roleID)
+      onConfirmFunction: async () => {
+        const res = await deleteExistingRole(roleID)
+        executeXPopUp(res, "Rol deleted successfully")
+        setRefreshList(!refreshList)
+        }
     })
-
-   
-  }
-
-  const confirmDeleteRol = async (roleID) => {
-    const res = await deleteExistingRole(roleID)
-    if(res?.error){
-      XPopUp({
-        text: res?.error,
-        iconType:'error',
-        timer:'3000',
-        popUpPosition:'top',
-        iconColor: 'red',
-        timer: 3000
-      })
-    }else{
-      XPopUp({
-        text: "Rol deleted successfully",
-        iconType:'success',
-        timer:'3000',
-        popUpPosition:'top',
-        iconColor: 'lightgreen',
-        timer: 3000
-      })
-      setRefreshList(!refreshList)
-    } 
-  }
+  }  
 
   const handleAssignPermissions = async (roleID) => {
     const res = await getRole(roleID)
@@ -173,25 +96,7 @@ export default function RolesList() {
 
   const confirmNewPermissions = async (permissionsSelected) => {
     const res =  await assignPermissionToRole(permissionsRolModal?.role?.uuid, permissionsSelected.map(permission => permission.value))
-    if(res?.error){
-      XPopUp({
-        text: res?.error,
-        iconType:'error',
-        timer:'3000',
-        popUpPosition:'top',
-        iconColor: 'red',
-        timer: 3000
-      })
-    }else{
-      XPopUp({
-        text: "Permission assigned successfully",
-        iconType:'success',
-        timer:'3000',
-        popUpPosition:'top',
-        iconColor: 'lightgreen',
-        timer: 3000
-      })
-    }
+    executeXPopUp(res, "Permission/s assigned successfully")
     setRefreshList(!refreshList)
   }
 
