@@ -10,7 +10,7 @@ const commonHeaders = {
 
 export const loginXDIR = async (email, password) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/login`, {
+        const res = await fetch(`${API_BASE_URL}login`, {
             method: "POST",
             headers: {...commonHeaders},
             body: JSON.stringify({
@@ -29,7 +29,7 @@ export const loginXDIR = async (email, password) => {
 
 export const registerXDIR = async (user) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/register`, {
+        const res = await fetch(`${API_BASE_URL}register`, {
             method: "POST",
             headers: {...commonHeaders},
             body: JSON.stringify(user),
@@ -49,7 +49,7 @@ export const registerXDIR = async (user) => {
 
 export const verifyEmailCode = async (action, code) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/email/verify/${code}`, {
+        const res = await fetch(`${API_BASE_URL}email/verify/${code}`, {
             method: "GET",
             headers: {...commonHeaders},
         });
@@ -65,7 +65,7 @@ export const verifyEmailCode = async (action, code) => {
 
 export const verifyEmailSendCode = async (email) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/email/resend`, {
+        const res = await fetch(`${API_BASE_URL}email/resend`, {
             method: "GET",
             headers: {
                 ...commonHeaders,
@@ -83,7 +83,7 @@ export const verifyEmailSendCode = async (email) => {
 
 export const updateUserXDIR = async (user) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/user/update`, {
+        const res = await fetch(`${API_BASE_URL}user/update`, {
             method: "PUT",
             headers: {
                 ...commonHeaders,
@@ -103,7 +103,7 @@ export const updateUserXDIR = async (user) => {
 
 export const getRoles = async () => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/roles`, {
+        const res = await fetch(`${API_BASE_URL}roles`, {
             method: "GET",
             headers: {
                 ...commonHeaders,
@@ -122,7 +122,7 @@ export const getRoles = async () => {
 
 export const getRole = async (roleID) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/role/${roleID}`, {
+        const res = await fetch(`${API_BASE_URL}role/${roleID}`, {
             method: "GET",
             headers: {
                 ...commonHeaders,
@@ -141,7 +141,7 @@ export const getRole = async (roleID) => {
 
 export const  createNewRole = async (name) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/role/create`, {
+        const res = await fetch(`${API_BASE_URL}role/create`, {
             method: "POST",
             headers: {
                 ...commonHeaders,
@@ -164,7 +164,7 @@ export const  createNewRole = async (name) => {
 
 export const updateExistingRole = async (id, name) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/role/update/${id}`, {
+        const res = await fetch(`${API_BASE_URL}role/update/${id}`, {
             method: "PUT",
             headers: {
                 ...commonHeaders,
@@ -187,7 +187,7 @@ export const updateExistingRole = async (id, name) => {
 
 export const deleteExistingRole = async (id) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/role/remove/${id}`, {
+        const res = await fetch(`${API_BASE_URL}role/remove/${id}`, {
             method: "DELETE",
             headers: {
                 ...commonHeaders,
@@ -206,7 +206,7 @@ export const deleteExistingRole = async (id) => {
 
 export const assignPermissionToRole = async (id, permission) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/role/assign/permission/${id}`, {
+        const res = await fetch(`${API_BASE_URL}role/assign/permission/${id}`, {
             method: "PUT",
             headers: {
                 ...commonHeaders,
@@ -228,7 +228,7 @@ export const assignPermissionToRole = async (id, permission) => {
 
 export const getOrganizations = async () => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/organizations`, {
+        const res = await fetch(`${API_BASE_URL}organizations`, {
             method: "GET",
             headers: {
                 ...commonHeaders,
@@ -247,7 +247,7 @@ export const getOrganizations = async () => {
 
 export const createNewOrganization = async (name) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/organization/create`, {
+        const res = await fetch(`${API_BASE_URL}organization/create`, {
             method: "POST",
             headers: {
                 ...commonHeaders,
@@ -269,7 +269,7 @@ export const createNewOrganization = async (name) => {
 
 export const updateExistingOrganization = async (id, name) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/organization/update/${id}`, {
+        const res = await fetch(`${API_BASE_URL}organization/update/${id}`, {
             method: "POST",
             headers: {
                 ...commonHeaders,
@@ -291,7 +291,7 @@ export const updateExistingOrganization = async (id, name) => {
 
 export const deleteExistingOrganization = async (id) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/organization/delete/${id}`, {
+        const res = await fetch(`${API_BASE_URL}organization/delete/${id}`, {
             method: "DELETE",
             headers: {
                 ...commonHeaders,
@@ -310,7 +310,7 @@ export const deleteExistingOrganization = async (id) => {
 
 export const getUsers = async () => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/users`, {
+        const res = await fetch(`${API_BASE_URL}users`, {
             method: "GET",
             headers: {
                 ...commonHeaders,
@@ -328,7 +328,7 @@ export const getUsers = async () => {
 
 export const getUser = async (userID) => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/user/${userID}`, {
+        const res = await fetch(`${API_BASE_URL}user/${userID}`, {
             method: "GET",
             headers: {
                 ...commonHeaders,
@@ -347,7 +347,7 @@ export const getUser = async (userID) => {
 
 export const deleteExistingUser = async () => {
     try {
-        const res = await fetch(`${API_BASE_URL}api/user/delete/${id}`, {
+        const res = await fetch(`${API_BASE_URL}user/delete/${id}`, {
             method: "DELETE",
             headers: {
                 ...commonHeaders,
