@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { faEdit, faKey, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XDropdown, XPopUp, XRowContent } from "@ximdex/xui-react/material";
-import { StyledMarginContent, StyledXCard, StyledXModal, StyledXRow } from "../../components/styled-compontent/Container";
+import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXModal, StyledXRow } from "../../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
 import useModals, { XDirModalDropdownPermissions } from '../../hooks/useModals';
@@ -104,7 +104,10 @@ export default function RolesList({refreshRoles}) {
   return (
         <>
 
-            {loading ? <></> : rolesList.length === 0 ? <p>No roles created yet.</p>
+            {loading ? <></> : rolesList.length === 0 ? 
+              <StyledFlexFullCenter>
+                <p>No roles created yet.</p>
+              </StyledFlexFullCenter>
                 :
                   <>
                     {rolesList.map((role, index) => (

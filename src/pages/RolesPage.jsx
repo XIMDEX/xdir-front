@@ -77,7 +77,7 @@ export default function RolesPage() {
         />
         <StyledTabsContainer>
           {tabSelected === 'Roles' && <RolesList refreshRoles={refreshRoles} />}
-          {tabSelected === 'Permissions' && <PermissionsList />}
+          {tabSelected === 'Permissions' && <PermissionsList refreshPermissions={refreshPermissions} />}
         </StyledTabsContainer>
       </StyledMarginContent>
     </StyledXCard>

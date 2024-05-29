@@ -101,6 +101,90 @@ export const updateUserXDIR = async (user) => {
 }
 
 
+export const createNewPermission = async (name) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}permissions`, {
+            method: "POST",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+            body: JSON.stringify({
+                name: name
+            }),
+        });
+        if (!res.ok) {
+            throw new Error("Failed to create new Permission. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to create new Permission. Please try again later." };
+    }
+}
+
+export const getPermissisions = async () => {
+    try {
+        const res = await fetch(`${API_BASE_URL}permissions`, {
+            method: "GET",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+        });
+        if (!res.ok) {
+            throw new Error("Failed to get permissions. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to get permissions. Please try again later." };
+    }
+}
+
+
+export const updateExistingPermission = async (id, name) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}permissions/${id}`, {
+            method: "PUT",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+            body: JSON.stringify({
+                name: name
+            }),
+        });
+        if (!res.ok) {
+            throw new Error("Failed to update this permission. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to update this permission. Please try again later." };
+    }
+}
+
+
+export const deleteExistingPermission = async (id) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}permissions/${id}`, {
+            method: "DELETE",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+        });
+        if (!res.ok) {
+            throw new Error("Failed to delete this permission. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to delete this permission. Please try again later." };
+    }
+}
+
 export const getRoles = async () => {
     try {
         const res = await fetch(`${API_BASE_URL}roles`, {
@@ -139,27 +223,6 @@ export const getRole = async (roleID) => {
     }
 }
 
-export const createNewPermission = async (name) => {
-    try {
-        const res = await fetch(`${API_BASE_URL}permission`, {
-            method: "POST",
-            headers: {
-                ...commonHeaders,
-                Authorization: `Bearer ${getToken()}`
-            },
-            body: JSON.stringify({
-                name: name
-            }),
-        });
-        if (!res.ok) {
-            throw new Error("Failed to create new Permission. Please try again later.");
-        }
-        const json = await res.json();
-        return json;
-    } catch (err) {
-        return { error: "Unable to create new Permission. Please try again later." };
-    }
-}
 
 export const  createNewRole = async (name) => {
     try {
