@@ -14,10 +14,9 @@ import UsersInvites from "../components/UsersPage/UsersInvites";
 
 
 export default function Users() {
-  const {XDirModalInput} = useModals()
+  const {XDirModalInput, executeXPopUp} = useModals()
   const {validateEmail} = useFormValidator()
   const [tabSelected, setTabSelected] = useState(USER_TABS[0])
-
 
   const inviteNewUser = async () => {
     const newUserEmail = await XDirModalInput({
@@ -33,25 +32,7 @@ export default function Users() {
     })
     if(newUserEmail){
       const res = await sendRegisterInvite(newUserEmail)
-      if(res?.error){
-        XPopUp({
-          text: res?.error,
-          iconType:'error',
-          timer:'3000',
-          popUpPosition:'top',
-          iconColor: 'red',
-          timer: 3000
-        })
-      }else{
-        XPopUp({
-          text: "Invite sent successfully",
-          iconType:'success',
-          timer:'3000',
-          popUpPosition:'top',
-          iconColor: 'lightgreen',
-          timer: 3000
-        })
-      }
+      executeXPopUp(res,"Invite sent successfully" )
     }
   }
 
