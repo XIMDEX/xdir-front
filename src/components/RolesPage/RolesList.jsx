@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { faEdit, faKey, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XDropdown, XPopUp, XRowContent } from "@ximdex/xui-react/material";
-import React, { useEffect, useState } from "react";
 import { StyledMarginContent, StyledXCard, StyledXModal, StyledXRow } from "../../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
@@ -8,7 +8,7 @@ import useModals, { XDirModalDropdownPermissions } from '../../hooks/useModals';
 import { assignPermissionToRole, createNewRole, deleteExistingRole, getRole, getRoles, updateExistingRole } from "../../service/xdir.service";
 import { useSpinner } from '@ximdex/xui-react/hooks';
 
-export default function RolesList() {
+export default function RolesList({refreshRoles}) {
   const [rolesList, setRolesList] = useState([])
   const {XDirModal, XDirModalInput, executeXPopUp} = useModals()
   const [refreshList, setRefreshList] = useState(false)
@@ -21,7 +21,7 @@ export default function RolesList() {
 
   useEffect(() => {
     getListRoles()
-  }, [refreshList]);
+  }, [refreshList, refreshRoles]);
 
 
   const getListRoles = async () => {
@@ -61,6 +61,7 @@ export default function RolesList() {
     if(newRoleName) {
       const res = await updateExistingRole(roleID, newRoleName)
       executeXPopUp(res, "Rol updated successfully")
+      refreshList(!refreshList)
     }
   }
 
@@ -102,10 +103,8 @@ export default function RolesList() {
 
   return (
         <>
-            {loading ? <></>
-            :
-              <>
-                {rolesList.length === 0 ? <p>No roles created yet.</p>
+
+            {loading ? <></> : rolesList.length === 0 ? <p>No roles created yet.</p>
                 :
                   <>
                     {rolesList.map((role, index) => (
@@ -143,9 +142,8 @@ export default function RolesList() {
                       </StyledXRow>
                     ))}
                   </>
-                }
-              </>  
-          }
+            }
+
                 
             <StyledXModal
             isOpen={permissionsRolModal?.open}

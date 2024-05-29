@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyledMarginContent, StyledTabsContainer, StyledXCard } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faKey, faPaperPlane, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faFileArchive, faFilePrescription, faKey, faPaperPlane, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XPopUp } from "@ximdex/xui-react/material";
 import { createNewPermission, sendRegisterInvite } from "../service/xdir.service";
 import useModals from "../hooks/useModals";
@@ -16,29 +16,45 @@ import PermissionsList from "../components/RolesPage/PermissionsList";
 
 export default function RolesPage() {
   const {XDirModalInput, executeXPopUp} = useModals()
-  const [tabSelected, setTabSelected] = useState(USER_TABS[0])
+  const [tabSelected, setTabSelected] = useState(ROLE_TABS[0])
+  const [refreshRoles, setRefreshRoles] = useState(false)
+  const [refreshPermissions, setRefreshPermissions] = useState(false)
 
   const createNewRole = async () => {
     const newName = await XDirModalInput({
-      title: `${tabSelected === 'Roles' ? 'Create role' : 'Create permission'}`,
+      title: 'Create role',
       input: 'text',
-      inputPlaceholder: `${tabSelected === 'Roles' ? 'Insert new role name' : 'Insert new permission name'}`,
+      inputPlaceholder: 'Insert new role name',
       inputValidator: (value) => {
         if (!value) {
           return "Please insert a valid name";
         }
       },
     })
-    console.log(newName);
     if(newName){
-      let res = {}
-      if(tabSelected === 'Roles') res = await createNewRole(newName)
-      if(tabSelected === 'Permissions') res = await createNewPermission(newName)
-      executeXPopUp(res, tabSelected === 'Roles' ? "Role created successfully" : 'Permission created successfully')
+      const res = await createNewRole(newName)
+      executeXPopUp(res, 'Role created successfully')
+      setRefreshRoles(!refreshRoles)
     }
-    setRefreshList(!refreshList)
   }
 
+  const createNewPermission = async () => {
+    const newName = await XDirModalInput({
+      title: 'Create permission',
+      input: 'text',
+      inputPlaceholder: 'Insert new permission name',
+      inputValidator: (value) => {
+        if (!value) {
+          return "Please insert a valid name";
+        }
+      },
+    })
+    if(newName){
+      const res = await createNewPermission(newName)
+      executeXPopUp(res, 'Permission created successfully')
+    }
+    setRefreshPermissions(!refreshPermissions)
+  }
 
   return (
     <StyledXCard
@@ -48,10 +64,10 @@ export default function RolesPage() {
       {
           component:
               <XButton
-                  onClick={() => createNewRole()}
+                  onClick={tabSelected === 'Roles' ? createNewRole : createNewPermission}
                   title={`${tabSelected === 'Roles' ? 'Create new Role' : 'Create new Permission'}`}
               >
-                  <FontAwesomeIcon icon={faPaperPlane} style={{marginRight: '10px'}}/> 
+                  <FontAwesomeIcon icon={tabSelected === 'Roles' ? faKey : faFileArchive} style={{marginRight: '10px'}}/> 
                   {`${tabSelected === 'Roles' ? 'Create role' : 'Create Permission'}`}
               </XButton>
       },
@@ -63,7 +79,7 @@ export default function RolesPage() {
         setTabSelected={setTabSelected}
       />
       <StyledTabsContainer>
-        {tabSelected === 'Roles' && <RolesList/>}
+        {tabSelected === 'Roles' && <RolesList refreshRoles={refreshRoles}/>}
         {tabSelected === 'Permissions' && <PermissionsList/>}
       </StyledTabsContainer>
     </StyledMarginContent>

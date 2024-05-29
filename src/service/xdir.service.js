@@ -163,7 +163,7 @@ export const createNewPermission = async (name) => {
 
 export const  createNewRole = async (name) => {
     try {
-        const res = await fetch(`${API_BASE_URL}role/create`, {
+        const res = await fetch(`${API_BASE_URL}roles`, {
             method: "POST",
             headers: {
                 ...commonHeaders,
@@ -186,7 +186,7 @@ export const  createNewRole = async (name) => {
 
 export const updateExistingRole = async (id, name) => {
     try {
-        const res = await fetch(`${API_BASE_URL}role/update/${id}`, {
+        const res = await fetch(`${API_BASE_URL}roles/${id}`, {
             method: "PUT",
             headers: {
                 ...commonHeaders,
@@ -209,7 +209,7 @@ export const updateExistingRole = async (id, name) => {
 
 export const deleteExistingRole = async (id) => {
     try {
-        const res = await fetch(`${API_BASE_URL}role/remove/${id}`, {
+        const res = await fetch(`${API_BASE_URL}roles/${id}`, {
             method: "DELETE",
             headers: {
                 ...commonHeaders,
