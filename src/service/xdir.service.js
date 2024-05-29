@@ -139,6 +139,28 @@ export const getRole = async (roleID) => {
     }
 }
 
+export const createNewPermission = async (name) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}permission`, {
+            method: "POST",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+            body: JSON.stringify({
+                name: name
+            }),
+        });
+        if (!res.ok) {
+            throw new Error("Failed to create new Permission. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to create new Permission. Please try again later." };
+    }
+}
+
 export const  createNewRole = async (name) => {
     try {
         const res = await fetch(`${API_BASE_URL}role/create`, {
