@@ -8,8 +8,10 @@ import ximdexLogo from "../assets/logotipo_ximdex-DIR-small.png"
 import { CircularProgress } from '@mui/material';
 import useFormValidator from '../hooks/useFormValidatior';
 import useModals from '../hooks/useModals'
+import AuthContext from '../providers/AuthProvider/AuthContext';
 
 function Register() { 
+    const {isAuthenticated} = useContext(AuthContext)
     let [searchParams] = useSearchParams();
     const { organization, email: userEmail } = Object.fromEntries(searchParams)
     const [error, setError] = useState('');
@@ -28,12 +30,13 @@ function Register() {
     const navigate = useNavigate();
     //Obtiene el dato de la organizacion  al cargar
     useEffect(() => {
+        if(isAuthenticated) navigate('/home')
         setUser({
             ...user,
             email: userEmail,
             organization: organization,
         });
-    },[])
+    },[isAuthenticated])
     
     //Comprueba contraseñas
     useEffect(() => {

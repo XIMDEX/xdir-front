@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {XContainer, XLogin}  from '@ximdex/xui-react/material';
 import LoginImage from '../assets/logotipo_ximdex-DIR-small.png';
@@ -45,8 +45,13 @@ export const StyledExtraActions = styled('div')`
 
 
 const Login = () => {
-    const {saveUserData} = useContext(AuthContext)
+    const {saveUserData, isAuthenticated} = useContext(AuthContext)
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isAuthenticated) navigate('/')
+    }, [isAuthenticated]);
+
 
     const navigateToPage = () => {
         navigate('/home')
