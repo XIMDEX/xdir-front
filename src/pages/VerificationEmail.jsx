@@ -55,30 +55,9 @@ const VerificationEmailForm = ({
     if(code){
       setLoadingVerification(true)
       const res = await verifyEmailCode(action, code)
-      if(res?.error){
-        XPopUp({
-            text: res?.error,
-            iconType:'error',
-            timer:'3000',
-            popUpPosition:'top',
-            iconColor: 'red',
-            timer: 3000
-        })
-      }else if(action === 'register'){
-          XPopUp({
-            text: 'Email has been verified.',
-            iconType:'success',
-            timer:'3000',
-            popUpPosition:'top',
-            iconColor: 'lightgreen',
-            timer: 3000
-        })
-        setTimeout(() => {
-          navigate('/login')
-        }, 1000);
-      }else if(action === 'password_change'){
-        setEmailVerified(true)
-      }
+      executePopUp(res,'Email has been verified.')
+      if(!res?.error && action === 'register')navigate('/login')
+      if(!res?.error && action === 'password_change') setEmailVerified(true)
       setLoadingVerification(false)
     }
   }
