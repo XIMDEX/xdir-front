@@ -206,7 +206,7 @@ export const getRoles = async () => {
 
 export const getRole = async (roleID) => {
     try {
-        const res = await fetch(`${API_BASE_URL}role/${roleID}`, {
+        const res = await fetch(`${API_BASE_URL}roles/${roleID}`, {
             method: "GET",
             headers: {
                 ...commonHeaders,

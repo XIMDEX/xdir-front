@@ -19,7 +19,7 @@ export const FAKE_USER = {
       "email": "test@ximdex.com",
       "email_verified_at": null,
       "roles": [{name:"admin"}, {name:"superAdmin"}],
-      "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5YzFhMjBiOS04YmMwLTRmMGUtYjIwZi01NmNkNWJmYTk1Y2IiLCJqdGkiOiJhMGZiMDYzYWMyMWYxOGY1Y2U1NzcyOTdlMjczOTUxOTc5ZDQ0NmVmN2Y0MjgxMzBiNDlhOWQwYzZkMjNkODM5MjM4NjBhMTFlNjVjOWFjNiIsImlhdCI6MTcxNjM2NTUzOS4wNTMyMSwibmJmIjoxNzE2MzY1NTM5LjA1MzIxNSwiZXhwIjoxNzQ3OTAxNTM5LjA0NDk0Nywic3ViIjoiYTM3MjlhNzYtYjJjZC00MTA1LWIwZWMtNTQ4NzBmNzA1M2E5Iiwic2NvcGVzIjpbXX0.e3Ie5fd8b5YWLbz3sVCq3-7Og0cViodHuofILBqBbzKpK4gwx_WXDLNWdX3hBBjqU2E-CIyhNxy1OX2GJaI8KjgIKxbvqcil3r1DxJsmjs4hs4xI3g0ZwbKr-h6W2PXpvKFzh8E6aqk8WgpVjoyG3NtzXjGfNh8TXPgGrWjL2kiOgQ7ABXXuWGrVwpyz9TGgjYC4BN7DJ_2MO3HZFalRu3tIWMiMibFfLAggsh9k0C2_ORjLfKDQhSGW5ymX7jRqfnISvRAY6BZlxi9X4v16AiLXRonoJhPRg6Z8zm-dP9ci4V0y37p76WqyCeGe_q4isQ-k9fjLdNthNUK3YkbacfGrrcGX2fmNNvEB3eNjt-aV7GNUQf3hPRFE_RwSdZvuFb6r2aJRVlTW5co1EGyqu08BmDRI4cZo3VhDRzguHTlq8SW7uO9L6Mm8x-Ra4d5-Trqak8A4YXkHgxZl8Q1BSM2tRZygkzCsTDpvNMMQdRFR4OZ30WouMwiwBleCslzErEX4C-Cu_AzegK2fMmh3E99dcDlHpPeW4zslp-MTMOGZsrWLv5i-jzCcwjoSkuOvhHyErqXm097gkGv-C7Z5k45aHTXWtZZzkY-X3ouCktptSkezvz4Da6hWtYlQV1OwI-yPRvtnJsxFwVuByHI0omirLxViNrzUHtNWTLObaVc"
+      "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5YzFhMjBiOS04YmMwLTRmMGUtYjIwZi01NmNkNWJmYTk1Y2IiLCJqdGkiOiJjNjk1MDlkZTI5MzZhYzIxMzYzNTEwNzViYTNjODRlNTFhZWRhYzYxYzE3YjUyYjRkOGUwZmU5ZmM1MGZhMWJiZTQ3OGQwYWQ5NDJlMDBkYyIsImlhdCI6MTcxNjc5NzkwMi4zMDkwODksIm5iZiI6MTcxNjc5NzkwMi4zMDkwOTQsImV4cCI6MTc0ODMzMzkwMi4zMDI1ODksInN1YiI6ImQwMDg0MzFkLThlODEtNDBkZC05ODIzLTQzZDUxNzM3MGQ1NCIsInNjb3BlcyI6W119.irht6RGFpYY9ZxX18hexn1FoLC5Zy-UmPyaCx-wPSt7qoYZKPigpwKzBDYOBFqFAghUjLuS5yXKy8fXP4n4f1DoETnj9FsOGr6HJueTUFvwBVTkaSwyniGa88M1sGeswsCudVKXfD5t9LT2gmRh-nqMcilva66pucgioxHL8WnOf9Ri7ZqV3oUW1D0c-QFH81HL154MefrJU5QJQJXKeMiSuy3WpqowZl6cN3GOt_mxXJkPm3vukHtTY908dPPawvjzT7A9q0DntfIZxiilq9pjOnvRXDkYsh11EYHVayAUBoCcrT5X8RZPU2aedJGDeSuK6PTi63-Pqd90bhKFWiQDCO0f6kp-5pjf20V6mIqJqtwOWrlb9gnJP7ra824TlRjO-lZftJIf1YMJ40X26xWWaXhhGp-ggTbGWBDfDtNjrHQ1-PE2l9GERjihJQafq9QL4bJgBgKCJlBPRGhMiUvc40hqzdnbKlr_Vw8S-rPuHUHQljTfxWYVHQ0C4oiDLtCP1uGdjn_tNC2NPDnREc_JuXq4gkvmzmwA6IXOif32NDFfLyuF-vqXUxokTLLAsKa8VqwN9XnHnoi4zpb7jGhhEAJPTE31yaOaYAygTXyX75kwCfQRQz_CQm43AB9W7h9zOUQl722JXcekN4StMRKpITeLHfyCWueq5qyP2gHg"
 
     }
 
@@ -30,7 +30,7 @@ export const GENDER_OPTIONS = [
 ]
 
 
-export const PERMISSIONS_OPTIONS = [
+export const PERMISSIONS_OPTIONS_OLD = [
   {value: 'admin', label: 'Admin'},
   {value: 'editor', label: 'Editor'},
   {value: 'creator', label: 'Creator'},
@@ -38,7 +38,21 @@ export const PERMISSIONS_OPTIONS = [
 ]
 
 
+export const PERMISSIONS_OPTIONS = [
+    { label: "Viewer", value: '0b11100000' },
+    { label: "Creator", value: '0b11110000' },
+    { label: "Editor", value: '0b11111100' },
+    { label: "Admin", value: '0b00000010' },
+    { label: "SuperAdmin", value: '0b00000001' }
+]
+
 export const USER_TABS = [
   'Users',
   'Invites'
+]
+
+
+export const ROLE_TABS = [
+  'Roles',
+  'Permissions'
 ]

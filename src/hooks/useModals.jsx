@@ -112,6 +112,7 @@ export default function useModals () {
 export const XDirModalDropdownPermissions = ({title, subtitle, roleSelected, confirmButton, setOpenModal}) => {
     const superAdminPermission = { value: 'superadmin', label: 'Superadmin' };
     const [permissionsSelected, setPermissionsSelected] = useState([]);
+    console.log(roleSelected);
 
 
     useEffect(() => {

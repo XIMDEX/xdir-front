@@ -61,7 +61,7 @@ export default function RolesList({refreshRoles}) {
     if(newRoleName) {
       const res = await updateExistingRole(roleID, newRoleName)
       executeXPopUp(res, "Rol updated successfully")
-      refreshList(!refreshList)
+      setRefreshList(!refreshList)
     }
   }
 

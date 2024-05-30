@@ -54,7 +54,7 @@ export default function RolesPage() {
 
   return (
     <StyledXCard
-      title={<p style={{ marginLeft: '1em' }}><FontAwesomeIcon icon={faKey} style={{ marginRight: '10px' }} />USERS</p>}
+      title={<p style={{ marginLeft: '1em' }}><FontAwesomeIcon icon={faKey} style={{ marginRight: '10px' }} />ROLES AND PERMISSIONS</p>}
       style={{ height: 'auto', width: '80%', margin: '2em auto' }}
       controls={[
         {
