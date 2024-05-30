@@ -48,24 +48,6 @@ const AuthProvider = ({ children }) => {
     localStorage.setItem(`${COOKIE_NAME}`, JSON.stringify({}))
   }
 
-  //Revoca el token, lo borra del localStorage y navega a la pagina de logout
-  const logout = async () => {
-    Swal.fire({
-      title: 'Log out',
-      text: "Are you sure you want to log out?",
-      icon: 'warning',
-      confirmButtonText: 'Yes',
-      showCancelButton: true,
-      cancelButtonColor: '#43a1a2',
-      confirmButtonColor: "#d33",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        logoutUser();
-      }
-    })
-  };
-
-
   const saveUserData = (user) => {
     localStorage.setItem(`${COOKIE_NAME}`, JSON.stringify(user))
     setUser(user)
@@ -75,7 +57,7 @@ const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isAdmin, isSuperAdmin, logout, forceLogout, user, saveUserData }}>
+    <AuthContext.Provider value={{ isAuthenticated, isAdmin, isSuperAdmin, forceLogout, user, saveUserData }}>
       {children}
     </AuthContext.Provider>
   );

@@ -5,18 +5,19 @@ import { faUser, faSignOutAlt, faExternalLinkAlt, faLock } from '@fortawesome/fr
 import { XNav, XPopUp } from '@ximdex/xui-react/material';
 import ximdexImagenav from '../assets/logotipo_ximdex-DIR-white.png';
 import AuthContext from '../providers/AuthProvider/AuthContext';
+import useModals from '../hooks/useModals';
 
 
 const Navbar = () => {
     const location = useLocation()
     const navigate = useNavigate();
     const { 
-        forceLogout,
         user,
         isSuperAdmin,
         isAdmin,
         isAuthenticated
     } = useContext(AuthContext);
+    const {logoutModal} = useModals()
     const [internalLinks, setInternalLinks] = useState([])
 
     useEffect(() => {
@@ -58,7 +59,7 @@ const Navbar = () => {
                 {
                     text: <p style={{margin: '0', flexGrow:'1'}}>Sign out</p>,
                     icon: <FontAwesomeIcon icon={faSignOutAlt} size="1x" style={{ marginRight: '8px'}} />,
-                    onClick: () => {forceLogout()}
+                    onClick: () => {logoutModal()}
                 },
             ]
         },

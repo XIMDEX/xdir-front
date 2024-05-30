@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import './sweetAlertClasses.css'
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { XButton, XDropdown, XInput, XPopUp } from "@ximdex/xui-react/material";
 import { PERMISSIONS_OPTIONS } from "../../CONSTATNS";
 import { createRoot  } from 'react-dom';
@@ -9,8 +9,10 @@ import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useFormValidator from "./useFormValidatior";
 import { getOrganizations } from "../service/xdir.service";
+import AuthContext from "../providers/AuthProvider/AuthContext";
 
 export default function useModals () {
+    const {forceLogout} = useContext(AuthContext)
     const [permissionsSelected, setPermissionsSelected] = useState([]);
 
     const XDirModal = async ({text,title, confirmButtonColor, textColor, onConfirmFunction, showCancelButton}) => {
@@ -18,9 +20,10 @@ export default function useModals () {
             text: text,
             title: title,
             showCancelButton: showCancelButton ?? true,
-            confirmButtonText: 'Accept',
+            confirmButtonText: 'ACCEPT',
             color: textColor ?? 'black',
             confirmButtonColor: confirmButtonColor ?? '#43a1a2',
+            cancelButtonText: 'CANCEL',
             background: 'rgb(255,255,255)',
             focusConfirm: false,
             customClass: {
@@ -46,6 +49,7 @@ export default function useModals () {
             }
         })
     }
+    
     const XDirModalInput = async ({title,input,inputLabel, inputPlaceholder,inputValidator,confirmButtonColor, textColor}) => {
         const {value} = await Swal.fire({
             title: title,
@@ -54,7 +58,8 @@ export default function useModals () {
             inputPlaceholder: inputPlaceholder,
             showCancelButton: true,
             inputValidator:inputValidator,
-            confirmButtonText: 'Submit',
+            cancelButtonText: 'CANCEL',
+            confirmButtonText: 'SUBMIT',
             color: textColor ?? 'black',
             confirmButtonColor: confirmButtonColor ?? '#43a1a2',
             background: 'rgb(255,255,255)',
@@ -101,12 +106,47 @@ export default function useModals () {
         })
       }
     }
+
+    const logoutModal = async () => {
+        Swal.fire({
+            title: 'LOG OUT',
+            text: "Are you sure you want to log out?",
+            confirmButtonText: 'YES',
+            cancelButtonText: 'CANCEL',
+            showCancelButton: true,
+            confirmButtonColor: "#43a1a2",
+            background: 'rgb(255,255,255)',
+            customClass: {
+                popup: 'modalContainer',
+                input: 'customInputClass'
+            },
+            showClass: {
+                popup: `
+                  animate__animated
+                  animate__fadeInUp
+                  animate__faster
+                `
+            },
+            hideClass: {
+                popup: `
+                  animate__animated
+                  animate__fadeOutDown
+                  animate__faster
+                `
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                forceLogout();
+            }
+        })
+    };
       
     
     return {
         XDirModal,
         XDirModalInput,
-        executeXPopUp
+        executeXPopUp,
+        logoutModal
     }
 }
 
