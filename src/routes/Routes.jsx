@@ -33,7 +33,7 @@ const Routes = () => {
 
             {/* Rutas privadas de administrador */}
             <Route  path="/users" element={<ProtectedAdminRoutes component={<Users/>}/>}/> 
-            <Route  path="/roles" element={<ProtectedAdminRoutes component={<RolesPage/>}/>}/> 
+            {/* <Route  path="/roles" element={<ProtectedAdminRoutes component={<RolesPage/>}/>}/>  */}
 
 
             {/* Rutas privadas de super administrador */}
