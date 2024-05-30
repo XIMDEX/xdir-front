@@ -8,6 +8,7 @@ import _ from "lodash";
 import { useNavigate, useParams } from "react-router-dom";
 import { verifyEmailCode, verifyEmailSendCode } from "../service/xdir.service";
 import { CircularProgress } from "@mui/material";
+import useModals from "../hooks/useModals";
 
 export default function VerificationEmail() {
   const [emailVerified, setEmailVerified] = useState(false)
@@ -38,6 +39,7 @@ const VerificationEmailForm = ({
   const [email, setEmail] = useState(user?.email ?? '')
   const [loadingVerification, setLoadingVerification] = useState(false)
   const navigate = useNavigate()
+  const {executePopUp} = useModals()
 
   useEffect(() => {
     verifyEmail()
@@ -45,25 +47,7 @@ const VerificationEmailForm = ({
 
   const getVerificationCode = async () => {
     const res = await verifyEmailSendCode(email)
-    if(!res?.error){
-      XPopUp({
-        text: res?.error,
-        iconType:'error',
-        timer:'3000',
-        popUpPosition:'top',
-        iconColor: 'red',
-        timer: 3000
-      })
-    }else{
-      XPopUp({
-        type: 'success',
-        text: "An email has been sent to your address.",
-        position: 'top',
-        showConfirmButton: false,
-        iconColor: 'lightgreen',
-        timer: 3000
-      })
-    }
+    executePopUp(res, 'An email has been sent to your address.')
   }
 
   /** SEND VERIFICATION CODE TO BACKEND */
