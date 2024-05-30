@@ -123,7 +123,7 @@ function Home() {
                     alignItems={'center'}
                     height={'100%'}
                 >   
-                <p style={{width: '30%', textAlign:'center', paddingTop: '10em 0'}}>
+                <p style={{width: '30%', textAlign:'center', paddingTop: '14em'}}>
                     Please contact an administrator to complete the setup of your account with the necessary roles and start working!
                 </p>
                 </Stack>
