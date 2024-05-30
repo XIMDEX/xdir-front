@@ -33,6 +33,11 @@ const Navbar = () => {
                     text: 'Organizations',
                     url: '/organizations',
                     target: '_self'
+                },
+                {
+                    text: 'Services',
+                    url: '/services',
+                    target: '_self'
                 }
             ]
         }   
