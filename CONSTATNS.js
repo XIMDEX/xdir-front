@@ -56,3 +56,10 @@ export const ROLE_TABS = [
   'Roles',
   'Permissions'
 ]
+
+export const SERVICES_TABS = [
+  'XDAM',
+  'XEVAL',
+  'XDIR',
+  'XEDIT'
+]

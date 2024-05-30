@@ -12,6 +12,7 @@ import Organizations from '../pages/Organizations';
 import UserProfile from '../pages/UserProfile';
 import VerificationEmail from '../pages/VerificationEmail';
 import RolesPage from '../pages/RolesPage';
+import Services from '../pages/Services';
 // import NotFound from '../pages/NotFound';
 
 const Routes = () => {
@@ -37,6 +38,7 @@ const Routes = () => {
 
 
             {/* Rutas privadas de super administrador */}
+            <Route  path="/services" element={<ProtectedSuperAdminRoute component={<Services/>}/>}/> 
             <Route  path="/organizations" element={<ProtectedSuperAdminRoute component={<Organizations/>}/>}/> 
                
         </ReactRoutes>

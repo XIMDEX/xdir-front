@@ -26,7 +26,6 @@ export const loginXDIR = async (email, password) => {
     }
 };
 
-
 export const registerXDIR = async (user) => {
     try {
         const res = await fetch(`${API_BASE_URL}register`, {
@@ -46,7 +45,6 @@ export const registerXDIR = async (user) => {
     }
 };
 
-
 export const verifyEmailCode = async (action, code) => {
     try {
         const res = await fetch(`${API_BASE_URL}email/verify/${code}`, {
@@ -60,8 +58,7 @@ export const verifyEmailCode = async (action, code) => {
     } catch (err) {
         return { error: err.message }; 
     }
-}
-
+};
 
 export const verifyEmailSendCode = async (email) => {
     try {
@@ -78,7 +75,7 @@ export const verifyEmailSendCode = async (email) => {
     } catch (err) {
         return { error: "unable to verify your email. Please try again later." };
     }
-}
+};
 
 export const verifyChangePassowordCode = async (passwordData) => {
     try {
@@ -95,9 +92,7 @@ export const verifyChangePassowordCode = async (passwordData) => {
     } catch (err) {
         return { error: "Unable to get verify your email code. Please try again later." };
     }
-}
-
-
+};
 
 export const changePassword = async (password) => {
     try {
@@ -114,8 +109,7 @@ export const changePassword = async (password) => {
     } catch (err) {
         return { error: "Unable to get new code. Please try again later." };
     }
-}
-
+};
 
 export const updateUserXDIR = async (user) => {
     try {
@@ -134,8 +128,7 @@ export const updateUserXDIR = async (user) => {
     } catch (err) {
         return { error: "Failed to update user information. Please check try again later." };
     }
-}
-
+};
 
 export const createNewPermission = async (name) => {
     try {
@@ -157,7 +150,7 @@ export const createNewPermission = async (name) => {
     } catch (err) {
         return { error: "Unable to create new Permission. Please try again later." };
     }
-}
+};
 
 export const getPermissisions = async () => {
     try {
@@ -176,8 +169,7 @@ export const getPermissisions = async () => {
     } catch (err) {
         return { error: "Unable to get permissions. Please try again later." };
     }
-}
-
+};
 
 export const updateExistingPermission = async (id, name) => {
     try {
@@ -199,8 +191,7 @@ export const updateExistingPermission = async (id, name) => {
     } catch (err) {
         return { error: "Unable to update this permission. Please try again later." };
     }
-}
-
+};
 
 export const deleteExistingPermission = async (id) => {
     try {
@@ -219,7 +210,7 @@ export const deleteExistingPermission = async (id) => {
     } catch (err) {
         return { error: "Unable to delete this permission. Please try again later." };
     }
-}
+};
 
 export const getRoles = async () => {
     try {
@@ -238,7 +229,7 @@ export const getRoles = async () => {
     } catch (err) {
         return { error: "Unable to get roles. Please try again later." };
     }
-}
+};
 
 export const getRole = async (roleID) => {
     try {
@@ -257,7 +248,7 @@ export const getRole = async (roleID) => {
     } catch (err) {
         return { error: "Unable to get the role. Please try again later." };
     }
-}
+};
 
 
 export const  createNewRole = async (name) => {
@@ -280,8 +271,7 @@ export const  createNewRole = async (name) => {
     } catch (err) {
         return { error: "Unable to create new role. Please try again later." };
     }
-}
-
+};
 
 export const updateExistingRole = async (id, name) => {
     try {
@@ -303,8 +293,7 @@ export const updateExistingRole = async (id, name) => {
     } catch (err) {
         return { error: "Unable to update this role. Please try again later." };
     }
-}
-
+};
 
 export const deleteExistingRole = async (id) => {
     try {
@@ -323,7 +312,7 @@ export const deleteExistingRole = async (id) => {
     } catch (err) {
         return { error: "Unable to delete this role. Please try again later." };
     }
-}
+};
 
 export const assignPermissionToRole = async (id, permission) => {
     try {
