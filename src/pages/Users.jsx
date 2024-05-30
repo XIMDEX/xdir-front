@@ -3,7 +3,7 @@ import { StyledMarginContent, StyledTabsContainer, StyledXCard, StyledXModal } f
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XPopUp } from "@ximdex/xui-react/material";
-import { sendRegisterInvite } from "../service/xdir.service";
+import { getOrganizations, sendRegisterInvite } from "../service/xdir.service";
 import useModals, { XDirModalInvitation } from "../hooks/useModals";
 import useFormValidator from "../hooks/useFormValidatior";
 import { USER_TABS } from "../../CONSTATNS";
@@ -14,13 +14,24 @@ import UsersInvites from "../components/UsersPage/UsersInvites";
 
 
 export default function Users() {
-  const {XDirModalInput, executeXPopUp} = useModals()
+  const {executeXPopUp} = useModals()
   const [tabSelected, setTabSelected] = useState(USER_TABS[0])
   const [inviteModal, setInviteModal] = useState(false)
+  const [organizations, setOrganizations] = useState(false)
 
   const sendInvitation = async (organizationID, email) => {
     const res = await sendRegisterInvite(organizationID, email)
     executeXPopUp(res,"Invite sent successfully" )
+  }
+
+  useEffect(() => {
+      getOrganizationOptions()
+  }, []);
+
+  const getOrganizationOptions = async () => {
+      const res = await getOrganizations()
+      let options = res?.map(org => ({ value: org.uuid, label: org.name }));
+      setOrganizations(options)
   }
 
   return (
@@ -46,7 +57,7 @@ export default function Users() {
         setTabSelected={setTabSelected}
       />
       <StyledTabsContainer>
-        {tabSelected === 'Users' && <UsersList/>}
+        {tabSelected === 'Users' && <UsersList organizations={organizations}/>}
         {tabSelected === 'Invites' && <UsersInvites/>}
       </StyledTabsContainer>
     </StyledMarginContent>
@@ -61,6 +72,7 @@ export default function Users() {
             subtitle={'Send a email to a new user'}
             title='INVITE USER'
             confirmButton={sendInvitation}
+            organizations={organizations}
           />
         </div>
       </StyledXModal>

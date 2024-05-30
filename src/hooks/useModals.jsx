@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import './sweetAlertClasses.css'
 import { useContext, useEffect, useState } from "react";
 import { XButton, XDropdown, XInput, XPopUp } from "@ximdex/xui-react/material";
-import { PERMISSIONS_OPTIONS } from "../../CONSTATNS";
+import { ROLES_OPTIONS, SERVICES_OPTIOINS } from "../../CONSTATNS";
 import { createRoot  } from 'react-dom';
 import { StyledDivCenterY, StyledDivFlexBetween, StyledFlexFullCenter, StyledXModal } from "../components/styled-compontent/Container";
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
@@ -150,24 +150,15 @@ export default function useModals () {
     }
 }
 
+export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, organizations, isSuperAdmin}) => {
+    const [rolSelected, setRolSelected] = useState(null);
+    const [organizationSelected, setOrganizationSelected] = useState(null)
+    const [serviceSelected, setServiceSelected] = useState(null)
 
-export const XDirModalDropdownPermissions = ({title, subtitle, roleSelected, confirmButton, setOpenModal}) => {
-    const superAdminPermission = { value: 'superadmin', label: 'Superadmin' };
-    const [permissionsSelected, setPermissionsSelected] = useState([]);
-    console.log(roleSelected);
-
-
-    useEffect(() => {
-        let roles = PERMISSIONS_OPTIONS?.filter(permission => roleSelected?.permissionsAssigned?.includes(permission?.value))
-        if(roleSelected?.permissionsAssigned?.includes('superadmin')) roles.push(superAdminPermission)
-        setPermissionsSelected(roles);
-    }, []);
-
-    const handlePermissionDropdown = (data) => {
-        if (roleSelected?.permissionsAssigned?.includes('superadmin') && !data.some(permission => permission.value === 'superadmin')) {
-            data.push(superAdminPermission);
-        }
-        setPermissionsSelected(data);
+    const handleDropdown = (type, data) => {
+        if(type === 'rol') setRolSelected(data);
+        if(type === 'org') setOrganizationSelected(data);
+        if(type === 'service') setServiceSelected(data);
     };
 
     return (
@@ -177,84 +168,57 @@ export const XDirModalDropdownPermissions = ({title, subtitle, roleSelected, con
             <p style={{margin: '10px 0'}}>{subtitle}</p>
         </StyledFlexFullCenter>
         <StyledDivCenterY style={{width: '100%', justifyContent: 'center', margin: '10px 0'}}>
-                <XDropdown
-                    value={permissionsSelected}
-                    onChange={(e, data) => handlePermissionDropdown(data)} // Ajusta el índice según sea necesario
-                    options={PERMISSIONS_OPTIONS}
-                    labelOptions="label"
-                    displayEmpty
-                    label="Select permissions"
-                    bgColor="100"
-                    width="300px"
-                    size="small"
-                    hasCheckboxes={true}
-                    multiple={true}
-                    disableClearable
-                />
-            </StyledDivCenterY>
-            <StyledDivCenterY style={{width: '100%', justifyContent: 'center'}}>
-                <XButton
-                    style={{margin: '1em'}}
-                    onClick={() => {
-                        setOpenModal(false)
-                        confirmButton(permissionsSelected)
-                    }}
-                >
-                    Assign
-                </XButton>
-                <XButton
-                    style={{margin: '1em', background: '#6e7881'}}
-                    onClick={() => setOpenModal(false)}
-                >
-                    Cancel
-                </XButton>
-            </StyledDivCenterY>
-
-    </StyledDivFlexBetween>
-    )
-}
-
-
-export const XDirModalRoles = ({title, subtitle, roleSelected, confirmButton, setOpenModal}) => {
-    const superAdminPermission = { value: 'superadmin', label: 'Superadmin' };
-    const [permissionsSelected, setPermissionsSelected] = useState([]);
-
-
-    useEffect(() => {
-        let roles = PERMISSIONS_OPTIONS?.filter(permission => roleSelected?.permissionsAssigned?.includes(permission?.value))
-        if(roleSelected?.permissionsAssigned?.includes('superadmin')) roles.push(superAdminPermission)
-        setPermissionsSelected(roles);
-    }, []);
-
-    const handlePermissionDropdown = (data) => {
-        if (roleSelected?.permissionsAssigned?.includes('superadmin') && !data.some(permission => permission.value === 'superadmin')) {
-            data.push(superAdminPermission);
-        }
-        setPermissionsSelected(data);
-    };
-
-    return (
-    <StyledDivFlexBetween style={{flexDirection:'row', height: '100%'}}>
-        <StyledFlexFullCenter style={{height: 'auto', flexDirection:'column'}}>
-            <h2 style={{margin: '0'}}>{title}</h2>
-            <p style={{margin: '10px 0'}}>{subtitle}</p>
-        </StyledFlexFullCenter>
+            <XDropdown
+                value={organizationSelected}
+                onChange={(e, data) => handleDropdown('org',data)} // Ajusta el índice según sea necesario
+                options={organizations}
+                labelOptions="label"
+                displayEmpty
+                label="Select organization"
+                bgColor="100"
+                width="350px"
+                size="small"
+                hasCheckboxes={false}
+                multiple={false}
+                disableClearable
+            />
+        </StyledDivCenterY>
         <StyledDivCenterY style={{width: '100%', justifyContent: 'center', margin: '10px 0'}}>
-                <XDropdown
-                    value={permissionsSelected}
-                    onChange={(e, data) => handlePermissionDropdown(data)} // Ajusta el índice según sea necesario
-                    options={PERMISSIONS_OPTIONS}
-                    labelOptions="label"
-                    displayEmpty
-                    label="Select roles"
-                    bgColor="100"
-                    width="300px"
-                    size="small"
-                    hasCheckboxes={true}
-                    multiple={true}
-                    disableClearable
-                />
-            </StyledDivCenterY>
+            <XDropdown
+                value={serviceSelected}
+                onChange={(e, data) => handleDropdown('service',data)} // Ajusta el índice según sea necesario
+                options={SERVICES_OPTIOINS}
+                labelOptions="label"
+                displayEmpty
+                label="Select service"
+                bgColor="100"
+                width="350px"
+                size="small"
+                hasCheckboxes={false}
+                multiple={false}
+                disableClearable
+            />
+        </StyledDivCenterY>
+        <StyledDivCenterY style={{width: '100%', justifyContent: 'center', margin: '10px 0'}}>
+            <XDropdown
+                getOptionDisabled={(option) => option.disabled}
+                value={rolSelected}
+                onChange={(e, data) => handleDropdown('rol',data)} // Ajusta el índice según sea necesario
+                options={ROLES_OPTIONS.map(option => ({
+                    ...option,
+                    disabled: option.value === 'superadmin' && !isSuperAdmin
+                }))}
+                labelOptions="label"
+                displayEmpty
+                label="Select role"
+                bgColor="100"
+                width="350px"
+                size="small"
+                hasCheckboxes={false}
+                multiple={false}
+                disableClearable
+            />
+        </StyledDivCenterY>
             <StyledDivCenterY style={{width: '100%', justifyContent: 'center'}}>
                 <XButton
                     style={{margin: '1em'}}
@@ -279,20 +243,9 @@ export const XDirModalRoles = ({title, subtitle, roleSelected, confirmButton, se
 
 export const XDirModalInvitation = ({title, subtitle, confirmButton, setOpenModal, organizations}) => {
     const [organizationSelected, setOrganizationSelected] = useState(null);
-    const [organizationOptions, setOprganizationOptions] = useState([])
+    const [organizationOptions, setOprganizationOptions] = useState(organizations)
     const [email, setEmail] = useState('');
     const {validateEmail} = useFormValidator()
-
-    useEffect(() => {
-        getOrganizationOptions()
-    }, []);
-
-    const getOrganizationOptions = async () => {
-        const res = await getOrganizations()
-        let options = res?.map(org => ({ value: org.uuid, label: org.name }));
-        console.log(options);
-        setOprganizationOptions(options)
-    }
 
     return (
     <StyledDivFlexBetween style={{flexDirection:'row', height: '100%'}}>

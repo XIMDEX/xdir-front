@@ -1,5 +1,5 @@
 import { useSpinner } from "@ximdex/xui-react/hooks";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
 import { XButton, XPopUp, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
 import { faEdit, faKey, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
@@ -7,8 +7,12 @@ import { StyledFlexFullCenter, StyledXModal, StyledXRow } from "../../components
 import { assignRoleToUser, deleteExistingUser, getUser, getUsers } from "../../service/xdir.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModals, { XDirModalRoles } from "../../hooks/useModals";
+import AuthContext from "../../providers/AuthProvider/AuthContext";
 
-export default function UsersList() {
+export default function UsersList({
+  organizations
+}) {
+    const { isSuperAdmin } = useContext(AuthContext)
     const [usersList, setUsersList] = useState([])
     const {XDirModal} = useModals()
     const [loading, setLoading] = useState(false)
@@ -43,23 +47,7 @@ export default function UsersList() {
           }
         })
     }
-    
-    const handleAssignRoles = async (roleID) => {
-      const res = await getUser(roleID)
-      if(!res?.error){
-        XPopUp({
-          text: res?.error,
-          iconType:'error',
-          timer:'3000',
-          popUpPosition:'top',
-          iconColor: 'red',
-          timer: 3000
-        })
-      }else{
-        setRolesAssignModal({open: true, role: res})
-      }
-    }
-
+  
     const confirmNewRoles = async (rolesSelected) => {
       const res =  await assignRoleToUser(roleAssignModal?.user.roles?.uuid, rolesSelected.map(rol => rol.value))
       executeXPopUp(res, "Role/s assigned successfully")
@@ -89,7 +77,7 @@ export default function UsersList() {
                       labelButtonCollapsable={`Show details`}
                       controls={[
                         {
-                            component:<StyledGreenButtonIcon onClick={() => handleAssignRoles(user.uuid)}>
+                            component:<StyledGreenButtonIcon onClick={() => setRolesAssignModal({open: true, user: {email:user.email, uuid:user.uuid}})}>
                                         <FontAwesomeIcon icon={faKey} size='1x' title='Assign roles' />
                                     </StyledGreenButtonIcon>
                         },
@@ -129,13 +117,14 @@ export default function UsersList() {
               isOpen={roleAssignModal?.open}
               ariaHideApp={false}
             >
-              <div className={`animate__animated ${roleAssignModal.open ? 'animate__fadeInUp animate__faster' : 'animate__fadeOutDown animate__faster'}`}>
+              <div style={{height: '400px'}} className={`animate__animated ${roleAssignModal.open ? 'animate__fadeInUp animate__faster' : 'animate__fadeOutDown animate__faster'}`}>
                 <XDirModalRoles
                   setOpenModal={setRolesAssignModal}
                   subtitle={`Assign role to user ${roleAssignModal?.user?.email}`}
                   title='Assign role'
-                  userSelected={roleAssignModal?.user}
                   confirmButton={confirmNewRoles}
+                  organizations={organizations}
+                  isSuperAdmin={isSuperAdmin}
                 />
               </div>
             </StyledXModal>

@@ -85,7 +85,7 @@ const Login = () => {
                 rounded={false}
                 hasLogo 
                 srcLogo={LoginImage}
-                handleLogin={handleLogin}
+                handleLogin={handleFALKLogin}
                 loginExtraActions={
                     <StyledExtraActions>
                         <p style={{marginBottom: '10px'}} onClick={() => navigate('/email_verification')}>Forgot your password?</p>
