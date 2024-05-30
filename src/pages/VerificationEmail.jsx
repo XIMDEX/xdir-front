@@ -27,6 +27,7 @@ export default function VerificationEmail() {
           /> 
         : <NewPasswordForm 
             token={token}
+            setEmailVerified={setEmailVerified}
         />}
     </>
     );
@@ -116,7 +117,8 @@ const VerificationEmailForm = ({
 }
 
 const NewPasswordForm = ({
-  token
+  token,
+  setEmailVerified
 }) => {
   const {user, forceLogout} = useContext(AuthContext)
   const passwordInit = {
@@ -165,6 +167,8 @@ const NewPasswordForm = ({
       setTimeout(() => {
         forceLogout()
       }, 1000)
+    }else{
+      setEmailVerified(false)
     }
     hideSpinner()
   }
