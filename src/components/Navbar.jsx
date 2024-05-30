@@ -29,25 +29,16 @@ const Navbar = () => {
                     target: '_self'
                 },
                 {
-                    text: 'Roles',
-                    url: '/roles',
+                    text: 'Organizations',
+                    url: '/organizations',
                     target: '_self'
-                },
-
+                }
             ]
         }   
-        if(isSuperAdmin){
-            links.push({
-                text: 'Organizations',
-                url: '/organizations',
-                target: '_self'
-            })
-        }
         setInternalLinks(links)
     }, [user]);
 
     const externalLinks = [];
-
 
     const userLink = [
         {

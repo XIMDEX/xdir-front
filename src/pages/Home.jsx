@@ -10,22 +10,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import xevalTool from '../assets/logotipo_ximdex-EVAL-small.png'
 import xdamTool from '../assets/logotipo_ximdex-DAM-small-header.png'
 
+
 function Home() { 
-    const [homeButtons, setHomeButtons] = useState([])
-    const [toolsButtons, setToolsButtons] = useState([
-        {
-        name: 'XEVAL',
-        toolSrc: xevalTool,
-        path: '/'
-    },
-{
-        name: 'XDAM',
-        toolSrc: xdamTool,
-        path: '/'
-    }])
-    const { isAdmin, isSuperAdmin } = useAuth();
+    const [xdirButtons, setXdirButtons] = useState([])
+    const [toolsButtons, setToolsButtons] = useState([])
+    const { user, isAdmin, isSuperAdmin } = useAuth();
     const navigate = useNavigate();
 
+    // Create XDir buttons
     useEffect(() => {
         const buttons = [];
         if (isAdmin || isSuperAdmin) {
@@ -36,23 +28,36 @@ function Home() {
                     path: '/users'
                 },
                 {
-                    name: 'roles',
-                    icon: faKey,
-                    path: '/roles'
+                    name: 'organizations',
+                    icon: faBuilding,
+                    path: '/organizations'
                 }
             );
         }
     
-        if (isSuperAdmin) {
-            buttons.push({
-                name: 'organizations',
-                icon: faBuilding,
-                path: '/organizations'
-            });
-        }
-    
-        setHomeButtons(buttons);
+        setXdirButtons(buttons);
     }, [isAdmin, isSuperAdmin]);
+
+
+    // Create toolsButtons
+    useEffect(() => {
+        if(false){
+            setToolsButtons([
+                {
+                    name: 'XEVAL',
+                    toolSrc: xevalTool,
+                    path: '/'
+                },
+            {
+                    name: 'XDAM',
+                    toolSrc: xdamTool,
+                    path: '/'
+                }
+            ])
+            }
+    
+    }, [user]);
+
 
     const renderButton = (element, index) => (
         <StyledHomeItem
@@ -86,26 +91,43 @@ function Home() {
 
     return (
         <>
-            <Stack
-                spacing={2}
-                direction="row"
-                width={'100%'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                height={'100%'}
-            >
-                {homeButtons.map(renderButton)}
-            </Stack>
-            <Stack
-                spacing={2}
-                direction="row"
-                width={'100%'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                height={'100%'}
-            >
-                {toolsButtons.map(renderButton)}
-            </Stack>
+            {xdirButtons.length > 0 || toolsButtons.length > 0 ?
+                <> 
+                    <Stack
+                        spacing={2}
+                        direction="row"
+                        width={'100%'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        height={'100%'}
+                    >
+                        {xdirButtons.map(renderButton)}
+                    </Stack>
+                    <Stack
+                        spacing={2}
+                        direction="row"
+                        width={'100%'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        height={'100%'}
+                    >
+                        {toolsButtons.map(renderButton)}
+                    </Stack>
+                </>
+            :
+                <Stack
+                    spacing={2}
+                    direction="row"
+                    width={'100%'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    height={'100%'}
+                >   
+                <p style={{width: '30%', textAlign:'center', paddingTop: '10em 0'}}>
+                    Please contact an administrator to complete the setup of your account with the necessary roles and start working!
+                </p>
+                </Stack>
+            }
         </>
     );
 }
