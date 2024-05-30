@@ -450,7 +450,30 @@ export const deleteExistingUser = async () => {
 
 }
 
-export const sendRegisterInvite = async () => {
+export const assignRoleToUser = async () => {
+
+
+
+}
+
+export const sendRegisterInvite = async (organizationID, email) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}organizations/${organizationID}/invite/${email}`, {
+            method: "POST",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+        });
+        if (!res.ok) {
+            throw new Error("Failed to send new invitation. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to send new invitation. Please try again later." };
+    }
+
 
 }
 

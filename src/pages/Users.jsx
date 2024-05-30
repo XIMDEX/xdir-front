@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyledMarginContent, StyledTabsContainer, StyledXCard } from "../components/styled-compontent/Container";
+import { StyledMarginContent, StyledTabsContainer, StyledXCard, StyledXModal } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XPopUp } from "@ximdex/xui-react/material";
 import { sendRegisterInvite } from "../service/xdir.service";
-import useModals from "../hooks/useModals";
+import useModals, { XDirModalInvitation } from "../hooks/useModals";
 import useFormValidator from "../hooks/useFormValidatior";
 import { USER_TABS } from "../../CONSTATNS";
 import CustomTabs from "../components/CustomTabs/CustomTabs";
@@ -15,27 +15,13 @@ import UsersInvites from "../components/UsersPage/UsersInvites";
 
 export default function Users() {
   const {XDirModalInput, executeXPopUp} = useModals()
-  const {validateEmail} = useFormValidator()
   const [tabSelected, setTabSelected] = useState(USER_TABS[0])
+  const [inviteModal, setInviteModal] = useState(false)
 
-  const inviteNewUser = async () => {
-    const newUserEmail = await XDirModalInput({
-      title: 'INVITE',
-      input: 'text',
-      inputLabel: "Send an invitation to a new user",
-      inputPlaceholder: 'Enter the user\'s email address',
-      inputValidator: (value) => {
-        if (!validateEmail(value)) {
-          return "Please enter a valid email address";
-        }
-      },
-    })
-    if(newUserEmail){
-      const res = await sendRegisterInvite(newUserEmail)
-      executeXPopUp(res,"Invite sent successfully" )
-    }
+  const sendInvitation = async (organizationID, email) => {
+    const res = await sendRegisterInvite(organizationID, email)
+    executeXPopUp(res,"Invite sent successfully" )
   }
-
 
   return (
     <StyledXCard
@@ -45,7 +31,7 @@ export default function Users() {
       {
           component:
               <XButton
-                  onClick={inviteNewUser}
+                  onClick={() => setInviteModal(true)}
                   title="Invite new user"
               >
                   <FontAwesomeIcon icon={faPaperPlane} style={{marginRight: '10px'}}/> 
@@ -64,9 +50,21 @@ export default function Users() {
         {tabSelected === 'Invites' && <UsersInvites/>}
       </StyledTabsContainer>
     </StyledMarginContent>
+          {/* ENVIAR INVITACION*/}
+      <StyledXModal
+        isOpen={inviteModal}
+        ariaHideApp={false}
+      >
+        <div className={`animate__animated ${inviteModal ? 'animate__fadeInUp animate__faster' : 'animate__fadeOutDown animate__faster'}`} style={{height:'280px'}}>
+          <XDirModalInvitation
+            setOpenModal={setInviteModal}
+            subtitle={'Send a email to a new user'}
+            title='INVITE USER'
+            confirmButton={sendInvitation}
+          />
+        </div>
+      </StyledXModal>
   </StyledXCard>
-
-
 
   );
 }

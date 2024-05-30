@@ -1,12 +1,14 @@
 import Swal from "sweetalert2";
 import './sweetAlertClasses.css'
 import { useEffect, useState } from "react";
-import { XButton, XDropdown, XPopUp } from "@ximdex/xui-react/material";
+import { XButton, XDropdown, XInput, XPopUp } from "@ximdex/xui-react/material";
 import { PERMISSIONS_OPTIONS } from "../../CONSTATNS";
 import { createRoot  } from 'react-dom';
 import { StyledDivCenterY, StyledDivFlexBetween, StyledFlexFullCenter, StyledXModal } from "../components/styled-compontent/Container";
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useFormValidator from "./useFormValidatior";
+import { getOrganizations } from "../service/xdir.service";
 
 export default function useModals () {
     const [permissionsSelected, setPermissionsSelected] = useState([]);
@@ -170,7 +172,7 @@ export const XDirModalDropdownPermissions = ({title, subtitle, roleSelected, con
 
     </StyledDivFlexBetween>
     )
-  }
+}
 
 
 export const XDirModalRoles = ({title, subtitle, roleSelected, confirmButton, setOpenModal}) => {
@@ -233,4 +235,68 @@ export const XDirModalRoles = ({title, subtitle, roleSelected, confirmButton, se
 
     </StyledDivFlexBetween>
     )
-  }
+}
+
+export const XDirModalInvitation = ({title, subtitle, confirmButton, setOpenModal, organizations}) => {
+    const [organizationSelected, setOrganizationSelected] = useState(null);
+    const [organizationOptions, setOprganizationOptions] = useState([])
+    const [email, setEmail] = useState('');
+    const {validateEmail} = useFormValidator()
+
+    useEffect(() => {
+        getOrganizationOptions()
+    }, []);
+
+    const getOrganizationOptions = async () => {
+        const res = await getOrganizations()
+        let options = res?.map(org => ({ value: org.uuid, label: org.name }));
+        console.log(options);
+        setOprganizationOptions(options)
+    }
+
+    return (
+    <StyledDivFlexBetween style={{flexDirection:'row', height: '100%'}}>
+        <StyledFlexFullCenter style={{height: 'auto', flexDirection:'column'}}>
+            <h2 style={{margin: '0'}}>{title}</h2>
+            <p style={{margin: '10px 0'}}>{subtitle}</p>
+        </StyledFlexFullCenter>
+        <StyledDivCenterY style={{width: '100%', justifyContent: 'center', marginBottom: '10px', flexDirection: 'column'}}>
+                <XInput style={{width:"300px", marginBottom: '1em'}}id='email' type='text' label='Email' required size='small' value={email} onChange={(e) => setEmail(e.target.value)} />
+                <XDropdown
+                    value={organizationSelected}
+                    onChange={(e, data) => setOrganizationSelected(data)}
+                    options={organizationOptions}
+                    labelOptions="label"
+                    displayEmpty
+                    placeholder="Select organization"
+                    label="Select organization"
+                    bgColor="100"
+                    width="300px"
+                    size="small"
+                    hasCheckboxes={false}
+                    multiple={false}
+                    disableClearable
+                />
+            </StyledDivCenterY>
+            <StyledDivCenterY style={{width: '100%', justifyContent: 'center'}}>
+                <XButton
+                    style={{margin: '1em'}}
+                    disabled={!validateEmail(email)}
+                    onClick={() => {
+                        setOpenModal(false)
+                        confirmButton(organizationSelected.value, email)
+                    }}
+                >
+                    SEND
+                </XButton>
+                <XButton
+                    style={{margin: '1em', background: '#6e7881'}}
+                    onClick={() => setOpenModal(false)}
+                >
+                    Cancel
+                </XButton>
+            </StyledDivCenterY>
+
+    </StyledDivFlexBetween>
+    )
+}

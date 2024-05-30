@@ -4,7 +4,7 @@ import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/sty
 import { XButton, XPopUp, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
 import { faEdit, faKey, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { StyledFlexFullCenter, StyledXModal, StyledXRow } from "../../components/styled-compontent/Container";
-import { deleteExistingUser, getUser, getUsers } from "../../service/xdir.service";
+import { assignRoleToUser, deleteExistingUser, getUser, getUsers } from "../../service/xdir.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModals, { XDirModalRoles } from "../../hooks/useModals";
 
@@ -43,7 +43,7 @@ export default function UsersList() {
           }
         })
     }
-
+    
     const handleAssignRoles = async (roleID) => {
       const res = await getUser(roleID)
       if(!res?.error){
@@ -60,16 +60,16 @@ export default function UsersList() {
       }
     }
 
-    const confirmNewRoles = async() => {
-
+    const confirmNewRoles = async (rolesSelected) => {
+      const res =  await assignRoleToUser(roleAssignModal?.user.roles?.uuid, rolesSelected.map(rol => rol.value))
+      executeXPopUp(res, "Role/s assigned successfully")
+      setRefreshList(!refreshList)
     }
 
 
+
   return <>
-    {loading 
-        ? 
-         <></>
-        :
+    {loading ?  <></> :
           <>
             {usersList.length === 0 ? 
               <StyledFlexFullCenter>
@@ -123,7 +123,9 @@ export default function UsersList() {
                 ))}
               </>
             }
-            <StyledXModal
+
+          {/*ASSIGNACION DE ROLES*/}
+           <StyledXModal
               isOpen={roleAssignModal?.open}
               ariaHideApp={false}
             >
@@ -137,6 +139,7 @@ export default function UsersList() {
                 />
               </div>
             </StyledXModal>
+
           </>  
       }
   </>;
