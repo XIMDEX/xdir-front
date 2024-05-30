@@ -1,10 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AuthContext from './AuthContext';
-import Swal from 'sweetalert2';
-import { XPopUp } from '@ximdex/xui-react/material';
 import { COOKIE_NAME } from '../../../CONSTATNS';
-import { loginXDIR } from '../../service/xdir.service';
 
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
