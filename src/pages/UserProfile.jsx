@@ -7,11 +7,15 @@ import AuthContext from "../providers/AuthProvider/AuthContext";
 import { GENDER_OPTIONS } from "../../CONSTATNS";
 import _ from "lodash";
 import { updateUserXDIR } from "../service/xdir.service";
+import { useSpinner } from "@ximdex/xui-react/hooks";
+import useModals from "../hooks/useModals";
 
 export default function UserProfile() {
-  const {user} = useContext(AuthContext);
+  const {user, saveUserData} = useContext(AuthContext);
+  const {executeXPopUp} = useModals()
   const [canEdit, setCanEdit] = useState(false)
   const [userForm, setUserForm] = useState({...user})
+  const {showSpinner, hideSpinner} = useSpinner()
 
   const handleCanEdit = () => {
     if(canEdit){
@@ -29,29 +33,21 @@ export default function UserProfile() {
     });
   }
 
+  const removeUnusedFields = (user, userForm) => {
+    return _.reduce(userForm, (result, value, key) => {
+        if (!_.isEqual(value, user[key])) {
+            result[key] = value;
+        }
+        return result;
+    }, {});
+};
 
   const updateUserData = async () => {
-    const res = await updateUserXDIR(user)
-    if(res?.error){
-      XPopUp({
-        text: res?.error,
-        iconType:'error',
-        timer:'3000',
-        popUpPosition:'top',
-        iconColor: 'red',
-        timer: 3000
-      })
-    }else{
-      XPopUp({
-        type: 'success',
-        text: "User information updated successfully.",
-        position: 'top',
-        showConfirmButton: false,
-        iconColor: 'lightgreen',
-        timer: 3000
-      })
-      saveUserData(res.user)
-    }
+    showSpinner()
+    const res = await updateUserXDIR(removeUnusedFields(user, userForm))
+    executeXPopUp(res, 'User information updated successfully.' )
+    if(!res?.error) saveUserData(res.user)
+    hideSpinner()
   }
 
   return (
@@ -119,7 +115,7 @@ export default function UserProfile() {
             <XInput 
               id='email' 
               type='text' 
-              disabled={!canEdit}
+              disabled={true}
               size='medium' 
               fullWidth
               value={userForm.email} 

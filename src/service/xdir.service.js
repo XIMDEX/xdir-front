@@ -117,9 +117,9 @@ export const changePassword = async (password) => {
 }
 
 
-export const updateUserXDIR = async (user, userID) => {
+export const updateUserXDIR = async (user) => {
     try {
-        const res = await fetch(`${API_BASE_URL}users/${userID}`, {
+        const res = await fetch(`${API_BASE_URL}user/update/`, {
             method: "PUT",
             headers: {
                 ...commonHeaders,
