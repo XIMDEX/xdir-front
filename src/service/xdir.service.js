@@ -65,8 +65,8 @@ export const verifyEmailCode = async (action, code) => {
 
 export const verifyEmailSendCode = async (email) => {
     try {
-        const res = await fetch(`${API_BASE_URL}email/resend`, {
-            method: "GET",
+        const res = await fetch(`${API_BASE_URL}password/email`, {
+            method: "POST",
             headers: {
                 ...commonHeaders,
             },
@@ -80,10 +80,27 @@ export const verifyEmailSendCode = async (email) => {
     }
 }
 
-
-export const updateUserXDIR = async (user) => {
+export const changePassword = async (password) => {
     try {
-        const res = await fetch(`${API_BASE_URL}user/update`, {
+        const res = await fetch(`${API_BASE_URL}password/reset`, {
+            method: "GET",
+            headers: {
+                ...commonHeaders,
+            },
+            body: JSON.stringify({password: password})
+        });
+        if (!res.ok) throw new Error("Failed to get new code. Please try again later.");
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to get new code. Please try again later." };
+    }
+}
+
+
+export const updateUserXDIR = async (user, userID) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}users/${userID}`, {
             method: "PUT",
             headers: {
                 ...commonHeaders,
