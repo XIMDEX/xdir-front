@@ -11,7 +11,7 @@ import useModals from '../hooks/useModals'
 
 function Register() { 
     let [searchParams] = useSearchParams();
-    const { organization, email: inviteEmail } = Object.fromEntries(searchParams)
+    const { organization, email: userEmail } = Object.fromEntries(searchParams)
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState({
@@ -26,12 +26,11 @@ function Register() {
     const {validatePassword, validateEmail} = useFormValidator()
     const {XDirModal} = useModals();
     const navigate = useNavigate();
-
     //Obtiene el dato de la organizacion  al cargar
     useEffect(() => {
         setUser({
             ...user,
-            email: inviteEmail,
+            email: userEmail,
             organization: organization,
         });
     },[])
