@@ -224,7 +224,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, or
                     style={{margin: '1em'}}
                     onClick={() => {
                         setOpenModal(false)
-                        confirmButton(organizationSelected,serviceSelected,rolSelected)
+                        confirmButton(organizationSelected.value,serviceSelected.value,rolSelected.value)
                     }}
                 >
                     Assign

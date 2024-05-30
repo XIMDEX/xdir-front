@@ -475,7 +475,7 @@ export const deleteExistingUser = async () => {
 
 }
 
-export const assignRoleToUser = async () => {
+export const assignRoleToUser = async (organization, service, rol) => {
 
 
 

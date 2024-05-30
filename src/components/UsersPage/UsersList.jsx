@@ -14,7 +14,7 @@ export default function UsersList({
 }) {
     const { isSuperAdmin } = useContext(AuthContext)
     const [usersList, setUsersList] = useState([])
-    const {XDirModal} = useModals()
+    const {XDirModal, executeXPopUp} = useModals()
     const [loading, setLoading] = useState(false)
     const { showSpinner, hideSpinner } = useSpinner()
     const [refreshList, setRefreshList] = useState(false)
@@ -48,10 +48,11 @@ export default function UsersList({
         })
     }
   
-    const confirmNewRoles = async (rolesSelected) => {
-      const res =  await assignRoleToUser(roleAssignModal?.user.roles?.uuid, rolesSelected.map(rol => rol.value))
+    const confirmNewRoles = async (organizationSelected, serviceSelected, rolSelected) => {
+       console.log(organizationSelected, serviceSelected, rolSelected);
+      // const res =  await assignRoleToUser(organizationSelected, serviceSelected, rolSelected)
       executeXPopUp(res, "Role/s assigned successfully")
-      setRefreshList(!refreshList)
+      // setRefreshList(!refreshList)
     }
 
 
