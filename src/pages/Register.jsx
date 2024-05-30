@@ -114,31 +114,47 @@ function Register() {
         <StyledXCardRegister 
         style={{flexDirection: 'column'}}>
             <img src={ximdexLogo} style={{width: '250px'}}/>
-            <p style={{marginBottom: 0}}>Enter your information:</p>
-            <StyledForm onSubmit={handleSubmit} >
-                <XInput id='name' type='text' label='Name' required={true} size='small' fullWidth value={name} onChange={(e) => onInputChange(e)} />
-                <XInput id='surname' type='text' label='Surname' required={true} size='small' fullWidth value={surname} onChange={(e) => onInputChange(e)} />
-                <XInput id='birthdate' type='date' required size='small' fullWidth value={birthdate} onChange={(e) => onInputChange(e)} />
-                <XInput id='email' disabled type='text' label='Email' required size='small' fullWidth value={email} onChange={(e) => onInputChange(e)} />
-                <XInput id='password' type='password' label='Password' required size='small' placeholder="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." title="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." fullWidth value={password} onChange={(e) => onInputChange(e)} />
-                <XInput id='password_confirmation' type='password' label='Repeat Password' placeholder="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." title="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." required size='small' fullWidth value={password_confirmation} onChange={(e) => onInputChange(e)} />
-                <p style={{ color: 'red', textAlign:'center', visibility: error === '' ? 'hidden' : 'visible' }}>{error}</p>
-                <p onClick={() => navigate('/login')} className='login-link'>Already have an account?</p>
-        
-                {isLoading 
-                ? <StyledFlexFullCenter><CircularProgress size={20}/></StyledFlexFullCenter>
-                : 
-                    <XButton 
-                        onClick={register} 
-                        size='small'
-                        disabled={error !== '' || email === '' || surname === ''}
-                    >
-                        Register
-                    </XButton>
-                }
+            {organization ? 
+                <>
+                    <p style={{marginBottom: 0}}>Enter your information:</p>
+                    <StyledForm onSubmit={handleSubmit} >
+                        <XInput id='name' type='text' label='Name' required={true} size='small' fullWidth value={name} onChange={(e) => onInputChange(e)} />
+                        <XInput id='surname' type='text' label='Surname' required={true} size='small' fullWidth value={surname} onChange={(e) => onInputChange(e)} />
+                        <XInput id='birthdate' type='date' required size='small' fullWidth value={birthdate} onChange={(e) => onInputChange(e)} />
+                        <XInput id='email' disabled type='text' label='Email' required size='small' fullWidth value={email} onChange={(e) => onInputChange(e)} />
+                        <XInput id='password' type='password' label='Password' required size='small' placeholder="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." title="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." fullWidth value={password} onChange={(e) => onInputChange(e)} />
+                        <XInput id='password_confirmation' type='password' label='Repeat Password' placeholder="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." title="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." required size='small' fullWidth value={password_confirmation} onChange={(e) => onInputChange(e)} />
+                        <p style={{ color: 'red', textAlign:'center', visibility: error === '' ? 'hidden' : 'visible' }}>{error}</p>
+                        <p onClick={() => navigate('/login')} className='login-link'>Already have an account?</p>
+                
+                        {isLoading 
+                        ? <StyledFlexFullCenter><CircularProgress size={20}/></StyledFlexFullCenter>
+                        : 
+                            <XButton 
+                                onClick={register} 
+                                size='small'
+                                disabled={error !== '' || email === '' || surname === ''}
+                            >
+                                Register
+                            </XButton>
+                        }
 
-                    
-            </StyledForm>
+                            
+                    </StyledForm>
+                </>
+            :
+                <StyledFlexFullCenter style={{flexDirection:"column", margin: '2em'}}>
+                    <p>To register, you need an invitation from an organization.</p>
+                    <XButton 
+                        style={{marginTop:'2em'}}
+                        onClick={() => navigate('/login')} 
+                        size='medium'
+                    >
+                        Login
+                    </XButton>
+                </StyledFlexFullCenter>
+            
+            }
         </StyledXCardRegister> 
     ); 
 } 
