@@ -10,6 +10,7 @@ import { verifyChangePassowordCode, verifyEmailCode, verifyEmailSendCode } from 
 import { CircularProgress } from "@mui/material";
 import useModals from "../hooks/useModals";
 import useFormValidator from "../hooks/useFormValidatior";
+import { useSpinner } from "@ximdex/xui-react/hooks";
 
 export default function VerificationEmail() {
   const [emailVerified, setEmailVerified] = useState(false)
@@ -40,7 +41,7 @@ const VerificationEmailForm = ({
   const [email, setEmail] = useState(user?.email ?? '')
   const [loadingVerification, setLoadingVerification] = useState(false)
   const navigate = useNavigate()
-  const {executePopUp} = useModals()
+  const {executeXPopUp} = useModals()
 
   useEffect(() => {
     verifyEmail()
@@ -48,8 +49,7 @@ const VerificationEmailForm = ({
 
   const getVerificationCode = async () => {
     const res = await verifyEmailSendCode(email)
-    console.log(res);
-    executePopUp(res, 'An email has been sent to your address.')
+    executeXPopUp(res, 'An email has been sent to your address. Please wait a few minutes for it to arrive.')
   }
 
   /** SEND VERIFICATION CODE TO BACKEND */
@@ -131,6 +131,7 @@ const NewPasswordForm = ({
   const [error, setError] = useState('');
   const {validatePassword, validateEmail} = useFormValidator()
   const {executeXPopUp} = useModals()
+  const {showSpinner, hideSpinner} = useSpinner()
 
     useEffect(() => {
       if(userPassword.password !== '' || userPassword.email !== ''){
@@ -157,10 +158,15 @@ const NewPasswordForm = ({
   }
 
   const changePassowrd = async () => {
+    showSpinner()
     const res = await verifyChangePassowordCode(userPassword)
     executeXPopUp(res,'Passoword reset successfully.')
-    if(!res.error) forceLogout()
-    
+    if(!res.error) {
+      setTimeout(() => {
+        forceLogout()
+      }, 1000)
+    }
+    hideSpinner()
   }
 
   return <StyledXCard
@@ -196,6 +202,7 @@ const NewPasswordForm = ({
           <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
             <label style={{marginBottom: '-10px'}}>New Password</label>
             <XInput 
+              placeholder="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." title="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols."
               id="password"
               value={userPassword.password} 
               onChange={(e) => onInputChange(e)}
@@ -222,6 +229,7 @@ const NewPasswordForm = ({
           <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
             <label style={{marginBottom: '-10px'}}>Repeat password</label>
             <XInput 
+              placeholder="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols." title="Use 8 or more characters with a mix of uppercase letters, lowercase letters, numbers and symbols."
               id="password_confirmation"
               value={userPassword.password_confirmation} 
               onChange={(e) => onInputChange(e)}
