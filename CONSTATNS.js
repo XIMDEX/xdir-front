@@ -34,7 +34,6 @@ export const ROLES_OPTIONS = [
   {value: 'viewer', label: 'Viewer'},
   {value: 'creator', label: 'Creator'},
   {value: 'editor', label: 'Editor'},
-  {value: 'creator', label: 'Creator'},
   {value: 'publisher', label: 'Publisher'},
   {value: 'admin', label: 'Admin'},
   {value: 'superadmin', label: 'Super Admin'},
