@@ -23,7 +23,7 @@ const Routes = () => {
             <Route path="/login" element={<LoginPage/> } />
             <Route path="/email_verification" element={<VerificationEmail />} />
             <Route path="/email_verification/:action" element={<VerificationEmail />} />
-            <Route path="/email_verification/:action/:code" element={<VerificationEmail />} />            
+            <Route path="/email_verification/:action/:token" element={<VerificationEmail />} />            
             {/* <Route path="*" element={<NotFound/> } />  */}
             
             {/* Rutas privadas */}

@@ -72,13 +72,32 @@ export const verifyEmailSendCode = async (email) => {
             },
             body: JSON.stringify({email: email})
         });
-        if (!res.ok) throw new Error("Failed to get new code. Please try again later.");
+        if (!res.ok) throw new Error("Failed while verifying your email. Please try again later.");
         const json = await res.json();
         return json;
     } catch (err) {
-        return { error: "Unable to get new code. Please try again later." };
+        return { error: "unable to verify your email. Please try again later." };
     }
 }
+
+export const verifyChangePassowordCode = async (passwordData) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}password/reset`, {
+            method: "POST",
+            headers: {
+                ...commonHeaders,
+            },
+            body: JSON.stringify(passwordData)
+        });
+        if (!res.ok) throw new Error("Failed to get verify your email code. Please try again later.");
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to get verify your email code. Please try again later." };
+    }
+}
+
+
 
 export const changePassword = async (password) => {
     try {

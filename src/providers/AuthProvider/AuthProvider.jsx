@@ -36,28 +36,7 @@ const AuthProvider = ({ children }) => {
   },[])
 
 
-  async function logoutUser() {
-    // await userManagementApi.post('logout','', {bearerToken: token})
-    //   .then((response => {
-    //     sessionStorage.setItem(`${COOKIE_NAME}`, JSON.stringify({}))
-    //     setIsAuthenticated(false);
-    //     setIsAdmin(false);
-    //     setIsSuperAdmin(false);
-    //     navigate('/login?logout=true');
-    //   }))
-    //   .catch((error) => {
-    //     XPopUp({
-    //       type: 'error',
-    //       title: 'Logout error',
-    //       text: 'An error has occurred while logging out, try again...',
-    //       position: 'top-end',
-    //       showConfirmButton: false,
-    //       timer: 3000
-    //     })
-    //   });
-  }
-
-  async function forceLogout() {
+  const forceLogout = () => {
     deleteLocalStorage()
     setIsAuthenticated(false);
     setIsAdmin(false);

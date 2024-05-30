@@ -6,13 +6,14 @@ import { XButton, XInput, XPopUp } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
 import _ from "lodash";
 import { useNavigate, useParams } from "react-router-dom";
-import { verifyEmailCode, verifyEmailSendCode } from "../service/xdir.service";
+import { verifyChangePassowordCode, verifyEmailCode, verifyEmailSendCode } from "../service/xdir.service";
 import { CircularProgress } from "@mui/material";
 import useModals from "../hooks/useModals";
+import useFormValidator from "../hooks/useFormValidatior";
 
 export default function VerificationEmail() {
   const [emailVerified, setEmailVerified] = useState(false)
-  const { code, action } = useParams();
+  const { token, action } = useParams();
 
 
   return (
@@ -20,19 +21,19 @@ export default function VerificationEmail() {
         {!emailVerified
         ? <VerificationEmailForm
             action={action}
-            code={code}
+            token={token}
             setEmailVerified={setEmailVerified}
           /> 
-        : <NewPasswordForm/>}
+        : <NewPasswordForm 
+            token={token}
+        />}
     </>
     );
 }
 
-
-
 const VerificationEmailForm = ({
   setEmailVerified,
-  code,
+  token,
   action
 }) => {
   const {user, saveUserData} = useContext(AuthContext);
@@ -47,17 +48,21 @@ const VerificationEmailForm = ({
 
   const getVerificationCode = async () => {
     const res = await verifyEmailSendCode(email)
+    console.log(res);
     executePopUp(res, 'An email has been sent to your address.')
   }
 
   /** SEND VERIFICATION CODE TO BACKEND */
   const verifyEmail = async () => {
-    if(code){
+    if(token){
       setLoadingVerification(true)
-      const res = await verifyEmailCode(action, code)
-      executePopUp(res,'Email has been verified.')
-      if(!res?.error && action === 'register')navigate('/login')
-      if(!res?.error && action === 'password_change') setEmailVerified(true)
+      if(action === 'register'){
+        const res = await verifyEmailCode(action, token)
+        executePopUp(res,'Email has been verified.')
+        if(!res?.error) navigate('/login')
+      }else{
+        setEmailVerified(true)
+      }
       setLoadingVerification(false)
     }
   }
@@ -110,11 +115,13 @@ const VerificationEmailForm = ({
   
 }
 
-
 const NewPasswordForm = ({
-
+  token
 }) => {
+  const {user, forceLogout} = useContext(AuthContext)
   const passwordInit = {
+    token: token,
+    email: user?.email ?? "",
     password: "",
     password_confirmation: ""
   }
@@ -122,15 +129,24 @@ const NewPasswordForm = ({
   const [userPassword, setUserPassword] = useState(passwordInit)
   const [passwordVisibility, setPasswordVisibility] = useState(false)
   const [error, setError] = useState('');
+  const {validatePassword, validateEmail} = useFormValidator()
+  const {executeXPopUp} = useModals()
 
-
-  useEffect(() => {
-    if(userPassword.password !== userPassword.password_confirmation){
-        setError('Passwords dont match');
-    } else {
-        setError('');
-    }
+    useEffect(() => {
+      if(userPassword.password !== '' || userPassword.email !== ''){
+          const validationPassword = validatePassword(userPassword.password)
+          if(!validationPassword.length || !validationPassword.hasLowerCase || !validationPassword.hasUpperCase || !validationPassword.hasNumber){
+              setError("Passwords are incorrect format");
+          }else if(userPassword.password !== userPassword.password_confirmation){
+              setError('Passwords dont match');
+          } else if (!validateEmail(userPassword.email)){
+              setError('Insert a valid email address');
+          }else{
+              setError('')
+          }
+      }      
   },[userPassword])
+
 
 
   const onInputChange = (e) => {
@@ -140,11 +156,13 @@ const NewPasswordForm = ({
     });
   }
 
-  const changePassowrd = () => {
-
+  const changePassowrd = async () => {
+    const res = await verifyChangePassowordCode(userPassword)
+    executeXPopUp(res,'Passoword reset successfully.')
+    if(!res.error) forceLogout()
+    
   }
 
-  
   return <StyledXCard
         title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faLock} style={{marginRight: '10px'}}/>CHANGE PASSWORD</p>}
         style={{height: 'auto', width: '80%', margin: '2em auto'}}
@@ -164,6 +182,17 @@ const NewPasswordForm = ({
       >
         <StyledMarginContent>
           <p>Set new password:</p>
+          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
+            <label style={{marginBottom: '-10px'}}>Email</label>
+            <XInput 
+              id="email"
+              value={userPassword.email} 
+              onChange={(e) => onInputChange(e)}
+              type={'text'} 
+              size='medium' 
+              fullWidth
+            />
+          </StyledDivCenterY>
           <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
             <label style={{marginBottom: '-10px'}}>New Password</label>
             <XInput 
