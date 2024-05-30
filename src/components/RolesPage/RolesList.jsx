@@ -4,7 +4,7 @@ import { XButton, XDropdown, XPopUp, XRowContent } from "@ximdex/xui-react/mater
 import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXModal, StyledXRow } from "../../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
-import useModals, { XDirModalDropdownPermissions } from '../../hooks/useModals';
+import useModals from '../../hooks/useModals';
 import { assignPermissionToRole, createNewRole, deleteExistingRole, getRole, getRoles, updateExistingRole } from "../../service/xdir.service";
 import { useSpinner } from '@ximdex/xui-react/hooks';
 
@@ -148,7 +148,7 @@ export default function RolesList({refreshRoles}) {
             }
 
                 
-            <StyledXModal
+            {/* <StyledXModal
             isOpen={permissionsRolModal?.open}
             ariaHideApp={false}
             >
@@ -161,7 +161,7 @@ export default function RolesList({refreshRoles}) {
                 confirmButton={confirmNewPermissions}
                 />
             </div>
-            </StyledXModal>
+            </StyledXModal> */}
         </>
   );
 }

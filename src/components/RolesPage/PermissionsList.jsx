@@ -4,7 +4,7 @@ import { XPopUp, XRowContent } from "@ximdex/xui-react/material";
 import { StyledFlexFullCenter, StyledXRow } from "../../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
-import useModals, { XDirModalDropdownPermissions } from '../../hooks/useModals';
+import useModals from '../../hooks/useModals';
 import { deleteExistingPermission, getPermissisions, updateExistingPermission } from "../../service/xdir.service";
 import { useSpinner } from '@ximdex/xui-react/hooks';
 
