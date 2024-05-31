@@ -111,9 +111,9 @@ export const changePassword = async (password) => {
     }
 };
 
-export const updateUserXDIR = async (user) => {
+export const updateUserXDIR = async (user, userID) => {
     try {
-        const res = await fetch(`${API_BASE_URL}user/update/`, {
+        const res = await fetch(`${API_BASE_URL}users/${userID}`, {
             method: "PUT",
             headers: {
                 ...commonHeaders,
@@ -455,9 +455,9 @@ export const getUser = async (userID) => {
     }
 }
 
-export const deleteExistingUser = async () => {
+export const deleteExistingUser = async (id) => {
     try {
-        const res = await fetch(`${API_BASE_URL}user/delete/${id}`, {
+        const res = await fetch(`${API_BASE_URL}users/${id}`, {
             method: "DELETE",
             headers: {
                 ...commonHeaders,
@@ -476,8 +476,6 @@ export const deleteExistingUser = async () => {
 }
 
 export const assignRoleToUser = async (organization, service, rol) => {
-
-
 
 }
 
@@ -503,5 +501,20 @@ export const sendRegisterInvite = async (organizationID, email) => {
 }
 
 export const getUserInvitations = async () => {
-    
+    try {
+        const res = await fetch(`${API_BASE_URL}organizations/invitations`, {
+            method: "GET",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+        });
+        if (!res.ok) {
+            throw new Error("Failed to get invitations. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to get invitations. Please try again later." };
+    }
 }
