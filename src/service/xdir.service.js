@@ -438,7 +438,7 @@ export const getUsers = async () => {
 
 export const getUser = async (userID) => {
     try {
-        const res = await fetch(`${API_BASE_URL}user/${userID}`, {
+        const res = await fetch(`${API_BASE_URL}users/${userID}`, {
             method: "GET",
             headers: {
                 ...commonHeaders,
@@ -516,5 +516,24 @@ export const getUserInvitations = async () => {
         return json;
     } catch (err) {
         return { error: "Unable to get invitations. Please try again later." };
+    }
+}
+
+export const getXimdexTools = async () => {
+    try {
+        const res = await fetch(`${API_BASE_URL}tools`, {
+            method: "GET",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+        });
+        if (!res.ok) {
+            throw new Error("Failed to get the tools. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to get the tools. Please try again later." };
     }
 }

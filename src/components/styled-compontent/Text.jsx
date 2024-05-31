@@ -6,3 +6,8 @@ export const TitlePage = styled('h1')`
 
 
 `
+
+export const StyledTagStatus = styled ('p')`
+
+
+`

@@ -35,8 +35,8 @@ const Navbar = () => {
                     target: '_self'
                 },
                 {
-                    text: 'Services',
-                    url: '/services',
+                    text: 'Tools',
+                    url: '/tools',
                     target: '_self'
                 }
             ]
