@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyledDivFlexBetween, StyledFlexFullCenter, StyledMarginContent, StyledTabsContainer, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
+import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useModals from "../hooks/useModals";
 import { faTools } from "@fortawesome/free-solid-svg-icons";
 import { getXimdexTools } from "../service/xdir.service";
 import { useSpinner } from "@ximdex/xui-react/hooks";

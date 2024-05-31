@@ -2,7 +2,7 @@ import { Stack } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider/AuthContext';
 import { useEffect, useState } from 'react';
-import { faBuilding, faKey, faSchool, faServer, faTools, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faTools, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { XLabel } from '@ximdex/xui-react/material';
 import { StyledHomeItem } from '../components/styled-compontent/Links';
 import { StyledHomeXBox } from '../components/styled-compontent/Container';

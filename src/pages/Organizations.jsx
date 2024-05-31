@@ -3,7 +3,6 @@ import { StyledMarginContent, StyledXCard, StyledXRow } from "../components/styl
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XPopUp, XRowContent } from "@ximdex/xui-react/material";
-import AuthContext from "../providers/AuthProvider/AuthContext";
 import { createNewOrganization, deleteExistingOrganization, getOrganizations, updateExistingOrganization } from "../service/xdir.service";
 import useModals from '../hooks/useModals';
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";

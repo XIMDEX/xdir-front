@@ -1,9 +1,9 @@
 import { useSpinner } from "@ximdex/xui-react/hooks";
 import React, { useEffect, useState } from "react";
-import { getUserInvitations, getUsers } from "../../service/xdir.service";
-import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
-import { XButton, XPopUp, XRowContent, XRowDetails } from "@ximdex/xui-react/material";
-import { faEdit, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { getUserInvitations } from "../../service/xdir.service";
+import { StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
+import {XRowContent, XRowDetails } from "@ximdex/xui-react/material";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { StyledDivFlexBetween, StyledFlexFullCenter, StyledXRow } from "../../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledTagStatus } from "../styled-compontent/Text";

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { StyledDivCenterY, StyledFlexFullCenter, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faEye, faEyeSlash, faLock, faSave } from "@fortawesome/free-solid-svg-icons";
-import { XButton, XInput, XPopUp } from "@ximdex/xui-react/material";
+import { XButton, XInput } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
 import _ from "lodash";
 import { useNavigate, useParams } from "react-router-dom";

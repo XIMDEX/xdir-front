@@ -1,10 +1,10 @@
 import { useSpinner } from "@ximdex/xui-react/hooks";
 import React, { useContext, useEffect, useState } from "react";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
-import { XButton, XPopUp, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
-import { faEdit, faKey, faL, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { XPopUp, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
+import { faKey, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { StyledFlexFullCenter, StyledXModal, StyledXRow } from "../../components/styled-compontent/Container";
-import { assignRoleToUser, deleteExistingUser, getRoles, getUser, getUsers, getXimdexTools } from "../../service/xdir.service";
+import { assignRoleToUser, deleteExistingUser, getRoles, getUsers, getXimdexTools } from "../../service/xdir.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModals, { XDirModalRoles } from "../../hooks/useModals";
 import AuthContext from "../../providers/AuthProvider/AuthContext";

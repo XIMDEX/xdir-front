@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyledDivCenterY, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faCalendar, faEye, faEyeSlash, faGenderless, faKey, faPen, faPerson, faSave, faTransgender, faTrash, faUser, faUserCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { XButton, XInput, XPopUp } from "@ximdex/xui-react/material";
+import {faKey, faPen, faSave, faTrash, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { XButton, XInput } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
-import { GENDER_OPTIONS } from "../../CONSTATNS";
 import _ from "lodash";
 import { updateUserXDIR } from "../service/xdir.service";
 import { useSpinner } from "@ximdex/xui-react/hooks";
