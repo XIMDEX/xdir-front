@@ -4,7 +4,7 @@ import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/sty
 import { XPopUp, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
 import { faKey, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { StyledFlexFullCenter, StyledXModal, StyledXRow } from "../../components/styled-compontent/Container";
-import { assignRoleToUser, deleteExistingUser, getRoles, getUsers, getXimdexTools } from "../../service/xdir.service";
+import { assignRoleToUser, deleteExistingUser, getRoles, getUser, getUsers, getXimdexTools } from "../../service/xdir.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModals, { XDirModalRoles } from "../../hooks/useModals";
 import AuthContext from "../../providers/AuthProvider/AuthContext";
@@ -21,9 +21,9 @@ export default function UsersList({
     const [roleAssignModal, setRolesAssignModal] = useState({
       open: false,
       user: undefined,
-      rolesList: [],
-      tools: [],
-      organizations: []
+      roles: undefined,
+      tools: undefined,
+      organizations: undefined
     })
 
     useEffect(() => {
@@ -76,6 +76,7 @@ export default function UsersList({
     }
   
     const confirmNewRoles = async (organizationSelected, toolSelected, roleSelected) => {
+      showSpinner()
       const body = {
         user_uuid: roleAssignModal.user.uuid,
         organization_uuid: organizationSelected,
@@ -97,6 +98,10 @@ export default function UsersList({
       )
     }
 
+    const showUserDetails = async (user) => {
+      const res = await getUser(user.uuid)
+      console.log(res);
+    }
 
   return <>
     {loading ?  <></> :
@@ -116,10 +121,13 @@ export default function UsersList({
                       key={'row' + index}
                       identifier={user.uuid}
                       isCollapsable={true}
+                      functionButtonCollapsable={() => showUserDetails(user)}
                       labelButtonCollapsable={`Show details`}
                       controls={[
                         {
-                            component:<StyledGreenButtonIcon onClick={() => assignRoles(user)}>
+                            component:<StyledGreenButtonIcon 
+                                      disabled={!roleAssignModal?.organizations || !roleAssignModal.tools || !roleAssignModal.roles}
+                                      onClick={() => assignRoles(user)}>
                                         <FontAwesomeIcon icon={faKey} size='1x' title='Assign roles' />
                                     </StyledGreenButtonIcon>
                         },

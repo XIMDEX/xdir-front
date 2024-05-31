@@ -28,6 +28,7 @@ function Register() {
     const {validatePassword, validateEmail} = useFormValidator()
     const {XDirModal} = useModals();
     const navigate = useNavigate();
+    
     //Obtiene el dato de la organizacion  al cargar
     useEffect(() => {
         if(isAuthenticated) navigate('/home')

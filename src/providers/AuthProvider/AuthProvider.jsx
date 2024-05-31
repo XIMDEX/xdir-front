@@ -32,6 +32,10 @@ const AuthProvider = ({ children }) => {
     }
   },[])
 
+  useEffect(() => {
+    if(isAuthenticated) navigate('/home')
+  },[isAuthenticated])
+
 
   const forceLogout = () => {
     deleteLocalStorage()
