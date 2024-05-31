@@ -2,9 +2,9 @@ import { useSpinner } from "@ximdex/xui-react/hooks";
 import React, { useContext, useEffect, useState } from "react";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
 import { XButton, XPopUp, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
-import { faEdit, faKey, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faKey, faL, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { StyledFlexFullCenter, StyledXModal, StyledXRow } from "../../components/styled-compontent/Container";
-import { assignRoleToUser, deleteExistingUser, getUser, getUsers } from "../../service/xdir.service";
+import { assignRoleToUser, deleteExistingUser, getRoles, getUser, getUsers, getXimdexTools } from "../../service/xdir.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModals, { XDirModalRoles } from "../../hooks/useModals";
 import AuthContext from "../../providers/AuthProvider/AuthContext";
@@ -20,12 +20,38 @@ export default function UsersList({
     const [refreshList, setRefreshList] = useState(false)
     const [roleAssignModal, setRolesAssignModal] = useState({
       open: false,
-      user: undefined
+      user: undefined,
+      rolesList: [],
+      tools: [],
+      organizations: []
     })
 
     useEffect(() => {
+        buildDropdowns()
         getExistingUsers()
-      }, [refreshList]);
+    }, [refreshList, isSuperAdmin]);
+
+    const buildDropdowns = async () => {
+        const resRoles = await getRoles()
+        const resTools = await getXimdexTools()
+        if(resRoles.error || resTools.error){
+            XPopUp({
+            text: res?.error,
+            iconType:'error',
+            timer:'3000',
+            popUpPosition:'top',
+            iconColor: 'red',
+            timer: 3000
+            })
+        }
+        setRolesAssignModal({
+            ...roleAssignModal,
+            organizations: organizations,
+            roles: resRoles?.roles?.map(rol => ({ value: rol.uuid, label: rol.name })),
+            tools: resTools?.tools?.map(tool => ({ value: tool.uuid, label: tool.name, disabled: tool?.label === 'superadmin' && !isSuperAdmin}))
+          }
+        )
+    }
 
     const getExistingUsers = async () => {
         setLoading(true)
@@ -49,13 +75,27 @@ export default function UsersList({
         })
     }
   
-    const confirmNewRoles = async (organizationSelected, serviceSelected, rolSelected) => {
-       console.log(organizationSelected, serviceSelected, rolSelected);
-      // const res =  await assignRoleToUser(organizationSelected, serviceSelected, rolSelected)
+    const confirmNewRoles = async (organizationSelected, toolSelected, roleSelected) => {
+      const body = {
+        user_uuid: roleAssignModal.user.uuid,
+        organization_uuid: organizationSelected,
+        tool_uuid: toolSelected,
+        role_uuid: [roleSelected]
+      }
+      const res =  await assignRoleToUser(body)
       executeXPopUp(res, "Role/s assigned successfully")
-      // setRefreshList(!refreshList)
+      setRefreshList(!refreshList)
     }
 
+    const assignRoles = async (user) => {
+      setRolesAssignModal(
+        {
+          ...roleAssignModal,
+          open: true,
+          user: {email:user.email, uuid:user.uuid},
+        }
+      )
+    }
 
 
   return <>
@@ -79,7 +119,7 @@ export default function UsersList({
                       labelButtonCollapsable={`Show details`}
                       controls={[
                         {
-                            component:<StyledGreenButtonIcon onClick={() => setRolesAssignModal({open: true, user: {email:user.email, uuid:user.uuid}})}>
+                            component:<StyledGreenButtonIcon onClick={() => assignRoles(user)}>
                                         <FontAwesomeIcon icon={faKey} size='1x' title='Assign roles' />
                                     </StyledGreenButtonIcon>
                         },
@@ -121,12 +161,14 @@ export default function UsersList({
             >
               <div style={{height: '400px'}} className={`animate__animated ${roleAssignModal.open ? 'animate__fadeInUp animate__faster' : 'animate__fadeOutDown animate__faster'}`}>
                 <XDirModalRoles
-                  setOpenModal={setRolesAssignModal}
+                  setOpenModal={() => setRolesAssignModal({...roleAssignModal, open:false})}
                   subtitle={`Assign role to user ${roleAssignModal?.user?.email}`}
                   title='Assign role'
                   confirmButton={confirmNewRoles}
-                  organizations={organizations}
                   isSuperAdmin={isSuperAdmin}
+                  organizations={roleAssignModal.organizations}
+                  roles={roleAssignModal.roles}
+                  tools={roleAssignModal.tools}
                 />
               </div>
             </StyledXModal>
