@@ -11,9 +11,7 @@ import { useSpinner } from '@ximdex/xui-react/hooks';
 
 
 export default function Organizations() {
-  const {user} = useContext(AuthContext);
   const [organizationsList, setOrganizationsList] = useState([])
-  const [organizationUsers, setOrganizationUsers] = useState([])
   const [refreshList, setRefreshList] = useState(false)
   const {XDirModalInput, XDirModal, executeXPopUp} = useModals()
   const [loading, setLoading] = useState(false)
