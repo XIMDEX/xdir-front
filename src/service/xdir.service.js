@@ -475,8 +475,24 @@ export const deleteExistingUser = async (id) => {
 
 }
 
-export const assignRoleToUser = async (organization, service, rol) => {
-
+export const assignRoleToUser = async (newRol) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}roles/assign`, {
+            method: "POST",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+            body: JSON.stringify(newRol),
+        });
+        if (!res.ok) {
+            throw new Error("Failed to set up new Role. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to set up new role. Please try again later." };
+    }
 }
 
 export const sendRegisterInvite = async (organizationID, email) => {
@@ -496,8 +512,6 @@ export const sendRegisterInvite = async (organizationID, email) => {
     } catch (err) {
         return { error: "Unable to send new invitation. Please try again later." };
     }
-
-
 }
 
 export const getUserInvitations = async () => {
