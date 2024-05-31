@@ -8,7 +8,7 @@ import { StyledDivCenterY, StyledDivFlexBetween, StyledFlexFullCenter, StyledXMo
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useFormValidator from "./useFormValidatior";
-import { getOrganizations } from "../service/xdir.service";
+import { getOrganizations, getRoles, getXimdexTools } from "../service/xdir.service";
 import AuthContext from "../providers/AuthProvider/AuthContext";
 
 export default function useModals () {
@@ -150,15 +150,15 @@ export default function useModals () {
     }
 }
 
-export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, organizations, isSuperAdmin}) => {
+export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, organizations,tools, roles, isSuperAdmin}) => {
     const [rolSelected, setRolSelected] = useState(null);
     const [organizationSelected, setOrganizationSelected] = useState(null)
-    const [serviceSelected, setServiceSelected] = useState(null)
+    const [toolSelected, setToolSelected] = useState(null)
 
     const handleDropdown = (type, data) => {
         if(type === 'rol') setRolSelected(data);
         if(type === 'org') setOrganizationSelected(data);
-        if(type === 'service') setServiceSelected(data);
+        if(type === 'tool') setToolSelected(data);
     };
 
     return (
@@ -185,12 +185,12 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, or
         </StyledDivCenterY>
         <StyledDivCenterY style={{width: '100%', justifyContent: 'center', margin: '10px 0'}}>
             <XDropdown
-                value={serviceSelected}
-                onChange={(e, data) => handleDropdown('service',data)} // Ajusta el índice según sea necesario
-                options={SERVICES_OPTIOINS}
+                value={toolSelected}
+                onChange={(e, data) => handleDropdown('tool',data)} // Ajusta el índice según sea necesario
+                options={tools}
                 labelOptions="label"
                 displayEmpty
-                label="Select service"
+                label="Select tool"
                 bgColor="100"
                 width="350px"
                 size="small"
@@ -201,13 +201,10 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, or
         </StyledDivCenterY>
         <StyledDivCenterY style={{width: '100%', justifyContent: 'center', margin: '10px 0'}}>
             <XDropdown
-                getOptionDisabled={(option) => option.disabled}
+                getOptionDisabled={(option) => option?.disabled}
                 value={rolSelected}
                 onChange={(e, data) => handleDropdown('rol',data)} // Ajusta el índice según sea necesario
-                options={ROLES_OPTIONS.map(option => ({
-                    ...option,
-                    disabled: option.value === 'superadmin' && !isSuperAdmin
-                }))}
+                options={roles}
                 labelOptions="label"
                 displayEmpty
                 label="Select role"
@@ -223,15 +220,15 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, or
                 <XButton
                     style={{margin: '1em'}}
                     onClick={() => {
-                        setOpenModal(false)
-                        confirmButton(organizationSelected.value,serviceSelected.value,rolSelected.value)
+                        setOpenModal()
+                        confirmButton(organizationSelected.value,toolSelected.value,rolSelected.value)
                     }}
                 >
                     Assign
                 </XButton>
                 <XButton
                     style={{margin: '1em', background: '#6e7881'}}
-                    onClick={() => setOpenModal(false)}
+                    onClick={() => setOpenModal()}
                 >
                     Cancel
                 </XButton>
