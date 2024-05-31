@@ -219,6 +219,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, or
             <StyledDivCenterY style={{width: '100%', justifyContent: 'center'}}>
                 <XButton
                     style={{margin: '1em'}}
+                    disabled={!organizationSelected || !toolSelected || !rolSelected}
                     onClick={() => {
                         setOpenModal()
                         confirmButton(organizationSelected.value,toolSelected.value,rolSelected.value)
