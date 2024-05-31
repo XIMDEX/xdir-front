@@ -25,7 +25,6 @@ export default function UsersList({
       tools: undefined,
       organizations: undefined
     })
-
     useEffect(() => {
         buildDropdowns()
         getExistingUsers()
