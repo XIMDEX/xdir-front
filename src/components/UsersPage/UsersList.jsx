@@ -42,7 +42,8 @@ export default function UsersList({
           title:'Delete user',
           confirmButtonColor:'#e13144',
           onConfirmFunction: async () => {
-            await deleteExistingUser(userId)
+            const res = await deleteExistingUser(userId)
+            executeXPopUp(res, "User deleted successfully")
             setRefreshList(!refreshList)
           }
         })
