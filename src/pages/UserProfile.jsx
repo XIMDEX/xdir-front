@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyledDivCenterY, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faCalendar, faEye, faEyeSlash, faGenderless, faKey, faPen, faPerson, faSave, faTransgender, faUser, faUserCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {faCalendar, faEye, faEyeSlash, faGenderless, faKey, faPen, faPerson, faSave, faTransgender, faTrash, faUser, faUserCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XInput, XPopUp } from "@ximdex/xui-react/material";
 import AuthContext from "../providers/AuthProvider/AuthContext";
 import { GENDER_OPTIONS } from "../../CONSTATNS";
@@ -9,10 +9,11 @@ import _ from "lodash";
 import { updateUserXDIR } from "../service/xdir.service";
 import { useSpinner } from "@ximdex/xui-react/hooks";
 import useModals from "../hooks/useModals";
+import { StyledRedXButton } from "../components/styled-compontent/Buttons";
 
 export default function UserProfile() {
-  const {user, saveUserData} = useContext(AuthContext);
-  const {executeXPopUp} = useModals()
+  const {user, saveUserData, forceLogout} = useContext(AuthContext);
+  const {executeXPopUp, XDirModal} = useModals()
   const [canEdit, setCanEdit] = useState(false)
   const [userForm, setUserForm] = useState({...user})
   const {showSpinner, hideSpinner} = useSpinner()
@@ -44,11 +45,27 @@ export default function UserProfile() {
 
   const updateUserData = async () => {
     showSpinner()
-    const res = await updateUserXDIR(removeUnusedFields(user, userForm))
+    const res = await updateUserXDIR(removeUnusedFields(user, userForm), user.uuid)
     executeXPopUp(res, 'User information updated successfully.' )
     if(!res?.error) saveUserData(res.user)
+    setCanEdit(false)
     hideSpinner()
   }
+
+
+  const deleteUserAccount = async () => {
+    XDirModal({
+        text:`Are you sure you want to delete your account?`,
+        title:'Delete account',
+        confirmButtonColor:'#e13144',
+        onConfirmFunction: async () => {
+          const res = await deleteExistingUser(user.uuid)
+          executeXPopUp(res, "Account deleted successfully")
+          if(!res.error) forceLogout()
+        }
+      })
+  }
+
 
   return (
   <StyledXCard
@@ -155,6 +172,13 @@ export default function UserProfile() {
                   )}        
             </p>       
           </StyledDivCenterY>
+          <StyledRedXButton
+              onClick= {() => deleteUserAccount()}
+              title="Delete account"
+          >
+              <FontAwesomeIcon icon={faTrash} style={{marginRight: '10px'}}/> 
+              DELETE ACCOUNT
+          </StyledRedXButton>
         </StyledMarginContent>
       </StyledXCard>
 
