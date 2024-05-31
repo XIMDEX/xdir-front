@@ -94,8 +94,12 @@ export const StyledXCard = styled(XCard)`
     border-radius: 0 !important;
     background-color: rgb(255, 255, 255);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-
-    
+    padding: 1em 1em;
+    h2{
+        p{
+            margin-left: 0 !important;
+        }
+    }
     margin-top: 0;
     margin-bottom: 1.5rem;
 `
@@ -147,7 +151,7 @@ export const StyledXModal = styled(ReactModal)`
 
 
 export const StyledMarginContent = styled('div')`
-    margin: 1em 2em;
+    margin: 1em 1em;
     padding-bottom: 1em;
 `
 
