@@ -4,7 +4,9 @@ import { getUserInvitations, getUsers } from "../../service/xdir.service";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
 import { XButton, XPopUp, XRowContent, XRowDetails } from "@ximdex/xui-react/material";
 import { faEdit, faPlus, faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
-import { StyledFlexFullCenter, StyledXRow } from "../../components/styled-compontent/Container";
+import { StyledDivFlexBetween, StyledFlexFullCenter, StyledXRow } from "../../components/styled-compontent/Container";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { StyledTagStatus } from "../styled-compontent/Text";
 
 export default function UsersInvites() {
     const [invitesList, setInvitesList] = useState([])
@@ -20,7 +22,7 @@ export default function UsersInvites() {
         setLoading(true)
         showSpinner()
         const res = await getUserInvitations()
-        setInvitesList(res?.users ?? [])
+        setInvitesList(res?.invitations ?? [])
         hideSpinner()
         setLoading(false)
     }
@@ -40,7 +42,7 @@ export default function UsersInvites() {
               </StyledFlexFullCenter>
             :
               <>
-                {invitesList.map((user, index) => (
+                {invitesList.map((invite, index) => (
                   <StyledXRow
                       style={{
                           borderBottom: index === (invitesList.length - 1) ? '1px solid #BBBBBB' : '',
@@ -48,19 +50,22 @@ export default function UsersInvites() {
                           width: '100%'
                       }}
                       key={'row' + index}
-                      identifier={user.uuid}
-                      isCollapsable={true}
-                      labelButtonCollapsable={`Show invite details`}
+                      identifier={invite.id}
                       controls={[
                         {
-                            component:<StyledRedButtonIcon onClick={() => deleteOrganization(user.uuid, user.name)}>
-                                        <FontAwesomeIcon icon={faTrash} size='1x' title='Delete invite' />
+                            component:<StyledRedButtonIcon onClick={() => removeInvite(invite.id, user.email)}>
+                                        <FontAwesomeIcon icon={faTrash} size='1x' title='Remove invite' />
                                     </StyledRedButtonIcon>
                         },
                       ]}
                   >
-                    <XRowContent key={"XRowContent" + index}>
-                      <p><strong>Id:</strong> {user?.uuid} - {user?.name + ' ' + user?.surname}</p>
+                    <XRowContent key={"XRowContent" + index} style={{width: '100%'}}>
+                      <StyledDivFlexBetween>
+                        <p><strong>User invited:</strong> {invite?.email}</p>
+                        <StyledTagStatus status={invite.status}>
+                          {invite.status.toUpperCase()}
+                        </StyledTagStatus>
+                      </StyledDivFlexBetween>
                     </XRowContent>
                   </StyledXRow>
                 ))}
