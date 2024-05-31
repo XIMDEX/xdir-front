@@ -14,3 +14,9 @@ export const StyledRedButtonIcon = styled(StyledGreenButtonIcon)`
         background: #e13144;
     }
 `;
+
+export const StyledRedXButton = styled(XButton)`
+    &:hover {
+        background: #e13144;
+    }
+`
