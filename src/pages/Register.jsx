@@ -103,7 +103,7 @@ function Register() {
                 title:'Email confirmation',
                 confirmButtonColor:'#e13144',
                 showCancelButton: false,
-                onConfirmFunction: async () => await deleteExistingOrganization(organizationID)
+                onConfirmFunction: navigate('/login')
               })
         }
     }

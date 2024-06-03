@@ -9,7 +9,7 @@ import { verifyChangePassowordCode, verifyEmailCode, verifyEmailSendCode } from 
 import { CircularProgress } from "@mui/material";
 import useModals from "../hooks/useModals";
 import useFormValidator from "../hooks/useFormValidatior";
-import { useSpinner } from "@ximdex/xui-react/hooks";
+import { useAuth, useSpinner } from "@ximdex/xui-react/hooks";
 
 export default function VerificationEmail() {
   const [emailVerified, setEmailVerified] = useState(false)
@@ -37,7 +37,7 @@ const VerificationEmailForm = ({
   token,
   action
 }) => {
-  const {user, saveUserData} = useContext(AuthContext);
+  const {user, saveUserData} = useAuth();
   const [email, setEmail] = useState(user?.email ?? '')
   const [loadingVerification, setLoadingVerification] = useState(false)
   const navigate = useNavigate()
@@ -58,7 +58,7 @@ const VerificationEmailForm = ({
       setLoadingVerification(true)
       if(action === 'register'){
         const res = await verifyEmailCode(action, token)
-        executePopUp(res,'Email has been verified.')
+        executeXPopUp(res,'Email has been verified.')
         if(!res?.error) navigate('/login')
       }else{
         setEmailVerified(true)
@@ -119,7 +119,7 @@ const NewPasswordForm = ({
   token,
   setEmailVerified
 }) => {
-  const {user, forceLogout} = useContext(AuthContext)
+  const {user, forceLogout} = useAuth()
   const passwordInit = {
     token: token,
     email: user?.email ?? "",
