@@ -26,19 +26,16 @@ const Navbar = () => {
         if((isAdmin || isSuperAdmin)){
             links =  [
                 {
+                    onClick: () => navigate('/users'),
                     text: 'Users',
-                    url: '/users',
-                    target: '_self'
                 },
                 {
                     text: 'Organizations',
-                    url: '/organizations',
-                    target: '_self'
+                    onClick: () => navigate('/organizations'),
                 },
                 {
                     text: 'Tools',
-                    url: '/tools',
-                    target: '_self'
+                    onClick: () => navigate('/tools'),
                 }
             ]
         }   
