@@ -20,7 +20,7 @@ const Navbar = () => {
     } = useAuth()
     const {logoutModal} = useModals()
     const [internalLinks, setInternalLinks] = useState([])
-
+    
     useEffect(() => {
         let links = []
         if((isAdmin || isSuperAdmin)){
@@ -43,7 +43,7 @@ const Navbar = () => {
             ]
         }   
         setInternalLinks(links)
-    }, [user]);
+    }, [isAdmin, isSuperAdmin]);
 
     const externalLinks = [];
 

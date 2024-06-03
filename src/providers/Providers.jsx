@@ -1,4 +1,3 @@
-import AuthProvider from "./AuthProvider/AuthProvider"
 import { XThemeProvider } from '@ximdex/xui-react/providers/';
 import  XAuthProvider from '@ximdex/xui-react/providers/XAuthProvider/XAuthProvider';
 import { CLIENT, ENVIRONMENT } from "../../CONSTATNS";

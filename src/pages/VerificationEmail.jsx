@@ -3,7 +3,6 @@ import { StyledDivCenterY, StyledFlexFullCenter, StyledMarginContent, StyledXCar
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faEye, faEyeSlash, faLock, faSave } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XInput } from "@ximdex/xui-react/material";
-import AuthContext from "../providers/AuthProvider/AuthContext";
 import _ from "lodash";
 import { useNavigate, useParams } from "react-router-dom";
 import { verifyChangePassowordCode, verifyEmailCode, verifyEmailSendCode } from "../service/xdir.service";
