@@ -8,10 +8,10 @@ import ximdexLogo from "../assets/logotipo_ximdex-DIR-small.png"
 import { CircularProgress } from '@mui/material';
 import useFormValidator from '../hooks/useFormValidatior';
 import useModals from '../hooks/useModals'
-import AuthContext from '../providers/AuthProvider/AuthContext';
+import useAuth from '@ximdex/xui-react/hooks/useAuth';
 
 function Register() { 
-    const {isAuthenticated} = useContext(AuthContext)
+    const {isAuthenticated} = useAuth()
     let [searchParams] = useSearchParams();
     const { organization, email: userEmail } = Object.fromEntries(searchParams)
     const [error, setError] = useState('');

@@ -1,11 +1,9 @@
-import { useContext } from "react";
 import {Navigate, useLocation} from "react-router-dom"
-import AuthContext from "../providers/AuthProvider/AuthContext";
-import Navbar from "../components/Navbar";
+import useAuth from '@ximdex/xui-react/hooks/useAuth';
 
 const ProtectedRoute = ({component}) => {
     const location = useLocation();
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
     
     if (!user?.access_token) {
         return (

@@ -1,18 +1,13 @@
 import Swal from "sweetalert2";
 import './sweetAlertClasses.css'
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { XButton, XDropdown, XInput, XPopUp } from "@ximdex/xui-react/material";
-import { ROLES_OPTIONS, SERVICES_OPTIOINS } from "../../CONSTATNS";
-import { createRoot  } from 'react-dom';
-import { StyledDivCenterY, StyledDivFlexBetween, StyledFlexFullCenter, StyledXModal } from "../components/styled-compontent/Container";
-import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { StyledDivCenterY, StyledDivFlexBetween, StyledFlexFullCenter } from "../components/styled-compontent/Container";
 import useFormValidator from "./useFormValidatior";
-import { getOrganizations, getRoles, getXimdexTools } from "../service/xdir.service";
-import AuthContext from "../providers/AuthProvider/AuthContext";
+import useAuth from '@ximdex/xui-react/hooks/useAuth';
 
 export default function useModals () {
-    const {forceLogout} = useContext(AuthContext)
+    const {forceLogout} = useAuth()
     const [permissionsSelected, setPermissionsSelected] = useState([]);
 
     const XDirModal = async ({text,title, confirmButtonColor, textColor, onConfirmFunction, showCancelButton}) => {

@@ -1,11 +1,9 @@
-import { useContext } from "react";
 import {Navigate, Outlet, useLocation} from "react-router-dom"
-import AuthContext from "../providers/AuthProvider/AuthContext";
-import Navbar from "../components/Navbar";
+import useAuth from '@ximdex/xui-react/hooks/useAuth';
 
 const ProtectedSuperAdminRoutes = ({component}) => {
     const location = useLocation();
-    const { user, isSuperAdmin } = useContext(AuthContext);
+    const { user, isSuperAdmin } = useAuth();
 
     if (user?.access_token) {
         if(!isSuperAdmin) {

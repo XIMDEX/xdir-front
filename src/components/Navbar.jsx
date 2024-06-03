@@ -1,22 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faSignOutAlt, faExternalLinkAlt, faLock } from '@fortawesome/free-solid-svg-icons';
-import { XNav, XPopUp } from '@ximdex/xui-react/material';
+import { faUser, faSignOutAlt, faLock } from '@fortawesome/free-solid-svg-icons';
+import { XNav } from '@ximdex/xui-react/material';
 import ximdexImagenav from '../assets/logotipo_ximdex-DIR-white.png';
-import AuthContext from '../providers/AuthProvider/AuthContext';
 import useModals from '../hooks/useModals';
+import useAuth from '@ximdex/xui-react/hooks/useAuth';
 
 
 const Navbar = () => {
     const location = useLocation()
     const navigate = useNavigate();
+
     const { 
         user,
         isSuperAdmin,
         isAdmin,
         isAuthenticated
-    } = useContext(AuthContext);
+    } = useAuth()
     const {logoutModal} = useModals()
     const [internalLinks, setInternalLinks] = useState([])
 

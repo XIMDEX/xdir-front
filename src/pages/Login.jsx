@@ -3,9 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {XContainer, XLogin}  from '@ximdex/xui-react/material';
 import LoginImage from '../assets/logotipo_ximdex-DIR-small.png';
 import { styled } from "@mui/system";
-import AuthContext from '../providers/AuthProvider/AuthContext';
 import { loginXDIR } from '../service/xdir.service';
 import { FAKE_USER } from '../../CONSTATNS';
+import useAuth from '@ximdex/xui-react/hooks/useAuth';
 
 
 export const StyledXLogin = styled(XLogin)`
@@ -45,7 +45,7 @@ export const StyledExtraActions = styled('div')`
 
 
 const Login = () => {
-    const {saveUserData, isAuthenticated} = useContext(AuthContext)
+    const {saveUserData, isAuthenticated} = useAuth()
     const navigate = useNavigate();
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 import { Stack } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../providers/AuthProvider/AuthContext';
+import useAuth from '@ximdex/xui-react/hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { faBuilding, faTools, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { XLabel } from '@ximdex/xui-react/material';

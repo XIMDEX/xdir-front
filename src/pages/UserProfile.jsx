@@ -3,7 +3,7 @@ import { StyledDivCenterY, StyledMarginContent, StyledXCard } from "../component
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faKey, faPen, faSave, faTrash, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XInput } from "@ximdex/xui-react/material";
-import AuthContext from "../providers/AuthProvider/AuthContext";
+import useAuth from '@ximdex/xui-react/hooks/useAuth';
 import _ from "lodash";
 import { updateUserXDIR } from "../service/xdir.service";
 import { useSpinner } from "@ximdex/xui-react/hooks";
@@ -11,7 +11,7 @@ import useModals from "../hooks/useModals";
 import { StyledRedXButton } from "../components/styled-compontent/Buttons";
 
 export default function UserProfile() {
-  const {user, saveUserData, forceLogout} = useContext(AuthContext);
+  const {user, saveUserData, forceLogout} = useAuth()
   const {executeXPopUp, XDirModal} = useModals()
   const [canEdit, setCanEdit] = useState(false)
   const [userForm, setUserForm] = useState({...user})

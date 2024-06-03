@@ -7,12 +7,12 @@ import { StyledFlexFullCenter, StyledXModal, StyledXRow } from "../../components
 import { assignRoleToUser, deleteExistingUser, getRoles, getUser, getUsers, getXimdexTools } from "../../service/xdir.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModals, { XDirModalRoles } from "../../hooks/useModals";
-import AuthContext from "../../providers/AuthProvider/AuthContext";
+import useAuth from '@ximdex/xui-react/hooks/useAuth';
 
 export default function UsersList({
   organizations
 }) {
-    const { isSuperAdmin } = useContext(AuthContext)
+    const { isSuperAdmin } = useAuth()
     const [usersList, setUsersList] = useState([])
     const {XDirModal, executeXPopUp} = useModals()
     const [loading, setLoading] = useState(false)
