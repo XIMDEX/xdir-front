@@ -125,7 +125,7 @@ export default function UsersList({
                       controls={[
                         {
                             component:<StyledGreenButtonIcon 
-                                      disabled={!roleAssignModal?.organizations || !roleAssignModal.tools || !roleAssignModal.roles}
+                                      disabled={!roleAssignModal?.organizations && !roleAssignModal.tools && !roleAssignModal.roles}
                                       onClick={() => assignRoles(user)}>
                                         <FontAwesomeIcon icon={faKey} size='1x' title='Assign roles' />
                                     </StyledGreenButtonIcon>
