@@ -28,7 +28,7 @@ export default function UsersList({
     useEffect(() => {
         buildDropdowns()
         getExistingUsers()
-    }, [refreshList, isSuperAdmin]);
+    }, [refreshList]);
 
     const buildDropdowns = async () => {
         const resRoles = await getRoles()
