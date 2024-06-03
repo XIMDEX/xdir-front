@@ -35,7 +35,6 @@ export default function PermissionsList({refreshPermissions}) {
       })
       setPermissionsList([])
     }else{
-        console.log(res);
         setPermissionsList(res.permissions)
     }
     hideSpinner()

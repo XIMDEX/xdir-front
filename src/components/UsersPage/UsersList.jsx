@@ -99,7 +99,6 @@ export default function UsersList({
 
     const showUserDetails = async (user) => {
       const res = await getUser(user.uuid)
-      console.log(res);
     }
 
   return <>

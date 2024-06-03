@@ -97,7 +97,6 @@ function Register() {
               })
         }else{
             setIsLoading(false)
-            console.log(user_res);
             XDirModal({
                 text:`Please check your email to verify your address and complete the registration process. Don't forget to check your spam folder if you don't see the email!`,
                 title:'Email confirmation',

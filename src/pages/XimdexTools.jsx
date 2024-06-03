@@ -21,7 +21,6 @@ export default function XimdexTools() {
     setLoading(true)
     showSpinner()
     const res = await getXimdexTools()
-    console.log(res.tools);
     setToolsList(res.tools)
     hideSpinner()
     setLoading(false)

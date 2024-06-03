@@ -25,7 +25,6 @@ export default function Organizations() {
     setLoading(true)
     showSpinner()
     const res = await getOrganizations()
-    console.log("ORANIZATIONS => ", res);
     setOrganizationsList(res)
     hideSpinner()
     setLoading(false)
