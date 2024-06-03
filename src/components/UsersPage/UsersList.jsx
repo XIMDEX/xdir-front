@@ -56,7 +56,7 @@ export default function UsersList({
         setLoading(true)
         showSpinner()
         const res = await getUsers()
-        setUsersList(res?.users ?? [])
+        setUsersList(res?.users.data ?? [])
         hideSpinner()
         setLoading(false)
     }
@@ -105,13 +105,13 @@ export default function UsersList({
   return <>
     {loading ?  <></> :
           <>
-            {usersList.length === 0 ? 
+            {usersList?.length === 0 ? 
               <StyledFlexFullCenter>
                 <p>No users have joined yet.</p>
               </StyledFlexFullCenter>
             :
               <>
-                {usersList.map((user, index) => (
+                {usersList?.map((user, index) => (
                   <StyledXRow
                       style={{
                           background: 'rgb(247, 247, 247)',
