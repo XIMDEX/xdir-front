@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { faEdit, faKey, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { XButton, XDropdown, XPopUp, XRowContent } from "@ximdex/xui-react/material";
-import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXModal, StyledXRow } from "../../components/styled-compontent/Container";
+import { XButton, XDropdown, XPopUp, XRow, XRowContent } from "@ximdex/xui-react/material";
+import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXModal } from "../../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
 import useModals from '../../hooks/useModals';
@@ -111,7 +111,7 @@ export default function RolesList({refreshRoles}) {
                 :
                   <>
                     {rolesList.map((role, index) => (
-                      <StyledXRow
+                      <XRow
                           style={{
                               borderBottom: index === (rolesList.length - 1) ? '1px solid #BBBBBB' : '',
                               background: 'rgb(247, 247, 247)',
@@ -142,7 +142,7 @@ export default function RolesList({refreshRoles}) {
                         <XRowContent key={"XRowContent" + index}>
                           <p><strong>Name:</strong> {role.name}</p>
                         </XRowContent>
-                      </StyledXRow>
+                      </XRow>
                     ))}
                   </>
             }

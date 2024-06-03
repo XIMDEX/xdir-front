@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
+import { StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { XButton, XPopUp, XRowContent } from "@ximdex/xui-react/material";
+import { XButton, XPopUp, XRow, XRowContent } from "@ximdex/xui-react/material";
 import { createNewOrganization, deleteExistingOrganization, getOrganizations, updateExistingOrganization } from "../service/xdir.service";
 import useModals from '../hooks/useModals';
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
@@ -119,7 +119,7 @@ export default function Organizations() {
             :
               <>
                 {organizationsList?.map((organization, index) => (
-                  <StyledXRow
+                  <XRow
                       style={{
                           borderBottom: index === (organizationsList.length - 1) ? '1px solid #BBBBBB' : '',
                           background: 'rgb(247, 247, 247)',
@@ -145,7 +145,7 @@ export default function Organizations() {
                     <XRowContent key={"XRowContent" + index}>
                       <p><strong>Name:</strong> {organization.name}</p>
                     </XRowContent>
-                  </StyledXRow>
+                  </XRow>
                 ))}
               </>
             }

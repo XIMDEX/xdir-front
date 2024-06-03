@@ -1,9 +1,9 @@
 import { useSpinner } from "@ximdex/xui-react/hooks";
 import React, { useContext, useEffect, useState } from "react";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
-import { XPopUp, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
+import { XPopUp, XRow, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
 import { faKey, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { StyledFlexFullCenter, StyledXModal, StyledXRow } from "../../components/styled-compontent/Container";
+import { StyledFlexFullCenter, StyledXModal } from "../../components/styled-compontent/Container";
 import { assignRoleToUser, deleteExistingUser, getRoles, getUser, getUsers, getXimdexTools } from "../../service/xdir.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModals, { XDirModalRoles } from "../../hooks/useModals";
@@ -112,7 +112,7 @@ export default function UsersList({
             :
               <>
                 {usersList?.map((user, index) => (
-                  <StyledXRow
+                  <XRow
                       style={{
                           background: 'rgb(247, 247, 247)',
                           width: '100%'
@@ -156,7 +156,7 @@ export default function UsersList({
                       ]}
                     />
                      
-                  </StyledXRow>
+                  </XRow>
                 ))}
               </>
             }

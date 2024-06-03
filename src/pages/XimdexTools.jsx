@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyledFlexFullCenter, StyledMarginContent, StyledXCard, StyledXRow } from "../components/styled-compontent/Container";
+import { StyledFlexFullCenter, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTools } from "@fortawesome/free-solid-svg-icons";
 import { getXimdexTools } from "../service/xdir.service";
 import { useSpinner } from "@ximdex/xui-react/hooks";
-import { XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
+import { XRow, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
 import { StyledTagStatus } from "../components/styled-compontent/Text";
 
 
@@ -42,7 +42,7 @@ export default function XimdexTools() {
             :
               <>
                 {toolsList.map((tool, index) => (
-                  <StyledXRow
+                  <XRow
                       style={{
                           background: 'rgb(247, 247, 247)',
                           width: '100%'
@@ -75,7 +75,7 @@ export default function XimdexTools() {
                       ]}
                     />
                      
-                  </StyledXRow>
+                  </XRow>
                 ))}
               </>
             }

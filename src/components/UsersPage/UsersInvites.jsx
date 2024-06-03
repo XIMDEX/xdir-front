@@ -2,9 +2,9 @@ import { useSpinner } from "@ximdex/xui-react/hooks";
 import React, { useEffect, useState } from "react";
 import { getUserInvitations } from "../../service/xdir.service";
 import { StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
-import {XRowContent, XRowDetails } from "@ximdex/xui-react/material";
+import {XRow, XRowContent, XRowDetails } from "@ximdex/xui-react/material";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { StyledDivFlexBetween, StyledFlexFullCenter, StyledXRow } from "../../components/styled-compontent/Container";
+import { StyledDivFlexBetween, StyledFlexFullCenter } from "../../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledTagStatus } from "../styled-compontent/Text";
 
@@ -43,7 +43,7 @@ export default function UsersInvites() {
             :
               <>
                 {invitesList.map((invite, index) => (
-                  <StyledXRow
+                  <XRow
                       style={{
                           borderBottom: index === (invitesList.length - 1) ? '1px solid #BBBBBB' : '',
                           background: 'rgb(247, 247, 247)',
@@ -67,7 +67,7 @@ export default function UsersInvites() {
                         </StyledTagStatus>
                       </StyledDivFlexBetween>
                     </XRowContent>
-                  </StyledXRow>
+                  </XRow>
                 ))}
               </>
             }

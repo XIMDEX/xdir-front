@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { faEdit, faKey, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { XPopUp, XRowContent } from "@ximdex/xui-react/material";
-import { StyledFlexFullCenter, StyledXRow } from "../../components/styled-compontent/Container";
+import { XPopUp, XRow, XRowContent } from "@ximdex/xui-react/material";
+import { StyledFlexFullCenter } from "../../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
 import useModals from '../../hooks/useModals';
@@ -86,7 +86,7 @@ export default function PermissionsList({refreshPermissions}) {
                 :
                   <>
                     {permissionsList?.map((permission, index) => (
-                      <StyledXRow
+                      <XRow
                           style={{
                               borderBottom: index === (permissionsList?.length - 1) ? '1px solid #BBBBBB' : '',
                               background: 'rgb(247, 247, 247)',
@@ -112,7 +112,7 @@ export default function PermissionsList({refreshPermissions}) {
                         <XRowContent key={"XRowContent" + index}>
                           <p><strong>Name:</strong> {permission.name}</p>
                         </XRowContent>
-                      </StyledXRow>
+                      </XRow>
                     ))}
                   </>
             }

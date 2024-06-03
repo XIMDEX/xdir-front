@@ -157,13 +157,6 @@ export const StyledMarginContent = styled('div')`
 
 
 
-export const StyledXRow = styled(XRow)`
-    border: 0;
-    border-top: 1px solid #BBBBBB;
-    border-left: 1px solid #BBBBBB;
-    border-right: 1px solid #BBBBBB;
-`
-
 
 
 
