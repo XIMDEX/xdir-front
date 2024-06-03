@@ -9,9 +9,27 @@ import { updateUserXDIR } from "../service/xdir.service";
 import { useSpinner } from "@ximdex/xui-react/hooks";
 import useModals from "../hooks/useModals";
 import { StyledRedXButton } from "../components/styled-compontent/Buttons";
+import { ROLES } from "../../CONSTATNS";
 
 export default function UserProfile() {
-  const {user, saveUserData, forceLogout} = useAuth()
+  const {user, saveUserData, forceLogout,
+    canSearch,
+    canRead,
+    canCreate,
+    canUpdate,
+    canRemove,
+    isAdmin,
+    isSuperAdmin
+  } = useAuth()
+  const rolesMappping = {
+    canSearch,
+    canRead,
+    canCreate,
+    canUpdate,
+    canRemove,
+    isAdmin,
+    isSuperAdmin
+  }
   const {executeXPopUp, XDirModal} = useModals()
   const [canEdit, setCanEdit] = useState(false)
   const [userForm, setUserForm] = useState({...user})
@@ -40,7 +58,7 @@ export default function UserProfile() {
         }
         return result;
     }, {});
-};
+  };
 
   const updateUserData = async () => {
     showSpinner()
@@ -50,7 +68,6 @@ export default function UserProfile() {
     setCanEdit(false)
     hideSpinner()
   }
-
 
   const deleteUserAccount = async () => {
     XDirModal({
@@ -64,6 +81,21 @@ export default function UserProfile() {
         }
       })
   }
+
+  const showUserActiveRoles = () => {
+    const activeRoles = ROLES
+      .filter(role => rolesMappping[role.state])
+      .map(role => role.name);
+
+    if (activeRoles.length === 0) {
+      return 'No roles assigned';
+    } else if (activeRoles.length === 1) {
+      return activeRoles[0];
+    } else {
+      const lastRole = activeRoles.pop();
+      return `${activeRoles.join(', ')} and ${lastRole}`;
+    }
+  };
 
 
   return (
@@ -158,17 +190,7 @@ export default function UserProfile() {
               {user?.roles?.length === 1 ? "Role assigned: " : "Roles assigned: "}
             </label>
             <p style={{marginRight:'1em'}}> 
-            {user?.roles?.length > 0 ? (
-                  user?.roles?.map((role, i) => (
-                      <span key={i}>
-                      {role?.name.toUpperCase()}
-                      {user.roles?.length === i + 1 ? "" :
-                          user.roles?.length - 1 === i + 1 ? " and " : ", "}
-                      </span>
-                  ))
-                  ) : (
-                  <span>No roles assigned</span>
-                  )}        
+            {showUserActiveRoles()}        
             </p>       
           </StyledDivCenterY>
           <StyledRedXButton

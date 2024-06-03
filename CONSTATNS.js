@@ -63,3 +63,13 @@ export const SERVICES_TABS = [
   'XDIR',
   'XEDIT'
 ]
+
+export const ROLES = [
+  { state: 'canSearch', name: 'Reporter' },
+  { state: 'canRead', name: 'Viewer' },
+  { state: 'canCreate', name: 'Creator' },
+  { state: 'canUpdate', name: 'Editor' },
+  { state: 'canRemove', name: 'Publisher' },
+  { state: 'isAdmin', name: 'Admin' },
+  { state: 'isSuperAdmin', name: 'SuperAdmin' }
+]
