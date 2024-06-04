@@ -35,7 +35,7 @@ function Register() {
         setUser({
             ...user,
             email: userEmail,
-            organization: organization,
+            organization_id: organization,
         });
     },[isAuthenticated])
     

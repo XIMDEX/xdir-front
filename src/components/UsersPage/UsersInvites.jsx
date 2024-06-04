@@ -7,12 +7,14 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { StyledDivFlexBetween, StyledFlexFullCenter } from "../../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledTagStatus } from "../styled-compontent/Text";
+import useModals from "../../hooks/useModals";
 
 export default function UsersInvites() {
     const [invitesList, setInvitesList] = useState([])
     const [loading, setLoading] = useState(false)
     const { showSpinner, hideSpinner } = useSpinner()
     const [refreshList, setRefreshList] = useState(false)
+    const {XDirModal, executeXPopUp} = useModals()
 
     useEffect(() => {
         getInvites()
@@ -27,7 +29,19 @@ export default function UsersInvites() {
         setLoading(false)
     }
 
-    const deleteInvite = () => {}
+
+    const removeInvite = async () => {
+      XDirModal({
+          text:`Are you sure you want to delete this invite?`,
+          title:'Delete invite',
+          confirmButtonColor:'#e13144',
+          onConfirmFunction: async () => {
+            const res = await deleteExistingUser(user.uuid)
+            executeXPopUp(res, "Invite deleted successfully")
+            if(!res.error) setRefreshList(!refreshList)
+          }
+        })
+    }
 
 
   return <>
@@ -53,7 +67,7 @@ export default function UsersInvites() {
                       identifier={invite.id}
                       controls={[
                         {
-                            component:<StyledRedButtonIcon onClick={() => removeInvite(invite.id, user.email)}>
+                            component:<StyledRedButtonIcon onClick={() => removeInvite(invite.id, invite.email)}>
                                         <FontAwesomeIcon icon={faTrash} size='1x' title='Remove invite' />
                                     </StyledRedButtonIcon>
                         },
