@@ -6,6 +6,7 @@ import { XNav } from '@ximdex/xui-react/material';
 import ximdexImagenav from '../assets/logotipo_ximdex-DIR-white.png';
 import useModals from '../hooks/useModals';
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
+import { StyledNavBarProfileImage, StyledNavBarProfileText } from './styled-compontent/Text';
 
 
 const Navbar = () => {
@@ -46,8 +47,8 @@ const Navbar = () => {
 
     const userLink = [
         {
-            text: user ? user?.name : 'xeval user',
-            icon: <FontAwesomeIcon icon={faUser} size="1x" title="" />,
+            // text: user ? user?.name : 'xeval user',
+            icon: user?.image ? <StyledNavBarProfileImage src={user.image}/> : <StyledNavBarProfileText>{`${user?.name[0].toUpperCase()}${user?.surname[0].toUpperCase()}`}</StyledNavBarProfileText>,
             items: [
                 {
                     text: <p style={{margin: '0', flexGrow:'1'}}>Account</p>,

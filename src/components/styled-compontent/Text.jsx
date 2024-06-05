@@ -17,5 +17,21 @@ export const StyledTagStatus = styled ('p')`
     padding: 5px 10px;
     border-radius: 10px;
     border: 1px solid lightgrey;
+`
 
+
+export const StyledNavBarProfileText = styled('p')`
+    border-radius: 50%;
+    border: 1px solid #4BA0A0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+    color: black;
+`
+
+export const StyledNavBarProfileImage = styled('img')`
+    border-radius: 50%;
+    border: 1px solid #4BA0A0;
 `
