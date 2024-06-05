@@ -23,12 +23,16 @@ export default function UsersList({
       user: undefined,
       roles: undefined,
       tools: undefined,
-      organizations: undefined
+      organizations: organizations
     })
+
     useEffect(() => {
-        buildDropdowns()
         getExistingUsers()
     }, [refreshList]);
+
+    useEffect(() => {
+      buildDropdowns()
+    }, [organizations]);
 
     const buildDropdowns = async () => {
         const resRoles = await getRoles()

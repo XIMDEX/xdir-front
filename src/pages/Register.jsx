@@ -100,7 +100,7 @@ function Register() {
             XDirModal({
                 text:`Please check your email to verify your address and complete the registration process. Don't forget to check your spam folder if you don't see the email!`,
                 title:'Email confirmation',
-                confirmButtonColor:'#e13144',
+                confirmButtonColor:'#43a1a2',
                 showCancelButton: false,
                 onConfirmFunction: navigate('/login')
               })

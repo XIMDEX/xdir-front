@@ -16,7 +16,7 @@ export default function Users() {
   const {executeXPopUp} = useModals()
   const [tabSelected, setTabSelected] = useState(USER_TABS[0])
   const [inviteModal, setInviteModal] = useState(false)
-  const [organizations, setOrganizations] = useState(false)
+  const [organizations, setOrganizations] = useState([])
 
   const sendInvitation = async (organizationID, email) => {
     const res = await sendRegisterInvite(organizationID, email)
