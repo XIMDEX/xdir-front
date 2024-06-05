@@ -8,12 +8,13 @@ import { assignRoleToUser, deleteExistingUser, getRoles, getUser, getUsers, getX
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModals, { XDirModalRoles } from "../../hooks/useModals";
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
+import { CircularProgress } from "@mui/material";
 
-export default function UsersList({
-  organizations
-}) {
+export default function UsersList() {
     const { isSuperAdmin } = useAuth()
     const [usersList, setUsersList] = useState([])
+    const [userDetails, setUserDetails] = useState([])
+    const [fetchingUser, setFetchingUser] = useState([])
     const {XDirModal, executeXPopUp} = useModals()
     const [loading, setLoading] = useState(false)
     const { showSpinner, hideSpinner } = useSpinner()
@@ -23,7 +24,7 @@ export default function UsersList({
       user: undefined,
       roles: undefined,
       tools: undefined,
-      organizations: organizations
+      organizations: undefined
     })
 
     useEffect(() => {
@@ -32,7 +33,7 @@ export default function UsersList({
 
     useEffect(() => {
       buildDropdowns()
-    }, [organizations]);
+    }, []);
 
     const buildDropdowns = async () => {
         const resRoles = await getRoles()
@@ -49,7 +50,6 @@ export default function UsersList({
         }
         setRolesAssignModal({
             ...roleAssignModal,
-            organizations: organizations,
             roles: resRoles?.roles?.map(rol => ({ value: rol.uuid, label: rol.name })),
             tools: resTools?.tools?.map(tool => ({ value: tool.uuid, label: tool.name, disabled: tool?.label === 'superadmin' && !isSuperAdmin}))
           }
@@ -92,18 +92,45 @@ export default function UsersList({
     }
 
     const assignRoles = async (user) => {
+      showSpinner()
+      const res = await getUser(user.uuid);
+      hideSpinner()
+      const organizations = Object.entries(res.user.organizations).map(([uuid, name]) => ({
+        value: uuid,
+        label: name
+      }));
       setRolesAssignModal(
         {
           ...roleAssignModal,
           open: true,
-          user: {email:user.email, uuid:user.uuid},
+          organizations: organizations,
+          user: res.user,
         }
       )
     }
 
-    const showUserDetails = async (user) => {
-      const res = await getUser(user.uuid)
+
+    const showUserDetails = async (user, index) => {
+      if (!userDetails[index]?.uuid) {
+        let copy = [...fetchingUser];
+        copy[index] = true;
+        setFetchingUser(copy);
+    
+        // Fetch user details
+        const res = await getUser(user.uuid);
+    
+        let userDetailsCopy = [...userDetails];
+        userDetailsCopy[index] = res.user;
+        setUserDetails(userDetailsCopy);
+    
+        copy = [...fetchingUser];
+        copy[index] = false;
+        setFetchingUser(copy);
+      }
+
     }
+
+
 
   return <>
     {loading ?  <></> :
@@ -123,13 +150,13 @@ export default function UsersList({
                       key={'row' + index}
                       identifier={user.uuid}
                       isCollapsable={true}
-                      functionButtonCollapsable={() => showUserDetails(user)}
+                      functionButtonCollapsable={() => showUserDetails(user, index)}
                       labelButtonCollapsable={`Show details`}
                       controls={[
                         {
                             component:<StyledGreenButtonIcon 
                                       disabled={!roleAssignModal?.organizations && !roleAssignModal.tools && !roleAssignModal.roles}
-                                      onClick={() => assignRoles(user)}>
+                                      onClick={() => assignRoles(user, index)}>
                                         <FontAwesomeIcon icon={faKey} size='1x' title='Assign roles' />
                                     </StyledGreenButtonIcon>
                         },
@@ -143,27 +170,36 @@ export default function UsersList({
                     <XRowContent key={"XRowContent" + index}>
                       <p>{user?.name + ' ' + user?.surname}</p>
                     </XRowContent>
-                    <XRowDetails key={"XRowDetails" + index}>
-                      <p><strong>Email:</strong> {user?.email}</p>
-                    </XRowDetails>
-                    <XRowDetails key={"XRowDetails" + index}>
-                      <p><strong>Organizations:</strong> {user?.organizations}</p>
-                    </XRowDetails>
-                    <XRowExtraDetails key={"XRowExtraDetails" + index}
-                      extraDetails={[
-                        {
-                            label: 'User ID',
-                            type: 'text',
-                            value: user?.uuid
-                        }
-                      ]}
-                    />
-                     
+
+                    {fetchingUser[index] 
+                      ? 
+                        <XRowDetails
+                            key={"XRowDetails_loading"}
+                            style={{justifyContent:'center'}}
+                            // controlsDetails={[]}
+                        >
+                            <CircularProgress color='primary' size={'50px'} style={{padding: '10px'}}/>
+                        </XRowDetails>
+                      :
+                      <React.Fragment key="XRowDetails">
+                          <XRowDetails key={"XRowDetails" + index}>
+                            <p><strong>Email:</strong> {userDetails[index]?.email}</p>
+                          </XRowDetails>
+                          <XRowDetails key={"XRowDetails" + index}>
+                          <p><strong>Organizations: </strong> 
+                            {userDetails[index]?.organizations && Object.keys(userDetails[index]?.organizations).length > 0 ? (
+                              Object.entries(userDetails[index]?.organizations).map(([id, name]) => name).join(', ')
+                            ) : (
+                              <span>No organizations assigned yet</span>
+                            )}
+                          </p>
+                          </XRowDetails>
+                      </React.Fragment>    
+                    }
                   </XRow>
                 ))}
               </>
             }
-
           {/*ASSIGNACION DE ROLES*/}
            <StyledXModal
               isOpen={roleAssignModal?.open}

@@ -56,7 +56,7 @@ export default function Users() {
         setTabSelected={setTabSelected}
       />
       <StyledTabsContainer>
-        {tabSelected === 'Users' && <UsersList organizations={organizations}/>}
+        {tabSelected === 'Users' && <UsersList/>}
         {tabSelected === 'Invites' && <UsersInvites/>}
       </StyledTabsContainer>
     </StyledMarginContent>
