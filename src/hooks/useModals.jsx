@@ -1,10 +1,15 @@
 import Swal from "sweetalert2";
 import './sweetAlertClasses.css'
-import { useState } from "react";
-import { XButton, XDropdown, XInput, XPopUp } from "@ximdex/xui-react/material";
-import { StyledDivCenterY, StyledDivFlexBetween, StyledFlexFullCenter } from "../components/styled-compontent/Container";
+import { useEffect, useState } from "react";
+import { XButton, XDropdown, XInput, XPopUp, XRadio } from "@ximdex/xui-react/material";
+import { StyledDivCenterY, StyledDivFlexBetween, StyledFlexFullCenter, StyledRoleOptionsColumn, StyledRolesToolsColumn, StyledTabsContainer, StyledXRadio } from "../components/styled-compontent/Container";
 import useFormValidator from "./useFormValidatior";
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
+import CustomTabs from "../components/CustomTabs/CustomTabs";
+import { StyledAddButtonWithEffect, StyledGreenButtonIcon } from "../components/styled-compontent/Buttons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faPlusCircle, faSave, faX } from "@fortawesome/free-solid-svg-icons";
+import { getRoles, getXimdexTools } from "../service/xdir.service";
 
 export default function useModals () {
     const {forceLogout} = useAuth()
@@ -145,92 +150,118 @@ export default function useModals () {
     }
 }
 
-export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, organizations,tools, roles, isSuperAdmin}) => {
+export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, userSelected, isSuperAdmin}) => {
+    // Options for control the modal
+    const [organizationsTabsOptions, setOrganizationsTabsOptions] = useState([])
+    const [rolesOptions, setRolesOptions] = useState([])
+    const [servicesOptions, setServicesOptions] = useState([])
+
+
+    const [organizationTabSelected, setOrganizationTabSelected] = useState(organizationsTabsOptions[0]?.label)
+    const [userRoles, setUserRoles] = useState(null)
+
     const [rolSelected, setRolSelected] = useState(null);
     const [organizationSelected, setOrganizationSelected] = useState(null)
     const [toolSelected, setToolSelected] = useState(null)
+    const [serviceTabSelected, setServiceTabSelected] = useState(servicesOptions[0]?.label)
+    const [addNewService, setAddNewService] = useState(false)
 
-    const handleDropdown = (type, data) => {
-        if(type === 'rol') setRolSelected(data);
-        if(type === 'org') setOrganizationSelected(data);
-        if(type === 'tool') setToolSelected(data);
-    };
+    console.log(userSelected);
 
+    useEffect(() => {
+        buildOptions()
+        buildUserRolesObject()
+    }, [userSelected]);
+
+    const buildOptions = async () => {
+        const resRoles = await getRoles()
+        const resServices = await getXimdexTools()
+        if(resRoles.error || resServices.error){
+            XPopUp({
+            text: res?.error,
+            iconType:'error',
+            timer:'3000',
+            popUpPosition:'top',
+            iconColor: 'red',
+            timer: 3000
+            })
+        }
+        const organizationsOptions = Object.entries(userSelected?.organizations).map(([uuid, name]) => ({
+            value: uuid,
+            label: name
+        }));
+
+        setServicesOptions(resServices?.tools?.map(tool => ({ value: tool.uuid, label: tool.name})))
+        setRolesOptions(resRoles?.roles?.map(rol => ({ value: rol.uuid, label: rol.name, disabled: rol?.label === 'superadmin' && !isSuperAdmin })))
+        setOrganizationsTabsOptions(organizationsOptions)
+    }
+
+    const buildUserRolesObject = () => {
+
+    }
+    console.log(organizationsTabsOptions.map(org => org.label));
     return (
-    <StyledDivFlexBetween style={{flexDirection:'row', height: '100%'}}>
-        <StyledFlexFullCenter style={{height: 'auto', flexDirection:'column'}}>
-            <h2 style={{margin: '0'}}>{title}</h2>
-            <p style={{margin: '10px 0'}}>{subtitle}</p>
-        </StyledFlexFullCenter>
-        <StyledDivCenterY style={{width: '100%', justifyContent: 'center', margin: '10px 0'}}>
-            <XDropdown
-                value={organizationSelected}
-                onChange={(e, data) => handleDropdown('org',data)} // Ajusta el índice según sea necesario
-                options={organizations}
-                labelOptions="label"
-                displayEmpty
-                label="Select organization"
-                bgColor="100"
-                width="350px"
-                size="small"
-                hasCheckboxes={false}
-                multiple={false}
-                disableClearable
-            />
-        </StyledDivCenterY>
-        <StyledDivCenterY style={{width: '100%', justifyContent: 'center', margin: '10px 0'}}>
-            <XDropdown
-                value={toolSelected}
-                onChange={(e, data) => handleDropdown('tool',data)} // Ajusta el índice según sea necesario
-                options={tools}
-                labelOptions="label"
-                displayEmpty
-                label="Select tool"
-                bgColor="100"
-                width="350px"
-                size="small"
-                hasCheckboxes={false}
-                multiple={false}
-                disableClearable
-            />
-        </StyledDivCenterY>
-        <StyledDivCenterY style={{width: '100%', justifyContent: 'center', margin: '10px 0'}}>
-            <XDropdown
-                getOptionDisabled={(option) => option?.disabled}
-                value={rolSelected}
-                onChange={(e, data) => handleDropdown('rol',data)} // Ajusta el índice según sea necesario
-                options={roles}
-                labelOptions="label"
-                displayEmpty
-                label="Select role"
-                bgColor="100"
-                width="350px"
-                size="small"
-                hasCheckboxes={false}
-                multiple={false}
-                disableClearable
-            />
-        </StyledDivCenterY>
-            <StyledDivCenterY style={{width: '100%', justifyContent: 'center'}}>
-                <XButton
-                    style={{margin: '1em'}}
-                    disabled={!organizationSelected || !toolSelected || !rolSelected}
-                    onClick={() => {
-                        setOpenModal()
-                        confirmButton(organizationSelected.value,toolSelected.value,rolSelected.value)
-                    }}
-                >
-                    Assign
-                </XButton>
-                <XButton
-                    style={{margin: '1em', background: '#6e7881'}}
-                    onClick={() => setOpenModal()}
-                >
-                    Cancel
-                </XButton>
-            </StyledDivCenterY>
+    <>
+        {/* MODAL HEADER */}
+        <StyledDivFlexBetween style={{height: 'auto', width:'100%', alignItems:'flex-start'}}>
+            <div>
+                <h2 style={{margin: '0'}}>{title}</h2>
+                <p style={{margin: '10px 0'}}>{subtitle}</p>
+            </div>
+            <StyledDivCenterY>
 
-    </StyledDivFlexBetween>
+            <StyledGreenButtonIcon
+                onClick={() => {
+                    setOpenModal()
+                    confirmButton(organizationSelected.value,toolSelected.value,rolSelected.value)
+                }}
+                title={'Save'}
+            >
+                <FontAwesomeIcon icon={faSave} size="1x"/>
+            </StyledGreenButtonIcon>
+            <StyledGreenButtonIcon
+                title={'Close modal'}
+                onClick={() => setOpenModal(false)}
+            >
+                <FontAwesomeIcon icon={faX} size="1x"/>
+            </StyledGreenButtonIcon>
+            </StyledDivCenterY>
+        </StyledDivFlexBetween>
+
+        {/* MODAL TABS (USER ORGANIZATIONS AVAILABLE) */}
+        <CustomTabs
+            tabs={organizationsTabsOptions?.map(org => org.label)}
+            setTabSelected={setOrganizationTabSelected}
+        />
+        <StyledTabsContainer style={{minHeight: '50vh', display:'flex'}}>
+            <StyledRolesToolsColumn>
+                {servicesOptions.map(service => 
+                    <>
+                        <p 
+                            onClick={() => setServiceTabSelected(service.label)}
+                            style={{backgroundColor: service?.label === serviceTabSelected ? '#e0e0e0' : 'transparent'}}>{service.label}
+                        </p>
+                    </>
+                )}
+                 <StyledAddButtonWithEffect
+                    title="Add new service"
+                    onClick={() => console.log('create new service')}
+                >
+                    + <span>ADD SERVICE</span>
+                </StyledAddButtonWithEffect>
+            </StyledRolesToolsColumn>
+            <StyledRoleOptionsColumn>
+            <StyledXRadio
+                    direction='column'
+                    value={rolSelected?.value}
+                    onChange={(e) => updateSearchParams('language_default', e.target.value)}
+                    options={rolesOptions}
+                />
+            </StyledRoleOptionsColumn>
+
+        </StyledTabsContainer>
+
+    </>
     )
 }
 
@@ -286,3 +317,21 @@ export const XDirModalInvitation = ({title, subtitle, confirmButton, setOpenModa
     </StyledDivFlexBetween>
     )
 }
+
+
+// return {
+//     user_uuid: 'value_user_id',
+//     organizations: [
+//         {
+//             orgID: 'value_orgID',
+//             tools: [
+//                 {
+//                     tooli_d: 'value_tooli_d',
+//                     rol_id: 'value_rol_id'
+//                 }
+//             ]
+//         }
+//     ]
+// };
+
+
