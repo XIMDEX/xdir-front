@@ -475,7 +475,7 @@ export const deleteExistingUser = async (id) => {
 
 }
 
-export const assignRoleToUser = async (newRol) => {
+export const assignRoleToUser = async (newRoles) => {
     try {
         const res = await fetch(`${API_BASE_URL}roles/assign`, {
             method: "POST",
@@ -483,7 +483,7 @@ export const assignRoleToUser = async (newRol) => {
                 ...commonHeaders,
                 Authorization: `Bearer ${getToken()}`
             },
-            body: JSON.stringify(newRol),
+            body: JSON.stringify(newRoles),
         });
         if (!res.ok) {
             throw new Error("Failed to set up new Role. Please try again later.");

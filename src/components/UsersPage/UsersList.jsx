@@ -51,15 +51,9 @@ export default function UsersList() {
         })
     }
   
-    const confirmNewRoles = async (organizationSelected, toolSelected, roleSelected) => {
+    const confirmNewRoles = async (userRoles) => {
       showSpinner()
-      const body = {
-        user_uuid: roleAssignModal.user.uuid,
-        organization_uuid: organizationSelected,
-        tool_uuid: toolSelected,
-        role_uuid: [roleSelected]
-      }
-      const res =  await assignRoleToUser(body)
+      const res =  await assignRoleToUser(userRoles)
       executeXPopUp(res, "Role/s assigned successfully")
       setRefreshList(!refreshList)
     }

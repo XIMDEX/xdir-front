@@ -225,15 +225,17 @@ export const StyledTabsContainer = styled('div')`
 export const StyledRolesToolsColumn = styled('div')`
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 80%;
     border-right: 1px solid lightgrey;
 
     p {
+        margin: 0;
         border-bottom: 1px solid lightgrey;
         width: 100%;
-        text-align: center;
-        padding: 10px;
+        text-align: left;
+        padding: 15px 10px;
         transition: all 0.1s ease;
+        text-transform: uppercase;
         &:hover {
             background-color: #e0e0e0;
             font-weight: bold;
