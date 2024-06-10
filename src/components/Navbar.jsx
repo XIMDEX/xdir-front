@@ -35,8 +35,8 @@ const Navbar = () => {
                     onClick: () => navigate('/organizations'),
                 },
                 {
-                    text: 'Tools',
-                    onClick: () => navigate('/tools'),
+                    text: 'Services',
+                    onClick: () => navigate('/services'),
                 }
             ]
         }   
