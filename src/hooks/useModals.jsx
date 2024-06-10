@@ -10,6 +10,7 @@ import { StyledAddButtonWithEffect, StyledGreenButtonIcon } from "../components/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faPlusCircle, faSave, faX } from "@fortawesome/free-solid-svg-icons";
 import { getRoles, getXimdexTools } from "../service/xdir.service";
+import { CircularProgress, InputAdornment } from "@mui/material";
 
 export default function useModals () {
     const {forceLogout} = useAuth()
@@ -151,29 +152,34 @@ export default function useModals () {
 }
 
 export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, userSelected, isSuperAdmin}) => {
+    const [loading, setLoading] = useState(false);
+    
     // Options for control the modal
     const [organizationsTabsOptions, setOrganizationsTabsOptions] = useState([])
     const [rolesOptions, setRolesOptions] = useState([])
     const [servicesOptions, setServicesOptions] = useState([])
+    const [userServicesAvailables, setUserServicesAvailables] = useState([])
 
-
-    const [organizationTabSelected, setOrganizationTabSelected] = useState(organizationsTabsOptions[0]?.label)
+    // Object to send to my endpoint
     const [userRoles, setUserRoles] = useState(null)
 
-    const [rolSelected, setRolSelected] = useState(null);
-    const [organizationSelected, setOrganizationSelected] = useState(null)
-    const [toolSelected, setToolSelected] = useState(null)
-    const [serviceTabSelected, setServiceTabSelected] = useState(servicesOptions[0]?.label)
+    const [organizationTabSelected, setOrganizationTabSelected] = useState(null)
+    const [serviceTabSelected, setServiceTabSelected] = useState()
     const [addNewService, setAddNewService] = useState(false)
-
-    console.log(userSelected);
+    const [newServiceSelected, setNewServiceSelected] = useState(null)
 
     useEffect(() => {
         buildOptions()
-        buildUserRolesObject()
     }, [userSelected]);
 
+
+    useEffect(() => {
+        console.log("USER ROLES",userRoles);
+    }, [userRoles]);
+
+    /** Build options list for organizations, services and roles */
     const buildOptions = async () => {
+        setLoading(true)
         const resRoles = await getRoles()
         const resServices = await getXimdexTools()
         if(resRoles.error || resServices.error){
@@ -190,78 +196,187 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
             value: uuid,
             label: name
         }));
-
-        setServicesOptions(resServices?.tools?.map(tool => ({ value: tool.uuid, label: tool.name})))
-        setRolesOptions(resRoles?.roles?.map(rol => ({ value: rol.uuid, label: rol.name, disabled: rol?.label === 'superadmin' && !isSuperAdmin })))
+        const services = resServices?.services?.map(tool => ({ value: tool.uuid, label: tool.name}))
+        const roles = resRoles?.roles?.map(rol => ({ value: rol.uuid, label: rol.name, disabled: rol?.label === 'superadmin' && !isSuperAdmin }))
+        // SET OPTIONS
+        setServicesOptions(services)
+        setRolesOptions(roles)
         setOrganizationsTabsOptions(organizationsOptions)
+        buildUserRolesObject(services, roles)
+
+        setLoading(false)
     }
 
-    const buildUserRolesObject = () => {
+    /** CREATE THE USER ROLE OBJECT THAT WILL BE SEND TO BACKEND */
+    const buildUserRolesObject = (services, roles) => {
+        // SET VALUES
+        let userServices = []
+        let userRolesCopy = {...userRoles}
+        userRolesCopy.user_uuid = userSelected.uuid
+
+        let userOrganizationsRoles = []
+        let organization = {}
+        organization.services = []
+
+        // LOOP OVER USER SERVICES FINDING SERVICIES AND ROLES ASSOCIETAS
+        Object.entries(userSelected?.p).map(([serviceRolID, serviceRolObject]) => {
+            if(!organization.organization_uuid) organization.organization_uuid = serviceRolObject.organization
+
+            const service_uuid =  services?.filter(service => service.label.toLowerCase() === serviceRolObject.tool.name.toLowerCase())[0].value
+            const role_uuid = roles?.filter(role => role.label.toLowerCase() === serviceRolObject.role.toLowerCase())[0].value
+            let service = {
+                service_uuid: service_uuid,
+                role_uuid: role_uuid
+            }
+            userServices.push(service_uuid)
+            organization.services.push(service)
+        });
+        
+        // SET USER ROLES OBJECT
+        userOrganizationsRoles.push(organization)
+        userRolesCopy.organizations = [organization]
+        setUserRoles(userRolesCopy)
+
+
+        // CREATE SERVICES AVAILABLES LIST AND SELECT THE FIRST ONE AS SELECTED
+        const servicesAvailables = services.filter(service => userServices.includes(service.value))
+        setUserServicesAvailables(servicesAvailables)
+        setServiceTabSelected(servicesAvailables[0])
 
     }
-    console.log(organizationsTabsOptions.map(org => org.label));
+
+    /**Add new service to the list but not to the userRoles object */
+    const handleNewService = (data) => {
+        let servicesAvailableCopy = [...userServicesAvailables]
+        let index = servicesAvailableCopy.findIndex(service => service.value === data.value)
+        if(index !== -1) return 
+        servicesAvailableCopy.push(data)
+        setUserServicesAvailables(servicesAvailableCopy)
+        setServiceTabSelected(data)
+
+        let userRolesCopy = {...userRoles}
+        userRolesCopy?.organizations[0]?.services.push({
+            service_uuid: data.value,
+            role_uuid: rolesOptions.filter(role => role.label === 'viewer')[0].value
+        })
+        setUserRoles(userRolesCopy)
+        setAddNewService(false)
+    }
+
+    /** Update rol */
+    const updateRol = (roleID) => {
+        let userRolesCopy = { ...userRoles };
+        let index = userRolesCopy?.organizations[0]?.services?.findIndex(service => service?.service_uuid === serviceTabSelected?.value);
+        
+        if (index !== -1) {
+          userRolesCopy.organizations[0].services[index].role_uuid = roleID;
+          setUserRoles(userRolesCopy); // Actualizar el estado con la nueva copia modificada
+        }
+    };
+
+    /**Get role selected of the service selected */
+    const getSelectedRoleUUID = () => {
+        const service = userRoles?.organizations[0]?.services?.find(service => service?.service_uuid === serviceTabSelected?.value);
+        return service ? service.role_uuid : '';
+    };
+
     return (
-    <>
-        {/* MODAL HEADER */}
-        <StyledDivFlexBetween style={{height: 'auto', width:'100%', alignItems:'flex-start'}}>
-            <div>
-                <h2 style={{margin: '0'}}>{title}</h2>
-                <p style={{margin: '10px 0'}}>{subtitle}</p>
-            </div>
-            <StyledDivCenterY>
+        <>
+            {/* MODAL HEADER */}
+            <StyledDivFlexBetween style={{height: 'auto', width:'100%', alignItems:'flex-start'}}>
+                <div>
+                    <h2 style={{margin: '0'}}>{title}</h2>
+                    <p style={{margin: '10px 0'}}>{subtitle}</p>
+                </div>
+                <StyledDivCenterY>
 
-            <StyledGreenButtonIcon
-                onClick={() => {
-                    setOpenModal()
-                    confirmButton(organizationSelected.value,toolSelected.value,rolSelected.value)
-                }}
-                title={'Save'}
-            >
-                <FontAwesomeIcon icon={faSave} size="1x"/>
-            </StyledGreenButtonIcon>
-            <StyledGreenButtonIcon
-                title={'Close modal'}
-                onClick={() => setOpenModal(false)}
-            >
-                <FontAwesomeIcon icon={faX} size="1x"/>
-            </StyledGreenButtonIcon>
-            </StyledDivCenterY>
-        </StyledDivFlexBetween>
-
-        {/* MODAL TABS (USER ORGANIZATIONS AVAILABLE) */}
-        <CustomTabs
-            tabs={organizationsTabsOptions?.map(org => org.label)}
-            setTabSelected={setOrganizationTabSelected}
-        />
-        <StyledTabsContainer style={{minHeight: '50vh', display:'flex'}}>
-            <StyledRolesToolsColumn>
-                {servicesOptions.map(service => 
-                    <>
-                        <p 
-                            onClick={() => setServiceTabSelected(service.label)}
-                            style={{backgroundColor: service?.label === serviceTabSelected ? '#e0e0e0' : 'transparent'}}>{service.label}
-                        </p>
-                    </>
-                )}
-                 <StyledAddButtonWithEffect
-                    title="Add new service"
-                    onClick={() => console.log('create new service')}
+                <StyledGreenButtonIcon
+                    onClick={() => {
+                        setOpenModal()
+                        confirmButton(userRoles)
+                    }}
+                    title={'Save'}
                 >
-                    + <span>ADD SERVICE</span>
-                </StyledAddButtonWithEffect>
-            </StyledRolesToolsColumn>
-            <StyledRoleOptionsColumn>
-            <StyledXRadio
-                    direction='column'
-                    value={rolSelected?.value}
-                    onChange={(e) => updateSearchParams('language_default', e.target.value)}
-                    options={rolesOptions}
-                />
-            </StyledRoleOptionsColumn>
+                    <FontAwesomeIcon icon={faSave} size="1x"/>
+                </StyledGreenButtonIcon>
+                <StyledGreenButtonIcon
+                    title={'Close modal'}
+                    onClick={() => setOpenModal(false)}
+                >
+                    <FontAwesomeIcon icon={faX} size="1x"/>
+                </StyledGreenButtonIcon>
+                </StyledDivCenterY>
+            </StyledDivFlexBetween>
 
-        </StyledTabsContainer>
-
-    </>
+            {
+                loading 
+                ? 
+                    <StyledFlexFullCenter>
+                        <CircularProgress size={20}/>
+                    </StyledFlexFullCenter>
+                :
+                <>
+                    {/* MODAL TABS (USER ORGANIZATIONS AVAILABLE) */}
+                    <CustomTabs
+                        tabs={organizationsTabsOptions?.map(org => org.label)}
+                        setTabSelected={setOrganizationTabSelected}
+                    />
+                    <StyledTabsContainer style={{minHeight: '50vh', display:'flex'}}>
+                        <StyledRolesToolsColumn>
+                            {userServicesAvailables.map(service => 
+                                    <p 
+                                        key={service.value}
+                                        onClick={() => setServiceTabSelected(service)}
+                                        style={{backgroundColor: service?.value === serviceTabSelected?.value ? '#e0e0e0' : 'transparent'}}>{service.label}
+                                    </p>
+                            )}
+                            {!addNewService ? 
+                            <StyledAddButtonWithEffect
+                                style={{marginTop: '1em'}}
+                                title="Add new service"
+                                onClick={() => setAddNewService(true)}
+                            >
+                                + <span>ADD SERVICE</span>
+                            </StyledAddButtonWithEffect>
+                            :
+                            <StyledDivCenterY style={{marginTop: '1em'}}>
+                            <XDropdown
+                                value={newServiceSelected}
+                                onChange={(e, data) => handleNewService(data)}
+                                options={servicesOptions}
+                                labelOptions="label"
+                                displayEmpty
+                                placeholder="Select organization"
+                                label="Select organization"
+                                bgColor="100"
+                                fullwidth
+                                size="small"
+                                hasCheckboxes={false}
+                                multiple={false}
+                                style={{marginLeft: '10px'}}
+                            />
+                            <StyledGreenButtonIcon
+                                title="Close"
+                                onClick={() => setAddNewService(false)}
+                                style={{marginRight: '10px'}}
+                            >
+                                <FontAwesomeIcon size="1x" icon={faX}/>
+                            </StyledGreenButtonIcon>
+                            </StyledDivCenterY>
+                            }
+                        </StyledRolesToolsColumn>
+                        <StyledRoleOptionsColumn>
+                        <StyledXRadio
+                                direction='column'
+                                value={getSelectedRoleUUID()}
+                                onChange={(e, data) => updateRol(e.target.value)}
+                                options={rolesOptions}
+                            />
+                        </StyledRoleOptionsColumn>
+                    </StyledTabsContainer>
+                </>
+            }
+        </>
     )
 }
 
@@ -319,19 +434,18 @@ export const XDirModalInvitation = ({title, subtitle, confirmButton, setOpenModa
 }
 
 
-// return {
-//     user_uuid: 'value_user_id',
-//     organizations: [
-//         {
-//             orgID: 'value_orgID',
-//             tools: [
-//                 {
-//                     tooli_d: 'value_tooli_d',
-//                     rol_id: 'value_rol_id'
-//                 }
-//             ]
-//         }
-//     ]
-// };
 
 
+    //     user_uuid: 'value_user_id',
+    //     organizations: [
+    //         {
+    //             orgID: 'value_orgID',
+    //             services: [
+    //                 {
+    //                     tooli_d: 'value_tooli_d',
+    //                     rol_id: 'value_rol_id'
+    //                 }
+    //             ]
+    //         }
+    //     ]
+    // };
