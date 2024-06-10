@@ -33,9 +33,9 @@ function Home() {
                     path: '/organizations'
                 },
                 {
-                    name: 'tools',
+                    name: 'services',
                     icon: faTools,
-                    path: '/tools'
+                    path: '/services'
                 }
             );
         }

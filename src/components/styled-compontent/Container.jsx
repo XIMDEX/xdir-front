@@ -1,5 +1,5 @@
 import { styled } from "@mui/system";
-import { XCard, XBox, XRow, XLogin } from "@ximdex/xui-react/material";
+import { XCard, XBox, XRow, XLogin, XRadio } from "@ximdex/xui-react/material";
 import ReactModal from "react-modal";
 
 export const StyledCenteredXYDiv = styled('div')`
@@ -219,4 +219,44 @@ export const StyledTabsContainer = styled('div')`
         box-shadow: inset 4px 2px 12px 2px #214f61;
         border-radius: 4px;
     }
+`
+
+
+export const StyledRolesToolsColumn = styled('div')`
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    border-right: 1px solid lightgrey;
+
+    p {
+        margin: 0;
+        border-bottom: 1px solid lightgrey;
+        width: 100%;
+        text-align: left;
+        padding: 15px 10px;
+        transition: all 0.1s ease;
+        text-transform: uppercase;
+        &:hover {
+            background-color: #e0e0e0;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    }
+`;
+
+
+export const StyledRoleOptionsColumn = styled('div')`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+`;
+
+
+export const StyledXRadio = styled(XRadio)`
+    padding: 5px;
+    margin: 1em 1em;
+    & .MuiRadio-root{
+        padding: 3px !important;
+    }
+
 `

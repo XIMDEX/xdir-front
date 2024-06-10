@@ -11,7 +11,7 @@ import Users from '../pages/Users';
 import Organizations from '../pages/Organizations';
 import UserProfile from '../pages/UserProfile';
 import VerificationEmail from '../pages/VerificationEmail';
-import XimdexTools from '../pages/XimdexTools';
+import XimdexServices from '../pages/XimdexServices';
 
 const Routes = () => {
 
@@ -36,7 +36,7 @@ const Routes = () => {
 
 
             {/* Rutas privadas de super administrador */}
-            <Route  path="/tools" element={<ProtectedSuperAdminRoute component={<XimdexTools/>}/>}/> 
+            <Route  path="/services" element={<ProtectedSuperAdminRoute component={<XimdexServices/>}/>}/> 
             <Route  path="/organizations" element={<ProtectedSuperAdminRoute component={<Organizations/>}/>}/> 
                
         </ReactRoutes>

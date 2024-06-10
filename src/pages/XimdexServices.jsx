@@ -8,7 +8,7 @@ import { XRow, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-re
 import { StyledTagStatus } from "../components/styled-compontent/Text";
 
 
-export default function XimdexTools() {
+export default function XimdexServices() {
   const {showSpinner, hideSpinner} = useSpinner()
   const [loading, setLoading] = useState(false)
   const [toolsList, setToolsList] = useState([])
@@ -21,7 +21,7 @@ export default function XimdexTools() {
     setLoading(true)
     showSpinner()
     const res = await getXimdexTools()
-    setToolsList(res.tools)
+    setToolsList(res.services)
     hideSpinner()
     setLoading(false)
   }
