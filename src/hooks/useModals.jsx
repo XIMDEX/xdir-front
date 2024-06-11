@@ -152,6 +152,7 @@ export default function useModals () {
 }
 
 export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, userSelected, isSuperAdmin}) => {
+    const {XDirModal} = useModals()
     const [loading, setLoading] = useState(false);
     
     // Options for control the modal
@@ -164,8 +165,9 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
     const [userRoles, setUserRoles] = useState(null)
 
     const [organizationTabSelected, setOrganizationTabSelected] = useState(null)
-    const [serviceTabSelected, setServiceTabSelected] = useState()
+    const [serviceTabSelected, setServiceTabSelected] = useState(null)
     const [addNewService, setAddNewService] = useState(false)
+    const [canSave, setCanSave] = useState(false)
 
     useEffect(() => {
         buildOptions()
@@ -260,6 +262,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         })
         setUserRoles(userRolesCopy)
         setAddNewService(false)
+        setCanSave(true)
     }
 
     /** Update rol */
@@ -270,6 +273,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         if (index !== -1) {
           userRolesCopy.organizations[0].services[index].role_uuid = roleID;
           setUserRoles(userRolesCopy); // Actualizar el estado con la nueva copia modificada
+          setCanSave(true)
         }
     };
 
@@ -288,6 +292,20 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         
         setUserServicesAvailables(userServicesAvailablesCopy)
         setUserRoles(userRolesCopy)
+        setCanSave(true)
+    }
+
+    const closeModalControl = () => {
+        if(canSave){
+            XDirModal({
+                text:`Are you sure you want to close without save?`,
+                title:'Close Assign Role',
+                confirmButtonColor:'#43a1a2',
+                onConfirmFunction: () => setOpenModal(false)
+            })
+        }else{
+            setOpenModal(false)
+        }
     }
 
     return (
@@ -305,13 +323,14 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
                         setOpenModal()
                         confirmButton(userRoles)
                     }}
+                    disabled={!canSave}
                     title={'Save'}
                 >
                     <FontAwesomeIcon icon={faSave} size="1x"/>
                 </StyledGreenButtonIcon>
                 <StyledGreenButtonIcon
                     title={'Close modal'}
-                    onClick={() => setOpenModal(false)}
+                    onClick={() => closeModalControl()}
                 >
                     <FontAwesomeIcon icon={faX} size="1x"/>
                 </StyledGreenButtonIcon>
@@ -452,19 +471,3 @@ export const XDirModalInvitation = ({title, subtitle, confirmButton, setOpenModa
     )
 }
 
-
-
-
-    //     user_uuid: 'value_user_id',
-    //     organizations: [
-    //         {
-    //             orgID: 'value_orgID',
-    //             services: [
-    //                 {
-    //                     tooli_d: 'value_tooli_d',
-    //                     rol_id: 'value_rol_id'
-    //                 }
-    //             ]
-    //         }
-    //     ]
-    // };
