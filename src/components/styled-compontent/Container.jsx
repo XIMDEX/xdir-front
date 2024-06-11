@@ -240,6 +240,14 @@ export const StyledRolesToolsColumn = styled('div')`
             background-color: #e0e0e0;
             font-weight: bold;
             cursor: pointer;
+
+            .trash-icon{
+                visibility: visible;
+            }
+        }
+
+        .trash-icon{
+            visibility: hidden;        
         }
     }
 `;

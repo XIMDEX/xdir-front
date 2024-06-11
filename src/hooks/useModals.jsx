@@ -6,9 +6,9 @@ import { StyledDivCenterY, StyledDivFlexBetween, StyledFlexFullCenter, StyledRol
 import useFormValidator from "./useFormValidatior";
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
 import CustomTabs from "../components/CustomTabs/CustomTabs";
-import { StyledAddButtonWithEffect, StyledGreenButtonIcon } from "../components/styled-compontent/Buttons";
+import { StyledAddButtonWithEffect, StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faPlusCircle, faSave, faX } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faPlusCircle, faSave, faTrash, faX } from "@fortawesome/free-solid-svg-icons";
 import { getRoles, getXimdexTools } from "../service/xdir.service";
 import { CircularProgress, InputAdornment } from "@mui/material";
 
@@ -166,7 +166,6 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
     const [organizationTabSelected, setOrganizationTabSelected] = useState(null)
     const [serviceTabSelected, setServiceTabSelected] = useState()
     const [addNewService, setAddNewService] = useState(false)
-    const [newServiceSelected, setNewServiceSelected] = useState(null)
 
     useEffect(() => {
         buildOptions()
@@ -207,7 +206,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         setLoading(false)
     }
 
-    /** CREATE THE USER ROLE OBJECT THAT WILL BE SEND TO BACKEND */
+    /** Create the userRole object THAT WILL BE SEND TO BACKEND */
     const buildUserRolesObject = (services, roles) => {
         // SET VALUES
         let userServices = []
@@ -280,6 +279,17 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         return service ? service.role_uuid : '';
     };
 
+    /**Delete a selected service from user */
+    const deleteServiceFromUser = (index) => {
+        let userRolesCopy = {...userRoles}
+        let userServicesAvailablesCopy = [...userServicesAvailables]
+        userRolesCopy.organizations[0].services.splice(index, 1)
+        userServicesAvailablesCopy.splice(index, 1)
+        
+        setUserServicesAvailables(userServicesAvailablesCopy)
+        setUserRoles(userRolesCopy)
+    }
+
     return (
         <>
             {/* MODAL HEADER */}
@@ -323,13 +333,22 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
                     />
                     <StyledTabsContainer style={{minHeight: '50vh', display:'flex'}}>
                         <StyledRolesToolsColumn>
-                            {userServicesAvailables.map(service => 
-                                    <p 
-                                        key={service.value}
-                                        onClick={() => setServiceTabSelected(service)}
-                                        style={{backgroundColor: service?.value === serviceTabSelected?.value ? '#e0e0e0' : 'transparent'}}>{service.label}
-                                    </p>
-                            )}
+                            {userServicesAvailables.length > 0 ? userServicesAvailables.map((service, index) => 
+                                        <p 
+                                            key={service.value}
+                                            onClick={() => setServiceTabSelected(service)}
+                                            style={{backgroundColor: service?.value === serviceTabSelected?.value ? '#e0e0e0' : 'transparent'}}>{service.label}
+                                            <StyledRedButtonIcon className="trash-icon" onClick={() => deleteServiceFromUser(index)} style={{marginLeft: '2em'}}>
+                                                <FontAwesomeIcon icon={faTrash} size="1x"/>
+                                            </StyledRedButtonIcon>
+                                        </p>
+                                        
+                                )
+                            :
+                                <StyledFlexFullCenter style={{height: 'auto', padding: '10px 20px', textAlign:'center'}}>
+                                    <span>Services have not been added yet.</span>
+                                </StyledFlexFullCenter>
+                            }
                             {!addNewService ? 
                             <StyledAddButtonWithEffect
                                 style={{marginTop: '1em'}}
@@ -341,7 +360,6 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
                             :
                             <StyledDivCenterY style={{marginTop: '1em'}}>
                             <XDropdown
-                                value={newServiceSelected}
                                 onChange={(e, data) => handleNewService(data)}
                                 options={servicesOptions}
                                 labelOptions="label"
@@ -366,12 +384,13 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
                             }
                         </StyledRolesToolsColumn>
                         <StyledRoleOptionsColumn>
+                        {userServicesAvailables.length > 0 && 
                         <StyledXRadio
                                 direction='column'
                                 value={getSelectedRoleUUID()}
                                 onChange={(e, data) => updateRol(e.target.value)}
                                 options={rolesOptions}
-                            />
+                        />}
                         </StyledRoleOptionsColumn>
                     </StyledTabsContainer>
                 </>
