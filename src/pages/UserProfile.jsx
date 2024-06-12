@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { StyledDivCenterY, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
+import { StyledDivCenterY, StyledFlexFullCenter, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faKey, faPen, faSave, faTrash, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {faKey, faPen, faSave, faTools, faTrash, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XInput } from "@ximdex/xui-react/material";
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
 import _ from "lodash";
@@ -12,7 +12,48 @@ import { StyledRedXButton } from "../components/styled-compontent/Buttons";
 import { ROLES } from "../../CONSTATNS";
 
 export default function UserProfile() {
-  const {user, saveUserData, forceLogout,
+  const {user, saveUserData} = useAuth()
+
+  const deleteUserAccount = async () => {
+    XDirModal({
+        text:`Are you sure you want to delete your account?`,
+        title:'Delete account',
+        confirmButtonColor:'#e13144',
+        onConfirmFunction: async () => {
+          const res = await deleteExistingUser(user.uuid)
+          executeXPopUp(res, "Account deleted successfully")
+          if(!res.error) forceLogout()
+        }
+      })
+  }
+
+
+  return (
+    <StyledFlexFullCenter style={{
+      flexDirection: 'column'
+    }}>
+      <UserInformation
+        user={user}
+        saveUserData={saveUserData}
+      />
+      <UserRoles/>
+      <StyledRedXButton
+          style={{alignSelf: 'flex-start', marginLeft:'11em'}}
+          onClick= {() => deleteUserAccount()}
+          title="Delete account"
+      >
+          <FontAwesomeIcon icon={faTrash} style={{marginRight: '10px'}}/> 
+          DELETE ACCOUNT
+      </StyledRedXButton>
+    </StyledFlexFullCenter>
+);}
+
+
+
+
+
+const UserRoles = ({user}) => {
+  const {
     canSearch,
     canRead,
     canCreate,
@@ -29,57 +70,6 @@ export default function UserProfile() {
     canRemove,
     isAdmin,
     isSuperAdmin
-  }
-  const {executeXPopUp, XDirModal} = useModals()
-  const [canEdit, setCanEdit] = useState(false)
-  const [userForm, setUserForm] = useState({...user})
-  const {showSpinner, hideSpinner} = useSpinner()
-
-  const handleCanEdit = () => {
-    if(canEdit){
-      setUserForm({...user})
-      setCanEdit(false)
-    }else{
-      setCanEdit(true)
-    }
-  }
-
-  const onInputChange = (e) => {
-    setUserForm({
-        ...userForm,
-        [e.target.id]: e.target.value
-    });
-  }
-
-  const removeUnusedFields = (user, userForm) => {
-    return _.reduce(userForm, (result, value, key) => {
-        if (!_.isEqual(value, user[key])) {
-            result[key] = value;
-        }
-        return result;
-    }, {});
-  };
-
-  const updateUserData = async () => {
-    showSpinner()
-    const res = await updateUserXDIR(removeUnusedFields(user, userForm), user.uuid)
-    executeXPopUp(res, 'User information updated successfully.' )
-    if(!res?.error) saveUserData(res.user)
-    setCanEdit(false)
-    hideSpinner()
-  }
-
-  const deleteUserAccount = async () => {
-    XDirModal({
-        text:`Are you sure you want to delete your account?`,
-        title:'Delete account',
-        confirmButtonColor:'#e13144',
-        onConfirmFunction: async () => {
-          const res = await deleteExistingUser(user.uuid)
-          executeXPopUp(res, "Account deleted successfully")
-          if(!res.error) forceLogout()
-        }
-      })
   }
 
   const showUserActiveRoles = () => {
@@ -98,10 +88,81 @@ export default function UserProfile() {
   };
 
 
-  return (
-  <StyledXCard
+
+  return (<StyledXCard
+            title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faTools} style={{marginRight: '10px'}}/>SERVICES</p>}
+            style={{height: 'auto', width: '80%', margin: '2em auto', padding: '0 1em'}}
+            isCollapsable={true}
+            isCollapsed={true}
+            // controls={}
+          >
+        
+        <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
+            <label style={{marginBottom: '-5px'}}>
+              <FontAwesomeIcon size="1x" icon={faKey} style={{marginRight: '10px'}}/>
+              {user?.roles?.length === 1 ? "Role assigned: " : "Roles assigned: "}
+            </label>
+            <p style={{marginRight:'1em'}}> 
+            {showUserActiveRoles()}        
+            </p>       
+        </StyledDivCenterY>
+        
+        </StyledXCard>);
+}
+
+
+
+const UserInformation = ({
+  user,
+  saveUserData
+}) => {
+    const {executeXPopUp} = useModals()
+    const [canEdit, setCanEdit] = useState(false)
+    const [userForm, setUserForm] = useState({...user})
+    const {showSpinner, hideSpinner} = useSpinner()
+
+    const handleCanEdit = () => {
+      if(canEdit){
+        setUserForm({...user})
+        setCanEdit(false)
+      }else{
+        setCanEdit(true)
+      }
+    }
+
+    const onInputChange = (e) => {
+      setUserForm({
+          ...userForm,
+          [e.target.id]: e.target.value
+      });
+    }
+
+    const removeUnusedFields = (user, userForm) => {
+      return _.reduce(userForm, (result, value, key) => {
+          if (!_.isEqual(value, user[key])) {
+              result[key] = value;
+          }
+          return result;
+      }, {});
+    };
+
+    
+  
+
+    const updateUserData = async () => {
+      showSpinner()
+      const res = await updateUserXDIR(removeUnusedFields(user, userForm), user.uuid)
+      executeXPopUp(res, 'User information updated successfully.' )
+      if(!res?.error) saveUserData(res.user)
+      setCanEdit(false)
+      hideSpinner()
+    }
+     return ( 
+     <StyledXCard
         title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faUser} style={{marginRight: '10px'}}/>USER INFORMATION</p>}
-        style={{height: 'auto', width: '80%', margin: '2em auto'}}
+        style={{height: 'auto', width: '80%', margin: '2em auto', padding: '0 1em'}}
+        isCollapsable
+        isCollapsed
         controls={[
           {
               component:
@@ -184,24 +245,8 @@ export default function UserProfile() {
               onChange={(e) => onInputChange(e)}
             />
           </StyledDivCenterY>
-          <StyledDivCenterY style={{flexDirection:'column', alignItems:'flex-start', marginBottom: '1em'}}>
-            <label style={{marginBottom: '-5px'}}>
-              <FontAwesomeIcon size="1x" icon={faKey} style={{marginRight: '10px'}}/>
-              {user?.roles?.length === 1 ? "Role assigned: " : "Roles assigned: "}
-            </label>
-            <p style={{marginRight:'1em'}}> 
-            {showUserActiveRoles()}        
-            </p>       
-          </StyledDivCenterY>
-          <StyledRedXButton
-              onClick= {() => deleteUserAccount()}
-              title="Delete account"
-          >
-              <FontAwesomeIcon icon={faTrash} style={{marginRight: '10px'}}/> 
-              DELETE ACCOUNT
-          </StyledRedXButton>
+
         </StyledMarginContent>
       </StyledXCard>
-
-    );
+)
 }
