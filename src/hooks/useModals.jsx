@@ -227,7 +227,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
             const role_uuid = roles?.filter(role => role.label.toLowerCase() === serviceRolObject.role.toLowerCase())[0].value
             let service = {
                 service_uuid: service_uuid,
-                role_uuid: role_uuid
+                role_uuid: [role_uuid]
             }
             userServices.push(service_uuid)
             organization.services.push(service)
@@ -271,7 +271,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         let index = userRolesCopy?.organizations[0]?.services?.findIndex(service => service?.service_uuid === serviceTabSelected?.value);
         
         if (index !== -1) {
-          userRolesCopy.organizations[0].services[index].role_uuid = roleID;
+          userRolesCopy.organizations[0].services[index].role_uuid = [roleID];
           setUserRoles(userRolesCopy); // Actualizar el estado con la nueva copia modificada
           setCanSave(true)
         }
