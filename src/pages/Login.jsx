@@ -45,7 +45,8 @@ export const StyledExtraActions = styled('div')`
 
 
 const Login = () => {
-    const {saveUserData, isAuthenticated} = useAuth()
+    const {saveUserData, isAuthenticated } = useAuth()
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -61,14 +62,24 @@ const Login = () => {
   const handleLogin = async (email, password) => {
     const res = await loginXDIR(email,password)
     if(res.error) return res;
-    saveUserData(res.user)
+    saveUserData({
+        ...res.user,
+        p: {
+            ...res.user.p,
+            "XD01": {
+                "organization": "450a051b-1afc-4bc0-a64b-2b08cf35f66d",
+                "permission": "11111111",
+                "role": "superadmin",
+                "tool": {
+                    "name": "XDir argentina",
+                    "type": "XDir"
+                }
+            }
+        }
+    })
     navigateToPage();
   };
 
-  const handleFALKLogin = async (email, password) => {
-    saveUserData(FAKE_USER)
-    navigateToPage();
-  };
 
     return (
         <XContainer

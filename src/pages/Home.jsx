@@ -1,5 +1,4 @@
 import { Stack } from '@mui/system';
-import { useNavigate } from 'react-router-dom';
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { faBuilding, faTools, faUsers } from '@fortawesome/free-solid-svg-icons';
@@ -14,15 +13,15 @@ import xdamTool from '../assets/logotipo_ximdex-DAM-small-header.png'
 const XIMDEX_AVAILABLES_SERVICES = [
     { name: 'XEVAL', toolSrc: xevalTool, type: 'xeval', path: '/' },
     { name: 'XDAM', toolSrc: xdamTool, type: 'xdam', path: '/' },
-    // Añadir más herramientas aquí según sea necesario
 ];
 
 
 function Home() { 
     const [xdirButtons, setXdirButtons] = useState([])
     const [toolsButtons, setToolsButtons] = useState([])
-    const { user, isAdmin, isSuperAdmin } = useAuth();
-    const navigate = useNavigate();
+    const { user, userPermissionManager } = useAuth();
+    const isSuperAdmin = userPermissionManager?.isSuperAdmin()
+    const isAdmin = userPermissionManager?.isAdmin()
 
     // Create XDir buttons
     useEffect(() => {
@@ -54,14 +53,15 @@ function Home() {
     // Create toolsButtons
     useEffect(() => {
         let services = {...XIMDEX_AVAILABLES_SERVICES}
-        Object.values(user.p).forEach(obj => {
-            if (obj.tool) {
-                services[obj.tool.type] = true;
-            }
-        });
-        const toolsButtons = XIMDEX_AVAILABLES_SERVICES.filter(tool => services[tool.type]);
-        setToolsButtons(toolsButtons);
-    
+        if(user?.p){
+            Object?.values(user?.p)?.forEach(obj => {
+                if (obj.tool) {
+                    services[obj.tool.type] = true;
+                }
+            });
+            const toolsButtons = XIMDEX_AVAILABLES_SERVICES.filter(tool => services[tool.type]);
+            setToolsButtons(toolsButtons);
+        }
     }, [user]);
 
 

@@ -3,7 +3,10 @@ import useAuth from '@ximdex/xui-react/hooks/useAuth';
 
 const ProtectedAdminRoutes = ({component}) => {
     const location = useLocation();
-    const { user, isAdmin, isSuperAdmin } = useAuth();
+    const { user, userPermissionManager } = useAuth();
+    const isSuperAdmin = userPermissionManager?.isSuperAdmin();
+    const isAdmin = userPermissionManager?.isAdmin();
+    
 
     if (user?.access_token) {
         if(!isAdmin && !isSuperAdmin) {

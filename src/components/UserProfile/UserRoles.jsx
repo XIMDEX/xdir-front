@@ -25,7 +25,7 @@ const UserRoles = ({user}) => {
   
     return (<StyledXCard
               title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faTools} style={{marginRight: '10px'}}/>SERVICES</p>}
-              style={{height: 'auto', width: '80%', margin: '2em auto', padding: '0 1em'}}
+              style={{height: 'auto', width: '80%', margin: '10px auto', padding: '0 1em'}}
               isCollapsable={true}
               isCollapsed={true}
               // controls={}
@@ -35,13 +35,13 @@ const UserRoles = ({user}) => {
                 <p>No roles assigned yet.</p>
               </StyledFlexFullCenter>
             :
-              <>
+              <StyledFlexFullCenter style={{paddingBottom:'1em', flexDirection: 'column'}}>
                 {rolesInfo?.map((role, index) => (
                   <XRow
                       style={{
+                          borderTop: '1px solid lightgray',
                           background: 'rgb(247, 247, 247)',
                           width: '100%',
-                          marginBottom: "1em"
                       }}
                       key={'row' + index}
                       identifier={index}
@@ -70,7 +70,7 @@ const UserRoles = ({user}) => {
                         </XRowDetails>
                   </XRow>
                 ))}
-                </>
+                </StyledFlexFullCenter>
             }
           </StyledXCard>);
   }

@@ -3,8 +3,9 @@ import useAuth from '@ximdex/xui-react/hooks/useAuth';
 
 const ProtectedSuperAdminRoutes = ({component}) => {
     const location = useLocation();
-    const { user, isSuperAdmin } = useAuth();
-
+    const { user, userPermissionManager } = useAuth();
+    const isSuperAdmin = userPermissionManager?.isSuperAdmin();
+    
     if (user?.access_token) {
         if(!isSuperAdmin) {
             return <Navigate to="/" state={{ from: location}} replace />

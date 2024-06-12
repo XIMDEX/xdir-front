@@ -15,10 +15,11 @@ const Navbar = () => {
 
     const { 
         user,
-        isSuperAdmin,
-        isAdmin,
+        userPermissionManager,
         isAuthenticated
     } = useAuth()
+    const isSuperAdmin = userPermissionManager?.isSuperAdmin();
+    const isAdmin = userPermissionManager?.isAdmin();
     const {logoutModal} = useModals()
     const [internalLinks, setInternalLinks] = useState([])
     

@@ -34,13 +34,13 @@ export default function XimdexServices() {
     <StyledMarginContent>
     {loading ?  <></> :
           <>
-            {toolsList.length === 0 ? 
+            {toolsList?.length === 0 ? 
               <StyledFlexFullCenter>
                 <p>No tools have been created yet.</p>
               </StyledFlexFullCenter>
             :
               <>
-                {toolsList.map((tool, index) => (
+                {toolsList?.map((tool, index) => (
                   <XRow
                       style={{
                           background: 'rgb(247, 247, 247)',

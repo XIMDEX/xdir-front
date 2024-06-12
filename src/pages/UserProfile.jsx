@@ -37,7 +37,7 @@ export default function UserProfile() {
         user={user}
       />
       <StyledRedXButton
-          style={{alignSelf: 'flex-start', marginLeft:'11em'}}
+          style={{alignSelf: 'flex-start', marginLeft:'11em', marginTop: '1em'}}
           onClick= {() => deleteUserAccount()}
           title="Delete account"
       >
