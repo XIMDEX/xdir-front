@@ -258,7 +258,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         let userRolesCopy = {...userRoles}
         userRolesCopy?.organizations[0]?.services.push({
             service_uuid: data.value,
-            role_uuid: rolesOptions.filter(role => role.label === 'viewer')[0].value
+            role_uuid: [rolesOptions.filter(role => role.label === 'viewer')[0].value]
         })
         setUserRoles(userRolesCopy)
         setAddNewService(false)

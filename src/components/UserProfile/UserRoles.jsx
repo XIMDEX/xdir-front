@@ -2,7 +2,7 @@
 
 
 import { useAuth } from '@ximdex/xui-react/hooks';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyledDivCenterY, StyledFlexFullCenter, StyledXCard } from '../styled-compontent/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey, faTools } from '@fortawesome/free-solid-svg-icons';
@@ -13,15 +13,21 @@ import { XRow, XRowContent, XRowDetails } from '@ximdex/xui-react/material';
 
 
 const UserRoles = ({user}) => {
-    const rolesAvailables = Object.values(user.p);
-    const rolesInfo = rolesAvailables.map(item => {
+  const rolesAvailables = Object?.values(user?.p ?? {});
+  const [rolesInfo, setRolesInfo] = useState();
+
+  useEffect(() => {
+    setRolesInfo(
+      rolesAvailables?.map(item => {
         return {
           role: item.role,
           service: item.tool.type,
           service_name: item.tool.name
         };
-      });
-
+      })
+    );
+  }, []);
+  
   
     return (<StyledXCard
               title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faTools} style={{marginRight: '10px'}}/>SERVICES</p>}

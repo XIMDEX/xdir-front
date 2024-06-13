@@ -104,21 +104,21 @@ export default function RolesList({refreshRoles}) {
   return (
         <>
 
-            {loading ? <></> : rolesList.length === 0 ? 
+            {loading ? <></> : rolesList?.length === 0 ? 
               <StyledFlexFullCenter>
                 <p>No roles created yet.</p>
               </StyledFlexFullCenter>
                 :
                   <>
-                    {rolesList.map((role, index) => (
+                    {rolesList?.map((role, index) => (
                       <XRow
                           style={{
-                              borderBottom: index === (rolesList.length - 1) ? '1px solid #BBBBBB' : '',
+                              borderBottom: index === (rolesList?.length - 1) ? '1px solid #BBBBBB' : '',
                               background: 'rgb(247, 247, 247)',
                               width: '100%'
                           }}
                           key={'row' + index}
-                          identifier={role.uuid}
+                          identifier={role?.uuid}
                           isCollapsable={false}
                           controls={[
                             {

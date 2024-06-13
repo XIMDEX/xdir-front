@@ -5,7 +5,7 @@ import { CLIENT, ENVIRONMENT } from "../../CONSTATNS";
 const Providers = ({children}) => {
     return (
         <XThemeProvider>
-            <XAuthProvider CLIENT={CLIENT} ENVIRONMENT={ENVIRONMENT} TOOL={'XD01'}>
+            <XAuthProvider CLIENT={CLIENT} ENVIRONMENT={ENVIRONMENT} TOOL={'FA08'}>
                 {children}
             </XAuthProvider>
         </XThemeProvider>
