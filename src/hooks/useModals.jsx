@@ -287,9 +287,11 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
     const deleteServiceFromUser = (index) => {
         let userRolesCopy = {...userRoles}
         let userServicesAvailablesCopy = [...userServicesAvailables]
-        userRolesCopy.organizations[0].services.splice(index, 1)
+        userRolesCopy.organizations[0].services[index].role_uuid = []
         userServicesAvailablesCopy.splice(index, 1)
         
+
+        console.log(userRolesCopy);
         setUserServicesAvailables(userServicesAvailablesCopy)
         setUserRoles(userRolesCopy)
         setCanSave(true)

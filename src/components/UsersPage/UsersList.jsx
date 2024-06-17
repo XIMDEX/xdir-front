@@ -60,15 +60,10 @@ export default function UsersList() {
 
     const assignRoles = async (user, index) => {
       let userSelected = undefined
-      if(!userDetails[index]?.uuid){
-        showSpinner()
-        const res = await getUser(user.uuid);
-        userSelected = res.user
-        hideSpinner()
-      }else{
-        userSelected = userDetails[index]
-      }
-
+      showSpinner()
+      const res = await getUser(user.uuid);
+      userSelected = res.user
+      hideSpinner()
       setRolesAssignModal(
         {
           open: true,
