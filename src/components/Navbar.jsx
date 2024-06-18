@@ -70,7 +70,7 @@ const Navbar = () => {
         },
     ];
 
-    const links =  !isAuthenticated ? [] : location.pathname === '/' ? [userLink] : [internalLinks, userLink]
+    const links =  !isAuthenticated ? [] : (location.pathname === '/' || location.pathname === '/home')? [userLink] : [internalLinks, userLink]
 
     const logoLink = {
         logoImgSrc: ximdexImagenav
