@@ -1,7 +1,8 @@
 const { 
     VITE_APP_API_BASE_URL,
     VITE_APP_ENVIROMENT,
-    VITE_APP_CLIENT
+    VITE_APP_CLIENT,
+    VITE_APP_TOOL
 } = import.meta.env;
 
 export const CLIENT = VITE_APP_CLIENT.toUpperCase()
@@ -11,6 +12,7 @@ export const COOKIE_NAME = `XIMDEX_${CLIENT}_${ENVIRONMENT}`
 
 export const API_BASE_URL = VITE_APP_API_BASE_URL
 
+export const TOOL_HASH = VITE_APP_TOOL;
 
 
 export const FAKE_USER = {

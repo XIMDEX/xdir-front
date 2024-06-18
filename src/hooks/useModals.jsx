@@ -203,7 +203,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         setServicesOptions(services)
         setRolesOptions(roles)
         setOrganizationsTabsOptions(organizationsOptions)
-        buildUserRolesObject(services, roles)
+        if(userSelected?.p) buildUserRolesObject(services, roles)
 
         setLoading(false)
     }
