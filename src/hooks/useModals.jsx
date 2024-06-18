@@ -203,7 +203,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         setServicesOptions(services)
         setRolesOptions(roles)
         setOrganizationsTabsOptions(organizationsOptions)
-        if(userSelected?.p) buildUserRolesObject(services, roles)
+        buildUserRolesObject(services, roles)
 
         setLoading(false)
     }
@@ -220,18 +220,24 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         organization.services = []
 
         // LOOP OVER USER SERVICES FINDING SERVICIES AND ROLES ASSOCIETAS
-        Object.entries(userSelected?.p).map(([serviceRolID, serviceRolObject]) => {
-            if(!organization.organization_uuid) organization.organization_uuid = serviceRolObject.organization
+        if(userSelected?.p){
+            Object.entries(userSelected?.p).map(([serviceRolID, serviceRolObject]) => {
+                if(!organization.organization_uuid) organization.organization_uuid = serviceRolObject.organization
+    
+                const service_uuid =  services?.filter(service => service.label.toLowerCase() === serviceRolObject.tool.name.toLowerCase())[0].value
+                const role_uuid = roles?.filter(role => role.label.toLowerCase() === serviceRolObject.role.toLowerCase())[0].value
+                let service = {
+                    service_uuid: service_uuid,
+                    role_uuid: [role_uuid]
+                }
+                userServices.push(service_uuid)
+                organization.services.push(service)
+            });
+        }else{
+            if(!organization.organization_uuid) organization.organization_uuid = Object.keys(userSelected?.organizations)[0]
 
-            const service_uuid =  services?.filter(service => service.label.toLowerCase() === serviceRolObject.tool.name.toLowerCase())[0].value
-            const role_uuid = roles?.filter(role => role.label.toLowerCase() === serviceRolObject.role.toLowerCase())[0].value
-            let service = {
-                service_uuid: service_uuid,
-                role_uuid: [role_uuid]
-            }
-            userServices.push(service_uuid)
-            organization.services.push(service)
-        });
+
+        }
         
         // SET USER ROLES OBJECT
         userOrganizationsRoles.push(organization)
