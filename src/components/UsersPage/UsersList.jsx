@@ -1,15 +1,13 @@
 import { useSpinner } from "@ximdex/xui-react/hooks";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
-import { XPopUp, XRow, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
-import { faKey, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {  XRow, XRowContent, XRowDetails } from "@ximdex/xui-react/material";
 import { StyledFlexFullCenter, StyledXModal } from "../../components/styled-compontent/Container";
-import { assignRoleToUser, deleteExistingUser, getRoles, getUser, getUsers, getXimdexTools } from "../../service/xdir.service";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { assignRoleToUser, deleteExistingUser, getUser, getUsers } from "../../service/xdir.service";
 import useModals, { XDirModalRoles } from "../../hooks/useModals";
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
 import { CircularProgress } from "@mui/material";
-import { Key, KeyIcon, KeyRound, Trash } from "lucide-react";
+import { KeyRound, Trash } from "lucide-react";
 
 export default function UsersList() {
     const { isSuperAdmin } = useAuth()

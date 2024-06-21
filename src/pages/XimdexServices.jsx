@@ -1,11 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledDivCenterY, StyledFlexFullCenter, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTools } from "@fortawesome/free-solid-svg-icons";
 import { getXimdexTools } from "../service/xdir.service";
 import { useSpinner } from "@ximdex/xui-react/hooks";
 import { XRow, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
-import { StyledTagStatus } from "../components/styled-compontent/Text";
 import { Computer } from "lucide-react";
 
 

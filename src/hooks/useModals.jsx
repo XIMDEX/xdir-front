@@ -1,16 +1,15 @@
 import Swal from "sweetalert2";
 import './sweetAlertClasses.css'
 import { useEffect, useState } from "react";
-import { XButton, XDropdown, XInput, XPopUp, XRadio } from "@ximdex/xui-react/material";
+import { XButton, XDropdown, XInput, XPopUp } from "@ximdex/xui-react/material";
 import { StyledDivCenterY, StyledDivFlexBetween, StyledFlexFullCenter, StyledRoleOptionsColumn, StyledRolesToolsColumn, StyledTabsContainer, StyledXRadio } from "../components/styled-compontent/Container";
 import useFormValidator from "./useFormValidatior";
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
 import CustomTabs from "../components/CustomTabs/CustomTabs";
 import { StyledAddButtonWithEffect, StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faPlusCircle, faSave, faTrash, faX } from "@fortawesome/free-solid-svg-icons";
 import { getRoles, getXimdexTools } from "../service/xdir.service";
-import { CircularProgress, InputAdornment } from "@mui/material";
+import { CircularProgress } from "@mui/material";
+import { Save, Trash, X } from "lucide-react";
 
 export default function useModals () {
     const {forceLogout} = useAuth()
@@ -334,13 +333,13 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
                     disabled={!canSave}
                     title={'Save'}
                 >
-                    <FontAwesomeIcon icon={faSave} size="1x"/>
+                    <Save size={20}/>
                 </StyledGreenButtonIcon>
                 <StyledGreenButtonIcon
                     title={'Close modal'}
                     onClick={() => closeModalControl()}
                 >
-                    <FontAwesomeIcon icon={faX} size="1x"/>
+                    <X size={20}/>
                 </StyledGreenButtonIcon>
                 </StyledDivCenterY>
             </StyledDivFlexBetween>
@@ -366,7 +365,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
                                             onClick={() => setServiceTabSelected(service)}
                                             style={{backgroundColor: service?.value === serviceTabSelected?.value ? '#e0e0e0' : 'transparent'}}>{service.label}
                                             <StyledRedButtonIcon className="trash-icon" onClick={() => deleteServiceFromUser(index)} style={{marginLeft: '2em'}}>
-                                                <FontAwesomeIcon icon={faTrash} size="1x"/>
+                                                <Trash size={20}/>
                                             </StyledRedButtonIcon>
                                         </p>
                                         
@@ -405,7 +404,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
                                 onClick={() => setAddNewService(false)}
                                 style={{marginRight: '10px'}}
                             >
-                                <FontAwesomeIcon size="1x" icon={faX}/>
+                                <X size={20}/>
                             </StyledGreenButtonIcon>
                             </StyledDivCenterY>
                             }

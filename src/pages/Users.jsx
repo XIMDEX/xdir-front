@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledDivCenterY, StyledMarginContent, StyledTabsContainer, StyledXCard, StyledXModal } from "../components/styled-compontent/Container";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { XButton } from "@ximdex/xui-react/material";
 import { getOrganizations, sendRegisterInvite } from "../service/xdir.service";
 import useModals, { XDirModalInvitation } from "../hooks/useModals";
@@ -9,7 +7,7 @@ import { USER_TABS } from "../../CONSTATNS";
 import CustomTabs from "../components/CustomTabs/CustomTabs";
 import UsersList from "../components/UsersPage/UsersList";
 import UsersInvites from "../components/UsersPage/UsersInvites";
-import { Plane, Send, Users2 } from "lucide-react";
+import { Send, Users2 } from "lucide-react";
 
 
 

@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyledDivCenterY, StyledFlexFullCenter, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faEye, faEyeSlash, faLock, faSave } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XInput } from "@ximdex/xui-react/material";
 import _ from "lodash";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,6 +8,7 @@ import { CircularProgress } from "@mui/material";
 import useModals from "../hooks/useModals";
 import useFormValidator from "../hooks/useFormValidatior";
 import { useAuth, useSpinner } from "@ximdex/xui-react/hooks";
+import { Eye, EyeOff, Lock, Save } from "lucide-react";
 
 export default function VerificationEmail() {
   const [emailVerified, setEmailVerified] = useState(false)
@@ -70,8 +69,13 @@ const VerificationEmailForm = ({
 
   return(
     <StyledXCard
-      title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faLock} style={{marginRight: '10px'}}/>EMAIL VERIFICATION</p>}
-      style={{height: 'auto', width: '80%', margin: '2em auto'}}
+    title={<StyledDivCenterY>
+      <Lock size={30} style={{ marginRight: '10px' }}/>
+      <p>
+        EMAIL VERIFICATION
+      </p>
+    </StyledDivCenterY>}      
+    style={{height: 'auto', width: '80%', margin: '2em auto'}}
       >
     <StyledMarginContent>
       {loadingVerification ? 
@@ -173,7 +177,12 @@ const NewPasswordForm = ({
   }
 
   return <StyledXCard
-        title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faLock} style={{marginRight: '10px'}}/>CHANGE PASSWORD</p>}
+  title={<StyledDivCenterY>
+    <Lock size={30} style={{ marginRight: '10px' }}/>
+    <p>
+      CHANGE PASSWORD
+    </p>
+  </StyledDivCenterY>}
         style={{height: 'auto', width: '80%', margin: '2em auto'}}
         controls={[
           {
@@ -183,7 +192,7 @@ const NewPasswordForm = ({
                     title="Update user"
                     disabled={userPassword.password === '' || userPassword.password_confirmation === '' || error !== ''}
                 >
-                    <FontAwesomeIcon icon={faSave} style={{marginRight: '10px'}}/> 
+                  <Save size={20} style={{marginRight: '10px'}}/>
                     UPDATE
                 </XButton>
         }
@@ -219,11 +228,9 @@ const NewPasswordForm = ({
                     variant='text'
                     style={{ fontSize: '1em', minWidth: 'unset', width: '2em', marginLeft: '0.5em' }}
                   >
-                    <FontAwesomeIcon
-                      style={{cursor:'pointer', fontSize:'15px'}}
-                      size='1x'
-                      icon={passwordVisibility ? faEye : faEyeSlash}
-                    />
+                    {
+                      passwordVisibility ? <Eye size={20}/> : <EyeOff size={20}/> 
+                    }
                   </XButton>
                 )
               }} 
@@ -246,11 +253,9 @@ const NewPasswordForm = ({
                     variant='text'
                     style={{ fontSize: '1em', minWidth: 'unset', width: '2em', marginLeft: '0.5em' }}
                   >
-                    <FontAwesomeIcon
-                      style={{cursor:'pointer', fontSize:'15px'}}
-                      size='1x'
-                      icon={passwordVisibility ? faEye : faEyeSlash}
-                    />
+                    {
+                      passwordVisibility ? <Eye size={20}/> : <EyeOff size={20}/> 
+                    }
                   </XButton>
                 )
               }} 
