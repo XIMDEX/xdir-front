@@ -6,6 +6,7 @@ export const StyledGreenButtonIcon = styled(XButton)`
     font-size: 1em;
     min-width: auto;
     margin-left: 0.5em;
+    padding: 5px;
 `;
 
 export const StyledRedButtonIcon = styled(StyledGreenButtonIcon)`

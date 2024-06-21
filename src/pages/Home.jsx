@@ -29,17 +29,17 @@ function Home() {
             buttons.push(
                 {
                     name: 'users',
-                    icon:  <UsersRound size={100} />,
+                    icon:  <UsersRound size={80} />,
                     path: '/users'
                 },
                 {
                     name: 'organizations',
-                    icon: <Building size={100} />,
+                    icon: <Building size={80} />,
                     path: '/organizations'
                 },
                 {
                     name: 'services',
-                    icon: <Computer size={100} />,
+                    icon: <Computer size={80} />,
                     path: '/services'
                 }
             );
