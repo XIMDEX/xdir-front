@@ -1,13 +1,12 @@
 
 import React, { useState } from 'react';
 import { StyledXCard, StyledMarginContent, StyledDivCenterY } from '../styled-compontent/Container';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faXmark, faPen, faSave } from '@fortawesome/free-solid-svg-icons';
 import { XButton, XInput } from '@ximdex/xui-react/material';
 import { updateUserXDIR } from '../../service/xdir.service';
 import { useSpinner } from '@ximdex/xui-react/hooks';
 import useModals from '../../hooks/useModals';
 import _ from 'lodash';
+import { Pencil, Save, User } from 'lucide-react';
 
 const UserInformation = ({ user, saveUserData }) => {
   const [canEdit, setCanEdit] = useState(false);
@@ -49,10 +48,12 @@ const UserInformation = ({ user, saveUserData }) => {
   return (
     <StyledXCard
       title={
-        <p style={{ marginLeft: '1em' }}>
-          <FontAwesomeIcon icon={faUser} style={{ marginRight: '10px' }} />
-          USER INFORMATION
-        </p>
+        <StyledDivCenterY>
+          <User size={30} style={{ marginRight: '10px' }}/>
+          <p>
+            USER INFORMATION
+          </p>
+        </StyledDivCenterY>
       }
       style={{ height: 'auto', width: '80%', margin: '2em auto', padding: '0 1em' }}
       isCollapsable
@@ -65,7 +66,7 @@ const UserInformation = ({ user, saveUserData }) => {
               onClick={handleCanEdit}
               title="Edit information"
             >
-              <FontAwesomeIcon icon={canEdit ? faXmark : faPen} style={{ marginRight: '10px' }} />
+              <Pencil size={20} style={{ marginRight: '10px' }} />
               {canEdit ? 'CANCEL' : 'EDIT'}
             </XButton>
           ),
@@ -77,7 +78,7 @@ const UserInformation = ({ user, saveUserData }) => {
               onClick={updateUserData}
               title="Update user"
             >
-              <FontAwesomeIcon icon={faSave} style={{ marginRight: '10px' }} />
+              <Save size={20} style={{ marginRight: '10px' }} />
               SAVE
             </XButton>
           ),

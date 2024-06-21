@@ -1,13 +1,10 @@
 
 
 
-import { useAuth } from '@ximdex/xui-react/hooks';
 import React, { useEffect, useState } from 'react';
 import { StyledDivCenterY, StyledFlexFullCenter, StyledXCard } from '../styled-compontent/Container';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faKey, faTools } from '@fortawesome/free-solid-svg-icons';
-import { ROLES } from '../../../CONSTATNS';
 import { XRow, XRowContent, XRowDetails } from '@ximdex/xui-react/material';
+import { Computer } from 'lucide-react';
 
 
 
@@ -30,7 +27,12 @@ const UserRoles = ({user}) => {
   
   
     return (<StyledXCard
-              title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faTools} style={{marginRight: '10px'}}/>SERVICES</p>}
+              title={<StyledDivCenterY>
+                <Computer size={30} style={{ marginRight: '10px' }}/>
+                <p>
+                  SERVICES
+                </p>
+              </StyledDivCenterY>}
               style={{height: 'auto', width: '80%', margin: '10px auto', padding: '0 1em'}}
               isCollapsable={true}
               isCollapsed={true}

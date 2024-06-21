@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
+import { StyledDivCenterY, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { XButton, XPopUp, XRow, XRowContent } from "@ximdex/xui-react/material";
@@ -7,6 +7,7 @@ import { createNewOrganization, deleteExistingOrganization, getOrganizations, up
 import useModals from '../hooks/useModals';
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
 import { useSpinner } from '@ximdex/xui-react/hooks';
+import { Building, Plus } from "lucide-react";
 
 
 export default function Organizations() {
@@ -93,7 +94,12 @@ export default function Organizations() {
 
   return (
     <StyledXCard
-    title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faBuilding} style={{marginRight: '10px'}}/>ORGANIZATIONS</p>}
+    title={<StyledDivCenterY>
+      <Building size={30} style={{ marginRight: '10px' }}/>
+      <p>
+        ORGANIZATIONS
+      </p>
+    </StyledDivCenterY>}
     style={{height: 'auto', width: '80%', margin: '2em auto'}}
     controls={[
       {
@@ -102,7 +108,7 @@ export default function Organizations() {
                   onClick={createOrganization}
                   title="Create new organization"
               >
-                  <FontAwesomeIcon icon={faPlus} style={{marginRight: '10px'}}/> 
+                <Plus size={20} style={{marginRight: '10px'}} />
                   Create
               </XButton>
       },

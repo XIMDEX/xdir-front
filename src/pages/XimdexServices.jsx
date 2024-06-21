@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyledFlexFullCenter, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
+import { StyledDivCenterY, StyledFlexFullCenter, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTools } from "@fortawesome/free-solid-svg-icons";
 import { getXimdexTools } from "../service/xdir.service";
 import { useSpinner } from "@ximdex/xui-react/hooks";
 import { XRow, XRowContent, XRowDetails, XRowExtraDetails } from "@ximdex/xui-react/material";
 import { StyledTagStatus } from "../components/styled-compontent/Text";
+import { Computer } from "lucide-react";
 
 
 export default function XimdexServices() {
@@ -28,7 +29,12 @@ export default function XimdexServices() {
 
   return (
     <StyledXCard
-      title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faTools} style={{marginRight: '10px'}}/>TOOLS</p>}
+      title={<StyledDivCenterY>
+        <Computer size={30} style={{ marginRight: '10px' }}/>
+        <p>
+          SERVICES
+        </p>
+      </StyledDivCenterY>}
       style={{height: 'auto', width: '80%', margin: '2em auto'}}
     >
     <StyledMarginContent>
@@ -36,7 +42,7 @@ export default function XimdexServices() {
           <>
             {toolsList?.length === 0 ? 
               <StyledFlexFullCenter>
-                <p>No tools have been created yet.</p>
+                <p>No services have been created yet.</p>
               </StyledFlexFullCenter>
             :
               <>
