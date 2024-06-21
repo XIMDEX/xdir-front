@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyledMarginContent, StyledTabsContainer, StyledXCard, StyledXModal } from "../components/styled-compontent/Container";
+import { StyledDivCenterY, StyledMarginContent, StyledTabsContainer, StyledXCard, StyledXModal } from "../components/styled-compontent/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { XButton } from "@ximdex/xui-react/material";
@@ -9,6 +9,7 @@ import { USER_TABS } from "../../CONSTATNS";
 import CustomTabs from "../components/CustomTabs/CustomTabs";
 import UsersList from "../components/UsersPage/UsersList";
 import UsersInvites from "../components/UsersPage/UsersInvites";
+import { Plane, Send, Users2 } from "lucide-react";
 
 
 
@@ -35,7 +36,12 @@ export default function Users() {
 
   return (
     <StyledXCard
-    title={<p style={{marginLeft: '1em'}}><FontAwesomeIcon icon={faUsers} style={{marginRight: '10px'}}/>USERS</p>}
+    title={<StyledDivCenterY>
+      <Users2 size={30} style={{ marginRight: '10px' }}/>
+      <p>
+        USERS
+      </p>
+    </StyledDivCenterY>}
     style={{height: 'auto', width: '80%', margin: '2em auto'}}
     controls={[
       {
@@ -44,7 +50,7 @@ export default function Users() {
                   onClick={() => setInviteModal(true)}
                   title="Invite new user"
               >
-                  <FontAwesomeIcon icon={faPaperPlane} style={{marginRight: '10px'}}/> 
+                  <Send size={20} style={{marginRight: '10px'}}/>
                   Invite User
               </XButton>
       },

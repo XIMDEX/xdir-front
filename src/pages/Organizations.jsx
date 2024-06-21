@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledDivCenterY, StyledMarginContent, StyledXCard } from "../components/styled-compontent/Container";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBuilding, faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { XButton, XPopUp, XRow, XRowContent } from "@ximdex/xui-react/material";
+import { XButton, XRow, XRowContent } from "@ximdex/xui-react/material";
 import { createNewOrganization, deleteExistingOrganization, getOrganizations, updateExistingOrganization } from "../service/xdir.service";
 import useModals from '../hooks/useModals';
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
 import { useSpinner } from '@ximdex/xui-react/hooks';
-import { Building, Plus } from "lucide-react";
+import { Building, Pencil, Plus, Trash } from "lucide-react";
 
 
 export default function Organizations() {
@@ -136,13 +134,13 @@ export default function Organizations() {
                       labelButtonCollapsable={`Show details`}
                       controls={[
                         {
-                            component:<StyledGreenButtonIcon onClick={() => editOrganization(organization.uuid, organization.name)}>
-                                        <FontAwesomeIcon icon={faEdit} size='1x' title='Edit organization' />
+                            component:<StyledGreenButtonIcon title='Edit organization' onClick={() => editOrganization(organization.uuid, organization.name)}>
+                                        <Pencil size={20}/>
                                     </StyledGreenButtonIcon>
                         },
                         {
-                            component:<StyledRedButtonIcon onClick={() => deleteOrganization(organization.uuid, organization.name)}>
-                                        <FontAwesomeIcon icon={faTrash} size='1x' title='Delete organization' />
+                            component:<StyledRedButtonIcon onClick={() => deleteOrganization(organization.uuid, organization.name)} title='Delete organization' >
+                                        <Trash size={20} style={{margin: 0, padding: 0}}/>
                                     </StyledRedButtonIcon>
                         },
                       ]}

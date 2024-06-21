@@ -4,8 +4,7 @@ import { XButton } from "@ximdex/xui-react/material";
 export const StyledGreenButtonIcon = styled(XButton)`
     color: #ffffff;
     font-size: 1em;
-    min-width: unset;
-    width: 2em;
+    min-width: auto;
     margin-left: 0.5em;
 `;
 

@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModals, { XDirModalRoles } from "../../hooks/useModals";
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
 import { CircularProgress } from "@mui/material";
+import { Key, KeyIcon, KeyRound, Trash } from "lucide-react";
 
 export default function UsersList() {
     const { isSuperAdmin } = useAuth()
@@ -116,13 +117,15 @@ export default function UsersList() {
                       controls={[
                         {
                             component:<StyledGreenButtonIcon 
-                                      onClick={() => assignRoles(user, index)}>
-                                        <FontAwesomeIcon icon={faKey} size='1x' title='Assign roles' />
+                                      onClick={() => assignRoles(user, index)}
+                                      title='Assign roles'
+                                      >
+                                        <KeyRound size={20}/>
                                     </StyledGreenButtonIcon>
                         },
                         {
-                            component:<StyledRedButtonIcon onClick={() => deleteUser(user.uuid, user.email)}>
-                                        <FontAwesomeIcon icon={faTrash} size='1x' title='Delete user' />
+                            component:<StyledRedButtonIcon title='Delete user' onClick={() => deleteUser(user.uuid, user.email)}>
+                                      <Trash size={20}/>
                                     </StyledRedButtonIcon>
                         }
                       ]}

@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import { deleteInvitation, getUserInvitations } from "../../service/xdir.service";
 import { StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
 import {XRow, XRowContent, XRowDetails } from "@ximdex/xui-react/material";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { StyledDivFlexBetween, StyledFlexFullCenter } from "../../components/styled-compontent/Container";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledTagStatus } from "../styled-compontent/Text";
 import useModals from "../../hooks/useModals";
+import { Trash } from "lucide-react";
 
 export default function UsersInvites() {
     const [invitesList, setInvitesList] = useState([])
@@ -67,8 +66,8 @@ export default function UsersInvites() {
                       identifier={invite.id}
                       controls={[
                         {
-                            component:<StyledRedButtonIcon onClick={() => removeInvite(invite.id, invite.email)}>
-                                        <FontAwesomeIcon icon={faTrash} size='1x' title='Remove invite' />
+                            component:<StyledRedButtonIcon  title='Remove invite' onClick={() => removeInvite(invite.id, invite.email)}>
+                                        <Trash size={20}/>
                                     </StyledRedButtonIcon>
                         },
                       ]}
