@@ -64,18 +64,6 @@ const Login = () => {
     if(res.error) return res;
     saveUserData({
         ...res.user,
-        // p: {
-        //     ...res.user.p,
-        //     "XD01": {
-        //         "organization": "450a051b-1afc-4bc0-a64b-2b08cf35f66d",
-        //         "permission": "11111111",
-        //         "role": "superadmin",
-        //         "tool": {
-        //             "name": "XDir argentina",
-        //             "type": "XDir"
-        //         }
-        //     }
-        // }
     })
     navigateToPage();
   };

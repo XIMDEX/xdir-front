@@ -533,6 +533,27 @@ export const getUserInvitations = async () => {
     }
 }
 
+
+export const deleteInvitation = async (id) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}organizations/invitations/${id}`, {
+            method: "DELETE",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+        });
+        if (!res.ok) {
+            throw new Error("Failed to delete this invite. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to delete this invite. Please try again later." };
+    }
+
+}
+
 export const getXimdexTools = async () => {
     try {
         const res = await fetch(`${API_BASE_URL}tools`, {
@@ -551,3 +572,4 @@ export const getXimdexTools = async () => {
         return { error: "Unable to get the tools. Please try again later." };
     }
 }
+

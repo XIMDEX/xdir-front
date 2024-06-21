@@ -1,6 +1,6 @@
 import { useSpinner } from "@ximdex/xui-react/hooks";
 import React, { useEffect, useState } from "react";
-import { getUserInvitations } from "../../service/xdir.service";
+import { deleteInvitation, getUserInvitations } from "../../service/xdir.service";
 import { StyledRedButtonIcon } from "../../components/styled-compontent/Buttons";
 import {XRow, XRowContent, XRowDetails } from "@ximdex/xui-react/material";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -30,13 +30,13 @@ export default function UsersInvites() {
     }
 
 
-    const removeInvite = async () => {
+    const removeInvite = async (inviteId, inviteEmail) => {
       XDirModal({
-          text:`Are you sure you want to delete this invite?`,
+          text:`Are you sure you want to delete this invite to ${inviteEmail}?`,
           title:'Delete invite',
           confirmButtonColor:'#e13144',
           onConfirmFunction: async () => {
-            const res = await deleteExistingUser(user.uuid)
+            const res = await deleteInvitation(inviteId)
             executeXPopUp(res, "Invite deleted successfully")
             if(!res.error) setRefreshList(!refreshList)
           }
