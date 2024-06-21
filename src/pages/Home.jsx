@@ -1,13 +1,12 @@
 import { Stack } from '@mui/system';
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
 import { useEffect, useState } from 'react';
-import { faBuilding, faTools, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { XLabel } from '@ximdex/xui-react/material';
 import { StyledHomeItem } from '../components/styled-compontent/Links';
 import { StyledHomeXBox } from '../components/styled-compontent/Container';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import xevalTool from '../assets/logotipo_ximdex-EVAL-small.png'
 import xdamTool from '../assets/logotipo_ximdex-DAM-small-header.png'
+import { Building, Computer, UsersRound } from 'lucide-react';
 
 
 const XIMDEX_AVAILABLES_SERVICES = [
@@ -30,17 +29,17 @@ function Home() {
             buttons.push(
                 {
                     name: 'users',
-                    icon: faUsers,
+                    icon:  <UsersRound size={100} />,
                     path: '/users'
                 },
                 {
                     name: 'organizations',
-                    icon: faBuilding,
+                    icon: <Building size={100} />,
                     path: '/organizations'
                 },
                 {
                     name: 'services',
-                    icon: faTools,
+                    icon: <Computer size={100} />,
                     path: '/services'
                 }
             );
@@ -87,7 +86,7 @@ function Home() {
                         className="xboxItem"
                     >
                         {element.toolSrc && <img src={element.toolSrc} alt={element.name} />}
-                        {element.icon && <FontAwesomeIcon icon={element.icon} size='6x' />}
+                        {element.icon && element.icon}
                     </StyledHomeXBox>
                 }
                 htmlFor={element.name}

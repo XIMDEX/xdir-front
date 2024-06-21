@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faSignOutAlt, faLock } from '@fortawesome/free-solid-svg-icons';
 import { XNav } from '@ximdex/xui-react/material';
 import ximdexImagenav from '../assets/logotipo_ximdex-DIR-white.png';
 import useModals from '../hooks/useModals';
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
 import { StyledNavBarProfileImage, StyledNavBarProfileText } from './styled-compontent/Text';
+import { Lock, LogOutIcon, User } from 'lucide-react';
 
 
 const Navbar = () => {
@@ -53,17 +52,17 @@ const Navbar = () => {
             items: [
                 {
                     text: <p style={{margin: '0', flexGrow:'1'}}>Account</p>,
-                    icon: <FontAwesomeIcon icon={faUser} size="1x" style={{ marginRight: '8px'}} />,
+                    icon: <User size={25} style={{ marginRight: '8px'}} />,
                     onClick: () => {navigate('/profile')}
                 },
                 {
                     text: <p style={{margin: '0', flexGrow:'1'}}>Change password</p>,
-                    icon: <FontAwesomeIcon icon={faLock} size="1x" style={{ marginRight: '8px'}} />,
+                    icon: <Lock size={25} style={{ marginRight: '8px'}} />,
                     onClick: () => {navigate('/email_verification')}
                 },
                 {
                     text: <p style={{margin: '0', flexGrow:'1'}}>Sign out</p>,
-                    icon: <FontAwesomeIcon icon={faSignOutAlt} size="1x" style={{ marginRight: '8px'}} />,
+                    icon: <LogOutIcon size={25} style={{ marginRight: '8px'}} />,
                     onClick: () => {logoutModal()}
                 },
             ]
