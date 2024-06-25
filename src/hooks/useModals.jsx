@@ -10,6 +10,7 @@ import { StyledAddButtonWithEffect, StyledGreenButtonIcon, StyledRedButtonIcon }
 import { createUserOnService, getRoles, getXimdexTools } from "../service/xdir.service";
 import { CircularProgress } from "@mui/material";
 import { Save, Trash, X } from "lucide-react";
+import { SERVICES_TO_CREATE_USER } from "../../CONSTATNS";
 
 export default function useModals () {
     const {forceLogout} = useAuth()
@@ -317,7 +318,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
 
     const saveButton = async () => {
         try {
-            const xDamServicesID = servicesOptions.filter(service => service?.type === "xdam").map(service => service.value);
+            const xDamServicesID = servicesOptions.filter(service => SERVICES_TO_CREATE_USER.includes(service?.type)).map(service => service.value);
             const xDamServicesToUpload = userServicesAvailables.filter(service => xDamServicesID.includes(service.value));
     
             const createUserPromises = xDamServicesToUpload.map(xdamService => 

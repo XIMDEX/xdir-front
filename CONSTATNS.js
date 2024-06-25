@@ -75,3 +75,8 @@ export const ROLES = [
   { state: 'isAdmin', name: 'Admin' },
   { state: 'isSuperAdmin', name: 'SuperAdmin' }
 ]
+
+
+export const SERVICES_TO_CREATE_USER = [
+  'xdam'
+]
