@@ -7,7 +7,7 @@ import useFormValidator from "./useFormValidatior";
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
 import CustomTabs from "../components/CustomTabs/CustomTabs";
 import { StyledAddButtonWithEffect, StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
-import { getRoles, getXimdexTools } from "../service/xdir.service";
+import { createUserOnService, getRoles, getXimdexTools } from "../service/xdir.service";
 import { CircularProgress } from "@mui/material";
 import { Save, Trash, X } from "lucide-react";
 
@@ -151,7 +151,7 @@ export default function useModals () {
 }
 
 export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, userSelected, isSuperAdmin}) => {
-    const {XDirModal} = useModals()
+    const {XDirModal, executeXPopUp} = useModals()
     const [loading, setLoading] = useState(false);
     
     // Options for control the modal
@@ -196,7 +196,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
             value: uuid,
             label: name
         }));
-        const services = resServices?.services?.map(tool => ({ value: tool.uuid, label: tool.name}))
+        const services = resServices?.services?.map(tool => ({ value: tool.uuid, label: tool.name, type: tool.type}))
         const roles = resRoles?.roles?.map(rol => ({ value: rol.uuid, label: rol.name, disabled: rol?.label === 'superadmin' && !isSuperAdmin }))
         // SET OPTIONS
         setServicesOptions(services)
@@ -315,6 +315,25 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         }
     }
 
+    const saveButton = async () => {
+        try {
+            const xDamServicesID = servicesOptions.filter(service => service?.type === "xdam").map(service => service.value);
+            const xDamServicesToUpload = userServicesAvailables.filter(service => xDamServicesID.includes(service.value));
+    
+            const createUserPromises = xDamServicesToUpload.map(xdamService => 
+                createUserOnService(userRoles.user_uuid, xdamService.value)
+            );
+    
+            await Promise.all(createUserPromises);
+    
+            setOpenModal();
+            confirmButton(userRoles);
+        } catch (error) {
+            setOpenModal();
+            executeXPopUp({error: "Error creating users on services"})
+        }
+    }
+
     return (
         <>
             {/* MODAL HEADER */}
@@ -326,10 +345,7 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
                 <StyledDivCenterY>
 
                 <StyledGreenButtonIcon
-                    onClick={() => {
-                        setOpenModal()
-                        confirmButton(userRoles)
-                    }}
+                    onClick={() => saveButton()}
                     disabled={!canSave}
                     title={'Save'}
                 >

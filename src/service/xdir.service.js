@@ -495,6 +495,28 @@ export const assignRoleToUser = async (newRoles) => {
     }
 }
 
+export const createUserOnService = async (userID, serviceID) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}create-user-on-service/${userID}/${serviceID}`, {
+            method: "GET",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            }
+        });
+        console.log(res);
+        if (!res.ok) {
+            throw new Error("Failed to create user on service. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        console.error("Error creating user on service:", err);
+        throw err;  // Re-lanza el error para que pueda ser manejado por el bloque catch en saveButton
+    }
+}
+
+
 export const sendRegisterInvite = async (organizationID, email) => {
     try {
         const res = await fetch(`${API_BASE_URL}organizations/${organizationID}/invite/${email}`, {
@@ -572,4 +594,5 @@ export const getXimdexTools = async () => {
         return { error: "Unable to get the tools. Please try again later." };
     }
 }
+
 
