@@ -578,7 +578,7 @@ export const deleteInvitation = async (id) => {
 
 export const getXimdexTools = async () => {
     try {
-        const res = await fetch(`${API_BASE_URL}tools`, {
+        const res = await fetch(`${API_BASE_URL}services`, {
             method: "GET",
             headers: {
                 ...commonHeaders,
@@ -586,12 +586,12 @@ export const getXimdexTools = async () => {
             },
         });
         if (!res.ok) {
-            throw new Error("Failed to get the tools. Please try again later.");
+            throw new Error("Failed to get the services. Please try again later.");
         }
         const json = await res.json();
         return json;
     } catch (err) {
-        return { error: "Unable to get the tools. Please try again later." };
+        return { error: "Unable to get the services. Please try again later." };
     }
 }
 
