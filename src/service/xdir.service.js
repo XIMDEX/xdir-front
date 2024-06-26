@@ -497,7 +497,7 @@ export const assignRoleToUser = async (newRoles) => {
 
 export const createUserOnService = async (userID, serviceID) => {
     try {
-        const res = await fetch(`${API_BASE_URL}create-user-on-service/${userID}/${serviceID}`, {
+        const res = await fetch(`${API_BASE_URL}services/create-user-on-service/${userID}/${serviceID}`, {
             method: "GET",
             headers: {
                 ...commonHeaders,
