@@ -318,15 +318,16 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
 
     const saveButton = async () => {
         try {
-            const xDamServicesID = servicesOptions.filter(service => SERVICES_TO_CREATE_USER.includes(service?.type)).map(service => service.value);
-            const xDamServicesToUpload = userServicesAvailables.filter(service => xDamServicesID.includes(service.value));
+            // const servicesIDToCreateUser = servicesOptions.filter(service => SERVICES_TO_CREATE_USER.includes(service?.type)).map(service => service.value);
+            
+            // // Must create the user on the service
+            // const servicesToUpload = userServicesAvailables.filter(service => servicesIDToCreateUser.includes(service.value));
+
+            // const createUserPromises = servicesToUpload.map(xService => 
+            //     createUserOnService(userRoles.user_uuid, xService.value)
+            // );
     
-            const createUserPromises = xDamServicesToUpload.map(xdamService => 
-                createUserOnService(userRoles.user_uuid, xdamService.value)
-            );
-    
-            await Promise.all(createUserPromises);
-    
+            // await Promise.all(createUserPromises);
             setOpenModal();
             confirmButton(userRoles);
         } catch (error) {

@@ -67,15 +67,6 @@ export default function XimdexServices() {
                     <XRowDetails key={"XRowDetails" + index}>
                       <p><strong>Status:</strong> {tool.status}</p>
                     </XRowDetails>
-                    <XRowExtraDetails key={"XRowExtraDetails" + index}
-                      extraDetails={[
-                        {
-                            label: 'User ID',
-                            type: 'text',
-                            value: tool?.uuid
-                        }
-                      ]}
-                    />
                      
                   </XRow>
                 ))}
