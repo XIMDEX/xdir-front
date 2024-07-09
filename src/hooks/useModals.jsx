@@ -91,7 +91,6 @@ export default function useModals () {
         XPopUp({
           text: res?.error,
           iconType:'error',
-          timer:'3000',
           popUpPosition:'top',
           iconColor: 'red',
           timer: 3000
@@ -100,7 +99,6 @@ export default function useModals () {
         XPopUp({
           text: title,
           iconType:'success',
-          timer:'3000',
           popUpPosition:'top',
           iconColor: 'lightgreen',
           timer: 3000
@@ -187,7 +185,6 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
             XPopUp({
             text: res?.error,
             iconType:'error',
-            timer:'3000',
             popUpPosition:'top',
             iconColor: 'red',
             timer: 3000
