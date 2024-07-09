@@ -172,10 +172,6 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
     }, [userSelected]);
 
 
-    useEffect(() => {
-        console.log("USER ROLES",userRoles);
-    }, [userRoles]);
-
     /** Build options list for organizations, services and roles */
     const buildOptions = async () => {
         setLoading(true)
@@ -294,7 +290,6 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         userServicesAvailablesCopy.splice(index, 1)
         
 
-        console.log(userRolesCopy);
         setUserServicesAvailables(userServicesAvailablesCopy)
         setUserRoles(userRolesCopy)
         setCanSave(true)

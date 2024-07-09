@@ -504,7 +504,6 @@ export const createUserOnService = async (userID, serviceID) => {
                 Authorization: `Bearer ${getToken()}`
             }
         });
-        console.log(res);
         if (!res.ok) {
             throw new Error("Failed to create user on service. Please try again later.");
         }
