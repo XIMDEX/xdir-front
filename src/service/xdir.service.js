@@ -355,6 +355,25 @@ export const getOrganizations = async () => {
     }
 }
 
+export const getUsersByOrganization = async (organizationID) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}organizations/${organizationID}/users`, {
+            method: "GET",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+        });
+        if (!res.ok) {
+            throw new Error("Failed to get users. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to get users. Please try again later." };
+    }
+}
+
 export const createNewOrganization = async (name) => {
     try {
         const res = await fetch(`${API_BASE_URL}organizations`, {

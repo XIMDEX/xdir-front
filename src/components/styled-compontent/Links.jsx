@@ -24,12 +24,11 @@ export const StyledHomeItem = styled(StyledLink)`
         }
         .xboxItem{
             border: 2px solid #43a1a2;
-
+            box-shadow: 0 0 20px #43a1a2;
         }
     }
     img {
         width: 200px;
         object-fit: cover; 
     }
-
 `
