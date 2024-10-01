@@ -49,7 +49,7 @@ export const SERVICES_OPTIOINS = [
 ]
 
 export const USER_TABS = [
-  'Users',
+  'Groups',
   'Invites'
 ]
 

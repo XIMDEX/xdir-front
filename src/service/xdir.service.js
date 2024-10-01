@@ -336,6 +336,8 @@ export const assignPermissionToRole = async (id, permission) => {
     }
 }
 
+
+
 export const getOrganizations = async () => {
     try {
         const res = await fetch(`${API_BASE_URL}organizations`, {
@@ -511,6 +513,26 @@ export const assignRoleToUser = async (newRoles) => {
         return json;
     } catch (err) {
         return { error: "Unable to set up new role. Please try again later." };
+    }
+}
+
+export const removeRoleFromUser = async (role) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}roles/unassign`, {
+            method: "POST",
+            headers: {
+                ...commonHeaders,
+                Authorization: `Bearer ${getToken()}`
+            },
+            body: JSON.stringify(role),
+        });
+        if (!res.ok) {
+            throw new Error("Failed to remove Role. Please try again later.");
+        }
+        const json = await res.json();
+        return json;
+    } catch (err) {
+        return { error: "Unable to remove Role. Please try again later." };
     }
 }
 
