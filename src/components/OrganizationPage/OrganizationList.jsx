@@ -23,7 +23,7 @@ import { display } from "@mui/system";
 import { XDirModalRoles } from "../../hooks/useModals";
 import RoleModal from "../AssignRoleModal/RoleModal";
 
-const OrganizationList = () => {
+const OrganizationList = ({setTabSelected}) => {
   const [loading, setLoading] = useState(false);
   const { isSuperAdmin } = useAuth();
   const { showSpinner, hideSpinner } = useSpinner();
@@ -35,29 +35,29 @@ const OrganizationList = () => {
     user: undefined,
   });
   const getOrganizationOptions = async () => {
+    showSpinner()
     const res = await getOrganizations();
     let options = res?.map((org) => ({ value: org.uuid, label: org.name }));
-    console.log(res, "options");
     setOrganizations(res);
+    hideSpinner()
   };
 
 
   const confirmNewRoles = async (userRoles) => {
     showSpinner()
-    console.log(userRoles, "userRoles");
     const res =  await assignRoleToUser(userRoles)
     hideSpinner()
   }
+
 
   const getUsersFromOrganizations = async (idOrganization) => {
     const res = await getUsersByOrganization(idOrganization);
     const newFetchingUsers = { ...fetchingUsers };
     newFetchingUsers[idOrganization] = res;
     setFetchingUsers(newFetchingUsers);
-    console.log(newFetchingUsers, "res");
   };
 
-  const assignRoles = async (user, index) => {
+  const assignRoles = async (user,organization, index) => {
     let userSelected = undefined;
     if (!userDetails[index]?.uuid) {
       showSpinner();
@@ -71,6 +71,7 @@ const OrganizationList = () => {
     setRolesAssignModal({
       open: true,
       user: userSelected,
+      organization: organization
     });
   };
 
@@ -127,14 +128,14 @@ const OrganizationList = () => {
                   }}
                 >
                   {fetchingUsers[organization?.uuid].map((user, index) => (
-                    <React.Fragment key={"XRowDetails" + index}>
+                    <>
                       <XRowDetails
                         key={"XRowDetails" + index}
                         controlsDetails={[
                           {
                             component: (
                               <StyledGreenButtonIcon
-                                onClick={() => assignRoles(user, index)}
+                                onClick={() => assignRoles(user,organization, index)}
                                 title="Assign roles"
                               >
                                 <FontAwesomeIcon
@@ -151,7 +152,7 @@ const OrganizationList = () => {
                           <strong>Name:</strong> {user.name}
                         </p>
                       </XRowDetails>
-                    </React.Fragment>
+                    </>
                   ))}
                   {/*ASSIGNACION DE ROLES*/}
                   <>
@@ -160,14 +161,14 @@ const OrganizationList = () => {
                       ariaHideApp={false}
                     >
                       <div
-                        style={{ height: "500px", width: "600px" }}
+                        style={{ height: "600px", width: "600px" }}
                         className={`animate__animated ${
                           roleAssignModal.open
                             ? "animate__fadeInUp animate__faster"
                             : "animate__fadeOutDown animate__faster"
                         }`}
                       >
-                        {roleAssignModal.user && <RoleModal selectedUser={roleAssignModal.user} setOpenModal={() => setRolesAssignModal({open:false})}/>}
+                        {roleAssignModal.user && <RoleModal selectedUser={roleAssignModal.user} organization={roleAssignModal.organization} setOpenModal={() => setRolesAssignModal({open:false}) }/>}
                       </div>
                     </StyledXModal>
                   </>

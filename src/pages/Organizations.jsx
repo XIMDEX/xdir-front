@@ -130,8 +130,6 @@ export default function Organizations() {
                       }}
                       key={'row' + index}
                       identifier={organization.uuid}
-                      isCollapsable={true}
-                      labelButtonCollapsable={`Show details`}
                       controls={[
                         {
                             component:<StyledGreenButtonIcon title='Edit organization' onClick={() => editOrganization(organization.uuid, organization.name)}>

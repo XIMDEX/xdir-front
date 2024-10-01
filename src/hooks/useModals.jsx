@@ -154,7 +154,10 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
     const [loading, setLoading] = useState(false);
     
     // Options for control the modal
-    const [organizationsTabsOptions, setOrganizationsTabsOptions] = useState([])
+    const [organizationsTabsOptions, setOrganizationsTabsOptions] = useState(Object.entries(userSelected?.organizations).map(([uuid, name]) => ({
+        value: uuid,
+        label: name
+    })))
     const [rolesOptions, setRolesOptions] = useState([])
     const [servicesOptions, setServicesOptions] = useState([])
     const [userServicesAvailables, setUserServicesAvailables] = useState([])
@@ -166,39 +169,39 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
     const [serviceTabSelected, setServiceTabSelected] = useState(null)
     const [addNewService, setAddNewService] = useState(false)
     const [canSave, setCanSave] = useState(false)
-
+    const [organizationSelected, setOrganizationSelected] = useState(Object.entries(userSelected.organizations)[0].uuid)
     useEffect(() => {
         buildOptions()
-    }, [userSelected]);
+    }, [userSelected,organizationSelected]);
 
+    useEffect(() => {
+        setOrganizationSelected(getSelectedOrganizationUUID(userSelected.organizations, organizationTabSelected));
+    },[organizationTabSelected])
 
     /** Build options list for organizations, services and roles */
     const buildOptions = async () => {
-        setLoading(true)
+        //setLoading(true)
         const resRoles = await getRoles()
         const resServices = await getXimdexTools()
         if(resRoles.error || resServices.error){
             XPopUp({
-            text: res?.error,
+            text: resRoles?.error,
             iconType:'error',
             popUpPosition:'top',
             iconColor: 'red',
             timer: 3000
             })
         }
-        const organizationsOptions = Object.entries(userSelected?.organizations).map(([uuid, name]) => ({
-            value: uuid,
-            label: name
-        }));
+       
         const services = resServices?.services?.map(tool => ({ value: tool.uuid, label: tool.name, type: tool.type}))
         const roles = resRoles?.roles?.map(rol => ({ value: rol.uuid, label: rol.name, disabled: rol?.label === 'superadmin' && !isSuperAdmin }))
         // SET OPTIONS
         setServicesOptions(services)
         setRolesOptions(roles)
-        setOrganizationsTabsOptions(organizationsOptions)
+        
         buildUserRolesObject(services, roles)
 
-        setLoading(false)
+        //setLoading(false)
     }
 
     /** Create the userRole object THAT WILL BE SEND TO BACKEND */
@@ -211,27 +214,23 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         let userOrganizationsRoles = []
         let organization = {}
         organization.services = []
-
+   
+        const filteredServices = Object.entries(userSelected?.p || {}).filter(([, serviceRolObject]) => serviceRolObject.organization === organizationSelected);
+        
+        organization.organization_uuid = organizationSelected;
         // LOOP OVER USER SERVICES FINDING SERVICIES AND ROLES ASSOCIETAS
-        if(userSelected?.p){
-            Object.entries(userSelected?.p).map(([serviceRolID, serviceRolObject]) => {
-                if(!organization.organization_uuid) organization.organization_uuid = serviceRolObject.organization
-    
-                const service_uuid =  services?.filter(service => service.label.toLowerCase() === serviceRolObject.tool.name.toLowerCase())[0].value
-                const role_uuid = roles?.filter(role => role.label.toLowerCase() === serviceRolObject.role.toLowerCase())[0].value
+        if (filteredServices.length > 0) {
+            filteredServices.forEach(([serviceRolID, serviceRolObject]) => {
+                const service_uuid = services?.find(service => service.label.toLowerCase() === serviceRolObject.tool.name.toLowerCase())?.value;
+                const role_uuid = roles?.find(role => role.label.toLowerCase() === serviceRolObject.role.toLowerCase())?.value;
                 let service = {
                     service_uuid: service_uuid,
                     role_uuid: [role_uuid]
-                }
-                userServices.push(service_uuid)
-                organization.services.push(service)
+                };
+                userServices.push(service_uuid);
+                organization.services.push(service);
             });
-        }else{
-            if(!organization.organization_uuid) organization.organization_uuid = Object.keys(userSelected?.organizations)[0]
-
-
         }
-        
         // SET USER ROLES OBJECT
         userOrganizationsRoles.push(organization)
         userRolesCopy.organizations = [organization]
@@ -253,8 +252,9 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         servicesAvailableCopy.push(data)
         setUserServicesAvailables(servicesAvailableCopy)
         setServiceTabSelected(data)
-
+        
         let userRolesCopy = {...userRoles}
+        
         userRolesCopy?.organizations[0]?.services.push({
             service_uuid: data.value,
             role_uuid: [rolesOptions.filter(role => role.label === 'viewer')[0].value]
@@ -281,6 +281,11 @@ export const XDirModalRoles = ({title, subtitle, confirmButton, setOpenModal, us
         const service = userRoles?.organizations[0]?.services?.find(service => service?.service_uuid === serviceTabSelected?.value);
         return service ? service.role_uuid : '';
     };
+
+    const getSelectedOrganizationUUID = (data, selectedOrganization) => {
+        const entry = Object.entries(data).find(([id, name]) => name === selectedOrganization);
+        return entry ? entry[0] : '';
+      };
 
     /**Delete a selected service from user */
     const deleteServiceFromUser = (index) => {
@@ -486,5 +491,35 @@ export const XDirModalInvitation = ({title, subtitle, confirmButton, setOpenModa
 
     </StyledDivFlexBetween>
     )
+}
+
+export const XDirModalCreateOrganization = ({title, subtitle, confirmButton, setOpenModal}) => {
+    const [organizationName, setOrganizationName] = useState('');
+    return (
+        <StyledDivFlexBetween style={{flexDirection:'row', height: '100%'}}>
+            <StyledFlexFullCenter style={{height: 'auto', flexDirection:'column'}}>
+                <h2 style={{margin: '0'}}>{title}</h2>
+                <p style={{margin: '10px 0'}}>{subtitle}</p>
+                <XInput style={{width:"300px", marginBottom: '1em'}} id='group' type='text' label='Group' required size='small' value={organizationName} onChange={(e) => setOrganizationName(e.target.value)} />
+            </StyledFlexFullCenter>
+            <StyledDivCenterY style={{width: '100%', justifyContent: 'center'}}>
+  
+                <XButton
+                    style={{margin: '1em'}}
+                    onClick={() => {
+                        setOpenModal(false)
+                        confirmButton(organizationName)
+                    }}
+                >
+                    CREATE
+                </XButton>
+                <XButton
+                    style={{margin: '1em', background: '#6e7881'}}
+                    onClick={() => setOpenModal(false)}
+                >
+                    Cancel
+                </XButton>
+            </StyledDivCenterY>     
+        </StyledDivFlexBetween>)
 }
 

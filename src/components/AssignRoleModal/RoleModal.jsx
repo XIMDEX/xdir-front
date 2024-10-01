@@ -1,16 +1,32 @@
-import { useEffect, useState } from "react";
-import { getRoles, getXimdexTools } from "../../service/xdir.service";
-import { StyledDivFlexBetween } from "../styled-compontent/Container";
-import AssignRoleRows from "./AssignRoleRows";
-import CustomTabs from "../CustomTabs/CustomTabs";
-import { StyledGreenButtonIcon } from "../styled-compontent/Buttons";
-import { X } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import RoleModalHeader from "./RoleModalHeader";
+import RoleModalBody from "./RoleModalBody";
+import RoleModalFooter from "./RoleModalFooter";
+import {
+  getXimdexTools,
+  getRoles,
+  removeRoleFromUser,
+  assignRoleToUser,
+} from "../../service/xdir.service";
+import useUserRoleObject from "../../hooks/useUserRoleObject";
+import { XPopUp } from "@ximdex/xui-react/material";
 
-const RoleModal = ({ selectedUser, setOpenModal }) => {
+const RoleModal = ({ selectedUser, setOpenModal, organization }) => {
   const [services, setServices] = useState([]);
   const [roles, setRoles] = useState([]);
-  const [tabSelected, setTabSelected] = useState(null);
-  const [userServices, setUserServices] = useState([]);
+  const [removeList, setRemoveList] = useState([]);
+  const [serviceObject, setServiceObject] = useState();
+
+  const { userRoleObject, addOrChangeRole, removeRole } = useUserRoleObject(
+    selectedUser,
+    organization,
+    services,
+    roles
+  );
+
+  useEffect(() => {
+    setServiceObject(userRoleObject);
+  }, [userRoleObject]);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -25,64 +41,61 @@ const RoleModal = ({ selectedUser, setOpenModal }) => {
 
     const fetchRoles = async () => {
       const result = await getRoles();
-      const roles = result?.roles?.map((rol) => ({
-        value: rol.uuid,
-        label: rol.name,
-        disabled: rol?.label === "superadmin",
+      const roles = result?.roles?.map((role) => ({
+        value: role.uuid,
+        label: role.name,
+        disabled: role?.label === "superadmin",
       }));
       setRoles(roles);
     };
-
     fetchServices();
     fetchRoles();
-  }, []);
+  }, [selectedUser, organization.uuid]);
 
   useEffect(() => {
-    if (tabSelected) {
-      const organizationUUID = Object.keys(selectedUser.organizations).find(
-        (key) => selectedUser.organizations[key] === tabSelected
-      );
-
-      if (organizationUUID) {
-        const tools = Object.values(selectedUser.p)
-          .filter((entry) => entry.organization === organizationUUID)
-          .map((entry) => entry.tool.name);
-        setUserServices(tools);
-      }
+    if (services && roles) {
+      setServiceObject(userRoleObject);
     }
-  }, [tabSelected, selectedUser]);
+  }, [services, roles, userRoleObject]);
 
-  const organizationValues = Object.values(selectedUser.organizations);
+  const handleButtonClick = async () => {
+    await Promise.all(
+      removeList.map(async ({ organization, service, role }) => {
+        await removeRoleFromUser({
+          user_uuid: selectedUser.uuid,
+          organization_uuid: organization,
+          tool_uuid: service,
+          role_uuid: role,
+        });
+      })
+    );
+
+    assignRoleToUser(userRoleObject);
+    setOpenModal(false);
+    XPopUp({
+      text: "Role assigned successfully",
+      iconType: "success",
+      timer: "3000",
+      popUpPosition: "top",
+      iconColor: "green",
+    });
+  };
 
   return (
-    <StyledDivFlexBetween
-      style={{ height: "auto", width: "100%", alignItems: "flex-start" }}
-    >
-      <StyledGreenButtonIcon
-        title={"Close modal"}
-        onClick={() => setOpenModal()}
-      >
-        <X size={20} />
-      </StyledGreenButtonIcon>
-      <div style={{ width: "100%" }}>
-        <h2 style={{ textAlign: "center", textDecoration: "underline" }}>
-          Assign Role
-        </h2>
-        <CustomTabs tabs={organizationValues} setTabSelected={setTabSelected} />
-        <div style={{ maxHeight: "300px", overflow: "scroll" }}>
-          <AssignRoleRows />
-          {userServices.length > 0 &&
-            userServices.map((service, index) => (
-              <AssignRoleRows
-                key={service}
-                index={index}
-                name={service}
-                roles={roles}
-              />
-            ))}
-        </div>
-      </div>
-    </StyledDivFlexBetween>
+    <div>
+      <RoleModalHeader onClose={() => setOpenModal(false)} />
+      <RoleModalBody
+        services={services}
+        roles={roles}
+        selectedUser={selectedUser}
+        organization={organization}
+        addOrChangeRole={addOrChangeRole}
+        removeRole={removeRole}
+        removeList={removeList}
+        setRemoveList={setRemoveList}
+      />
+      <RoleModalFooter onSave={handleButtonClick} />
+    </div>
   );
 };
 

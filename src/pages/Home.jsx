@@ -1,4 +1,4 @@
-import { Stack } from '@mui/system';
+import { borderRadius, Stack } from '@mui/system';
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { XLabel } from '@ximdex/xui-react/material';
@@ -21,11 +21,11 @@ function Home() {
     const { user, userPermissionManager } = useAuth();
     const isSuperAdmin = userPermissionManager?.isSuperAdmin()
     const isAdmin = userPermissionManager?.isAdmin()
-
+    console.log(userPermissionManager)
     // Create XDir buttons
     useEffect(() => {
         const buttons = [];
-        if (isAdmin || isSuperAdmin) {
+        if (!isAdmin || !isSuperAdmin) {
             buttons.push(
                 {
                     name: 'users',
@@ -68,14 +68,14 @@ function Home() {
         <StyledHomeItem
             key={'regularElement' + index}
             to={element.path}
-            onClick={() => handleClick(element)}
+            //onClick={() => handleClick(element)}
             style={{
                 color: '#214F61',
                 textTransform: 'uppercase',
             }}
         >
             <XLabel
-                style={{ width: '100%' }}
+                style={{ width: '100%'}}
                 label={element.name}
                 paddingSize='s'
                 component={
