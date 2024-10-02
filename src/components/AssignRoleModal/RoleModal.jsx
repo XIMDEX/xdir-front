@@ -69,7 +69,7 @@ const RoleModal = ({ selectedUser, setOpenModal, organization }) => {
         });
       })
     );
-
+    if(!userRoleObject?.user_uuid ) userRoleObject.user_uuid = selectedUser.uuid
     assignRoleToUser(userRoleObject);
     setOpenModal(false);
     XPopUp({

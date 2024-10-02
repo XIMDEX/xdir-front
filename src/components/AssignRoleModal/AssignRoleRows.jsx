@@ -3,7 +3,7 @@ import { StyledXRadio } from "../styled-compontent/Container";
 import { useEffect, useState } from "react";
 import { Trash } from "lucide-react";
 
-const AssignRoleRows = ({ index,name,roles,role,addOrChangeRole,removeRole,organization,service,removeList,setRemoveList }) => {
+const AssignRoleRows = ({ index,name,roles,role,addOrChangeRole,removeRole,organization,service,removeList,setRemoveList,disabled = true }) => {
   const [roleSelected,setRoleSelected] = useState()
   const handleRoleChange = (event) => {
     addOrChangeRole(organization,service.value,event.target.value)
@@ -50,6 +50,7 @@ const AssignRoleRows = ({ index,name,roles,role,addOrChangeRole,removeRole,organ
                                 value={roleSelected}
                                 onChange={(e) =>  {handleRoleChange(e)}}
                                 options={roles.map(role => ({...role, label: role.label.toUpperCase()}))}
+                                disabled={disabled}
                         />
       </XRowDetails>
  

@@ -3,6 +3,10 @@ import AssignRoleRows from "./AssignRoleRows";
 import UserInfo from "./UserInfo";
 import { XButton, XDropdown } from "@ximdex/xui-react/material";
 import { CirclePlus } from "lucide-react";
+import  usePermissions  from "../../hooks/usePermissions";
+import { useAuth } from "@ximdex/xui-react/hooks";
+
+
 
 const RoleModalBody = ({
   services,
@@ -16,6 +20,9 @@ const RoleModalBody = ({
 }) => {
   const [values, setValues] = useState();
   const [userServices, setUserServices] = useState([]);
+  const { checkPermissionOnOrganizationTool } = usePermissions();
+  const user = useAuth().user;
+
 
   const getRoleUUIDByOrganization = (organizationId, toolName) => {
     let roleName = null;
@@ -42,6 +49,7 @@ const RoleModalBody = ({
 
   useEffect(() => {
     const fetchUserServices = async () => {
+      if(!selectedUser.p || !organization) return;
       const tools = Object.values(selectedUser.p)
         .flat()
         .filter((entry) => entry.organization === organization.uuid)
@@ -127,6 +135,7 @@ const RoleModalBody = ({
             service={service}
             removeList={removeList}
             setRemoveList={setRemoveList}
+            disabled={checkPermissionOnOrganizationTool(user.p, organization.uuid, service.value)}
           />
         ))}
       </div>

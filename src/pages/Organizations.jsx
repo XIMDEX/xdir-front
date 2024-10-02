@@ -4,7 +4,7 @@ import { XButton, XRow, XRowContent } from "@ximdex/xui-react/material";
 import { createNewOrganization, deleteExistingOrganization, getOrganizations, updateExistingOrganization } from "../service/xdir.service";
 import useModals from '../hooks/useModals';
 import { StyledGreenButtonIcon, StyledRedButtonIcon } from "../components/styled-compontent/Buttons";
-import { useSpinner } from '@ximdex/xui-react/hooks';
+import { useAuth, useSpinner } from '@ximdex/xui-react/hooks';
 import { Building, Pencil, Plus, Trash } from "lucide-react";
 
 
@@ -14,6 +14,7 @@ export default function Organizations() {
   const {XDirModalInput, XDirModal, executeXPopUp} = useModals()
   const [loading, setLoading] = useState(false)
   const { showSpinner, hideSpinner } = useSpinner()
+  const { user, userPermissionManager } = useAuth();
 
   useEffect(() => {
     getClientOrganizations()
@@ -33,18 +34,18 @@ export default function Organizations() {
 
   const createOrganization = async () => {
     const newOrganizationName = await XDirModalInput({
-      title:'Create organization',
+      title:'Create group',
       input: 'text',
-      inputPlaceholder: 'Insert new organization name',
+      inputPlaceholder: 'Insert new Group name',
       inputValidator: (value) => {
         if (!value) {
-          return "Insert a name for your organization";
+          return "Insert a name for your Group";
         }
       },
     })
     if(newOrganizationName){
       const res = await createNewOrganization(newOrganizationName)
-      executeXPopUp(res, "Organization created successfully")
+      executeXPopUp(res, "Group created successfully")
       
     }
     setRefreshList(!refreshList)
@@ -53,7 +54,7 @@ export default function Organizations() {
   const deleteOrganization = async (organizationID, organizationName) => {
     XDirModal({
         text:`Are you sure you want to delete ${organizationName}?`,
-        title:'Delete organization',
+        title:'Delete group',
         confirmButtonColor:'#e13144',
         onConfirmFunction: async () => {
           const res = await deleteExistingOrganization(organizationID)

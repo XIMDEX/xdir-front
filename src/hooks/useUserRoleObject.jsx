@@ -56,7 +56,7 @@ const useUserRoleObject = (selectedUser, organization, services, roles) => {
 
   const addOrChangeRole = (organizationUUID, serviceUUID, roleUUID) => {
     setUserRoleObject((prevUserRoleObject = { organizations: [] }) => {
-      const newOrganizations = [...prevUserRoleObject.organizations];
+      const newOrganizations = [...prevUserRoleObject.organizations ?? ""];
       let organization = newOrganizations.find(
         (org) => org.organization_uuid === organizationUUID
       );
