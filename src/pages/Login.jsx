@@ -4,7 +4,7 @@ import {XContainer, XLogin}  from '@ximdex/xui-react/material';
 import LoginImage from '../assets/logotipo_ximdex-DIR-small.png';
 import { styled } from "@mui/system";
 import { loginXDIR } from '../service/xdir.service';
-import { FAKE_USER } from '../../CONSTATNS';
+import { FAKE_USER } from '../../CONSTANTS';
 import useAuth from '@ximdex/xui-react/hooks/useAuth';
 
 

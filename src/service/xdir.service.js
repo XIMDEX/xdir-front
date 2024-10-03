@@ -1,4 +1,4 @@
-import { API_BASE_URL, COOKIE_NAME } from "../../CONSTATNS";
+import { API_BASE_URL, COOKIE_NAME } from "../../CONSTANTS";
 
 const getToken = () =>{
   return JSON.parse(localStorage?.getItem(`${COOKIE_NAME}`) ?? '{}')?.access_token

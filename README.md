@@ -1,4 +1,4 @@
-# XDIR: User and Role management (Backend)
+# XDIR: User and Role management (Frontend)
 
 XDIR is acomprehensive user management system (registration, deactivation, and editing; credential recovery). This system also allows for the association of roles and organizations, as well as services within the XIMDEX Platform.
 

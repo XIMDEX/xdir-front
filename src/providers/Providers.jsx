@@ -1,6 +1,6 @@
 import { XThemeProvider } from '@ximdex/xui-react/providers/';
 import  XAuthProvider from '@ximdex/xui-react/providers/XAuthProvider/XAuthProvider';
-import { CLIENT, ENVIRONMENT, TOOL_HASH } from "../../CONSTATNS";
+import { CLIENT, ENVIRONMENT, TOOL_HASH } from "../../CONSTANTS";
 
 const Providers = ({children}) => {
     return (

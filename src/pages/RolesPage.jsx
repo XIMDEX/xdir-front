@@ -5,7 +5,7 @@ import { faFileArchive, faKey } from "@fortawesome/free-solid-svg-icons";
 import { XButton } from "@ximdex/xui-react/material";
 import { createNewPermission as createNewPermissionService, createNewRole as createNewRoleService } from "../service/xdir.service";
 import useModals from "../hooks/useModals";
-import { ROLE_TABS } from "../../CONSTATNS";
+import { ROLE_TABS } from "../../CONSTANTS";
 import CustomTabs from "../components/CustomTabs/CustomTabs";
 import RolesList from "../components/RolesPage/RolesList";
 import PermissionsList from "../components/RolesPage/PermissionsList";
