@@ -1,5 +1,8 @@
-# React + Vite
+# XDIR: User and Role management (Backend)
 
+XDIR is acomprehensive user management system (registration, deactivation, and editing; credential recovery). This system also allows for the association of roles and organizations, as well as services within the XIMDEX Platform.
+
+# React + Vite
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
