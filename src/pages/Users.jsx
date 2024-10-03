@@ -3,7 +3,7 @@ import { StyledDivCenterY, StyledMarginContent, StyledTabsContainer, StyledXCard
 import { XButton } from "@ximdex/xui-react/material";
 import { getOrganizations, sendRegisterInvite } from "../service/xdir.service";
 import useModals, { XDirModalInvitation } from "../hooks/useModals";
-import { USER_TABS } from "../../CONSTATNS";
+import { USER_TABS } from "../../CONSTANTS";
 import CustomTabs from "../components/CustomTabs/CustomTabs";
 import UsersList from "../components/UsersPage/UsersList";
 import UsersInvites from "../components/UsersPage/UsersInvites";

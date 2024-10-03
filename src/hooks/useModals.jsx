@@ -10,7 +10,7 @@ import { StyledAddButtonWithEffect, StyledGreenButtonIcon, StyledRedButtonIcon }
 import { createUserOnService, getRoles, getXimdexTools } from "../service/xdir.service";
 import { CircularProgress } from "@mui/material";
 import { Save, Trash, X } from "lucide-react";
-import { SERVICES_TO_CREATE_USER } from "../../CONSTATNS";
+import { SERVICES_TO_CREATE_USER } from "../../CONSTANTS";
 
 export default function useModals () {
     const {forceLogout} = useAuth()
