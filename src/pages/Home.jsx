@@ -25,7 +25,7 @@ function Home() {
     // Create XDir buttons
     useEffect(() => {
         const buttons = [];
-        if (!isAdmin || !isSuperAdmin) {
+        if (isAdmin || isSuperAdmin) {
             buttons.push(
                 {
                     name: 'users',

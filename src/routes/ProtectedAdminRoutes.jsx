@@ -9,7 +9,7 @@ const ProtectedAdminRoutes = ({component}) => {
     
 
     if (user?.access_token) {
-        if(!isAdmin && !isSuperAdmin) {
+        if(isAdmin && isSuperAdmin) {
             return <Navigate to="/" state={{ from: location}} replace />
         }
     }else{
