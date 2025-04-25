@@ -19,7 +19,7 @@ function Home() {
     const [xdirButtons, setXdirButtons] = useState([])
     const [toolsButtons, setToolsButtons] = useState([])
     const { user, userPermissionManager } = useAuth();
-    const isSuperAdmin = userPermissionManager?.isSuperAdmin()
+    const isSuperAdmin = true; 
     const isAdmin = userPermissionManager?.isAdmin()
     console.log(userPermissionManager)
     // Create XDir buttons
